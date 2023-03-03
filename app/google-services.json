@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "1072343325562",
+    "project_id": "fastrep-1768c",
+    "storage_bucket": "fastrep-1768c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1072343325562:android:8e6a71aa90f2ae58c454c3",
+        "android_client_info": {
+          "package_name": "com.example.app4"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1072343325562-7qtmgac1i9vk7rq6lkmsc92ank5809bn.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.app4",
+            "certificate_hash": "5edee9728e4cfdd79c767e8b6acb87d6e6a95910"
+          }
+        },
+        {
+          "client_id": "1072343325562-7f48a5m8n70d56njsnso6hj5bjdf9q80.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJyIlb-mLfppO5rA3a98InzPdwnTlDSZg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1072343325562-7f48a5m8n70d56njsnso6hj5bjdf9q80.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
