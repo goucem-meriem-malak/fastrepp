@@ -1,20 +1,20 @@
 {
   "project_info": {
-    "project_number": "1072343325562",
-    "project_id": "fastrep-1768c",
-    "storage_bucket": "fastrep-1768c.appspot.com"
+    "project_number": "300929219672",
+    "project_id": "app4-b9b6e",
+    "storage_bucket": "app4-b9b6e.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:1072343325562:android:8e6a71aa90f2ae58c454c3",
+        "mobilesdk_app_id": "1:300929219672:android:2520419334b4d478eade2d",
         "android_client_info": {
           "package_name": "com.example.app4"
         }
       },
       "oauth_client": [
         {
-          "client_id": "1072343325562-7qtmgac1i9vk7rq6lkmsc92ank5809bn.apps.googleusercontent.com",
+          "client_id": "300929219672-lfgp5rgrss7jclpqlu8ls6tordpnp2hd.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.app4",
@@ -22,20 +22,20 @@
           }
         },
         {
-          "client_id": "1072343325562-7f48a5m8n70d56njsnso6hj5bjdf9q80.apps.googleusercontent.com",
+          "client_id": "300929219672-184q475vb1mhsjp5rhv5g8oh2imepkht.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDJyIlb-mLfppO5rA3a98InzPdwnTlDSZg"
+          "current_key": "AIzaSyBwCTv-YOZh_XaMJeJUSytwJ-Zg-eS62lc"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "1072343325562-7f48a5m8n70d56njsnso6hj5bjdf9q80.apps.googleusercontent.com",
+              "client_id": "300929219672-184q475vb1mhsjp5rhv5g8oh2imepkht.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

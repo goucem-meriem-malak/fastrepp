@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="@color/grayish"
-    tools:context=".profile">
+    tools:context=".others.profile">
 
     <LinearLayout
         android:id="@+id/header"
@@ -58,7 +58,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="A mechanic"/>
+            android:text="Mechanic"/>
         <Button
             android:id="@+id/request_mechanic"
             android:layout_width="wrap_content"
@@ -81,7 +81,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="A Tow Truck"/>
+            android:text="Tow Truck"/>
         <Button
             android:id="@+id/request_towtruck"
             android:layout_width="wrap_content"
@@ -104,7 +104,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="A mechanic"/>
+            android:text="Oil"/>
         <Button
             android:id="@+id/request_oil"
             android:layout_width="wrap_content"
@@ -127,7 +127,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="A mechanic"/>
+            android:text="Fuel"/>
         <Button
             android:id="@+id/request_fuel"
             android:layout_width="wrap_content"
@@ -150,7 +150,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="A mechanic"/>
+            android:text="@string/team"/>
         <Button
             android:id="@+id/request_team"
             android:layout_width="wrap_content"
@@ -175,7 +175,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="A mechanic"/>
+            android:text="@string/appointment"/>
         <Button
             android:id="@+id/request_garage"
             android:layout_width="wrap_content"

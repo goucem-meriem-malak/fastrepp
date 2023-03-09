@@ -1,4 +1,4 @@
-package com.example.app4;
+package com.example.app4.garage_services;
 
 
 import android.content.Intent;
@@ -7,6 +7,11 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.app4.R;
+import com.example.app4.homee;
+import com.example.app4.others.list_requests;
+import com.example.app4.others.profile;
 
 
 public class garage_services extends AppCompatActivity{
@@ -21,14 +26,6 @@ public class garage_services extends AppCompatActivity{
         final Button btn4 = (Button) findViewById(R.id.menu);
         final Button btn5 = (Button) findViewById(R.id.profil);
 
-        btn1.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Perform action on click
-                Intent activityChangeIntent = new Intent(garage_services.this, menu.class);
-
-                garage_services.this.startActivity(activityChangeIntent);
-            }
-        });
         btn2.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
@@ -41,14 +38,6 @@ public class garage_services extends AppCompatActivity{
             public void onClick(View v) {
                 // Perform action on click
                 Intent activityChangeIntent = new Intent(garage_services.this, homee.class);
-
-                garage_services.this.startActivity(activityChangeIntent);
-            }
-        });
-        btn4.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Perform action on click
-                Intent activityChangeIntent = new Intent(garage_services.this, menu.class);
 
                 garage_services.this.startActivity(activityChangeIntent);
             }

@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="#fff"
-    tools:context=".sign_up">
+    tools:context=".others.sign_up">
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
@@ -46,6 +46,7 @@
                 android:orientation="horizontal"
                 >
                 <EditText
+                    android:id="@+id/firstname"
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="18dp"
@@ -54,6 +55,7 @@
                     android:background="@drawable/textedit"
                     />
                 <EditText
+                    android:id="@+id/lastname"
                     android:layout_width="160dp"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="18dp"
@@ -89,6 +91,7 @@
                     />
 
                 <EditText
+                    android:id="@+id/phone"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginHorizontal="18dp"
@@ -112,6 +115,7 @@
                 android:layout_marginTop="12dp"
                 />
             <EditText
+                android:id="@+id/password"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="18dp"
@@ -132,6 +136,7 @@
                 android:layout_marginTop="12dp"
                 />
             <EditText
+                android:id="@+id/address"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="18dp"

@@ -1,4 +1,4 @@
-package com.example.app4;
+package com.example.app4.others;
 
 
 import android.content.Intent;
@@ -8,6 +8,12 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.example.app4.R;
+import com.example.app4.mechanic_services.find_mechanic;
+import com.example.app4.oil_fuel_services.find_fuel;
+import com.example.app4.oil_fuel_services.find_oil;
+import com.example.app4.team_services.find_team;
+import com.example.app4.tow_services.find_towtruck;
 
 
 public class home extends AppCompatActivity{
@@ -30,14 +36,6 @@ public class home extends AppCompatActivity{
             public void onClick(View v) {
                 // Perform action on click
                 Intent activityChangeIntent = new Intent(home.this, home.class);
-
-                home.this.startActivity(activityChangeIntent);
-            }
-        });
-        btn2.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Perform action on click
-                Intent activityChangeIntent = new Intent(home.this, menu.class);
 
                 home.this.startActivity(activityChangeIntent);
             }
@@ -90,7 +88,7 @@ public class home extends AppCompatActivity{
                 home.this.startActivity(activityChangeIntent);
             }
         });
-        btn9.setOnClickListener(new View.OnClickListener() {
+   /*     btn9.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
                 Intent activityChangeIntent = new Intent(home.this, find_garage.class);
@@ -98,7 +96,7 @@ public class home extends AppCompatActivity{
                 home.this.startActivity(activityChangeIntent);
             }
         });
-
+*/
     }
 
 }

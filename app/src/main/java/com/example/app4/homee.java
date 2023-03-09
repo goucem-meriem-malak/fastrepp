@@ -19,6 +19,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
+import com.example.app4.others.profile;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationServices;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -97,14 +98,6 @@ public class homee extends AppCompatActivity implements OnMapReadyCallback{
                     homee.this.startActivity(activityChangeIntent);
                 }
             });
-            btn2.setOnClickListener(new View.OnClickListener() {
-                public void onClick(View v) {
-                    // Perform action on click
-                    Intent activityChangeIntent = new Intent(homee.this, menu.class);
-
-                    homee.this.startActivity(activityChangeIntent);
-                }
-            });
             btn3.setOnClickListener(new View.OnClickListener() {
                 public void onClick(View v) {
                     // Perform action on click
@@ -170,13 +163,6 @@ public class homee extends AppCompatActivity implements OnMapReadyCallback{
         updateLocationUI();
 
         getDeviceLocation();
-
-/*
-        LatLng tebessa = new LatLng(35.414249, 8.101092);
-        mMap.addMarker(new MarkerOptions()
-                .position(tebessa)
-                .title("Marker in Tebessa"));
-        mMap.moveCamera(CameraUpdateFactory.newLatLng(tebessa));*/
     }
     private void getDeviceLocation() {
         try {
@@ -191,7 +177,7 @@ public class homee extends AppCompatActivity implements OnMapReadyCallback{
                                 map.moveCamera(CameraUpdateFactory.newLatLngZoom(
                                         new LatLng(lastKnownLocation.getLatitude(),
                                                 lastKnownLocation.getLongitude()), DEFAULT_ZOOM));
-                            }
+                                  }
                         } else {
                             Log.d(TAG, "Current location is null. Using defaults.");
                             Log.e(TAG, "Exception: %s", task.getException());
@@ -310,7 +296,6 @@ public class homee extends AppCompatActivity implements OnMapReadyCallback{
                 if (likelyPlaceAttributions[which] != null) {
                     markerSnippet = markerSnippet + "\n" + likelyPlaceAttributions[which];
                 }
-
                 map.addMarker(new MarkerOptions()
                         .title(likelyPlaceNames[which])
                         .position(markerLatLng)

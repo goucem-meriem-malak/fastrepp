@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="@color/grayish"
-    tools:context=".list_requests">
+    tools:context=".others.list_requests">
 
     <LinearLayout
         android:id="@+id/header"

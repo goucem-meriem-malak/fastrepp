@@ -7,6 +7,7 @@
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -34,7 +35,7 @@
             android:value="AIzaSyAdj5-qiFyxzg19l13JzDN-oSNFxVNDpvw" />
 
         <activity
-            android:name=".launch_screen"
+            android:name=".others.launch_screen"
             android:exported="true"
             android:label="@string/launch_screen">
             <intent-filter>
@@ -44,12 +45,22 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".sign_up"
+            android:name=".others.sign_up"
             android:exported="true"
             android:label="@string/sign_up">
         </activity>
         <activity
-            android:name=".sign_in"
+            android:name=".others.sign_in"
+            android:exported="true"
+            android:label="@string/sign_in">
+        </activity>
+        <activity
+            android:name=".aatest"
+            android:exported="true"
+            android:label="@string/sign_in">
+        </activity>
+        <activity
+            android:name=".atest"
             android:exported="true"
             android:label="@string/sign_in">
         </activity>
@@ -59,67 +70,57 @@
             android:label="@string/home">
         </activity>
         <activity
-            android:name=".menu"
-            android:exported="true"
-            android:label="@string/menu">
-        </activity>
-        <activity
-            android:name=".outside_services"
-            android:exported="true"
-            android:label="@string/outside_services">
-        </activity>
-        <activity
-            android:name=".garage_services"
+            android:name=".garage_services.garage_services"
             android:exported="true"
             android:label="@string/garage_services">
         </activity>
         <activity
-            android:name=".list_requests"
+            android:name=".others.list_requests"
             android:exported="true"
             android:label="@string/list_requests">
         </activity>
         <activity
-            android:name=".profile"
+            android:name=".others.profile"
             android:exported="true"
             android:label="@string/profile">
         </activity>
         <activity
-            android:name=".help_center"
+            android:name=".others.help_center"
             android:exported="true"
             android:label="@string/Help_center">
         </activity>
         <activity
-            android:name=".home"
+            android:name=".others.home"
             android:exported="true"
             android:label="@string/home">
         </activity>
         <activity
-            android:name=".find_mechanic"
+            android:name=".mechanic_services.find_mechanic"
             android:exported="true"
             android:label="@string/garage_services">
         </activity>
         <activity
-            android:name=".find_towtruck"
+            android:name=".tow_services.find_towtruck"
             android:exported="true"
             android:label="@string/list_requests">
         </activity>
         <activity
-            android:name=".find_oil"
+            android:name=".oil_fuel_services.find_oil"
             android:exported="true"
             android:label="@string/profile">
         </activity>
         <activity
-            android:name=".find_fuel"
+            android:name=".oil_fuel_services.find_fuel"
             android:exported="true"
             android:label="@string/Help_center">
         </activity>
         <activity
-            android:name=".find_team"
+            android:name=".team_services.find_team"
             android:exported="true"
             android:label="@string/home">
         </activity>
         <activity
-            android:name=".find_garage"
+            android:name=".garage_services.find_garage"
             android:exported="true"
             android:label="@string/home">
         </activity>

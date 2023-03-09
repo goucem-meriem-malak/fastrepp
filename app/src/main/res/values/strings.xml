@@ -46,4 +46,6 @@
     <string name="fb">Join Us On Facebook</string>
     <string name="option_get_place">Get Place</string>
     <string name="APIkey">AIzaSyAdj5-qiFyxzg19l13JzDN-oSNFxVNDpvw</string>
+    <string name="team">Team</string>
+    <string name="appointment">Appointment</string>
 </resources>

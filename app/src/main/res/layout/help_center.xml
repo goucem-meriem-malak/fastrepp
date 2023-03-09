@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="@color/black"
-    tools:context=".help_center">
+    tools:context=".others.help_center">
 
     <LinearLayout
         android:id="@+id/header"

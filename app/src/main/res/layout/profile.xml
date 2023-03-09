@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="@color/grayish"
-    tools:context=".profile">
+    tools:context=".others.profile">
 
     <LinearLayout
         android:id="@+id/header"
@@ -85,10 +85,11 @@
                 android:layout_height="wrap_content"
                 android:text="@string/full_name"
                 android:textSize="19dp"/>
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/full_name"
+                android:id="@+id/cid"
                 android:textSize="30dp"
                 android:textColor="@color/black"/>
 
@@ -98,8 +99,9 @@
                 android:layout_height="wrap_content"
                 android:text="@string/phone_number"
                 android:textSize="19dp"/>
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
+                android:id="@+id/phone"
                 android:layout_height="wrap_content"
                 android:text="@string/phone_number"
                 android:textSize="30dp"
@@ -110,11 +112,12 @@
                 android:layout_height="wrap_content"
                 android:text="@string/email"
                 android:textSize="19dp"/>
-            <TextView
+            <EditText
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/email"
                 android:textSize="30dp"
+                android:id="@+id/address"
                 android:textColor="@color/black"/>
 
             <TextView
@@ -122,7 +125,8 @@
                 android:layout_height="wrap_content"
                 android:text="@string/adress"
                 android:textSize="19dp"/>
-            <TextView
+            <EditText
+                android:id="@+id/name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/adress"
