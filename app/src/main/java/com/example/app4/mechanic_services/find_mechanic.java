@@ -41,6 +41,7 @@ public class find_mechanic extends FragmentActivity implements OnMapReadyCallbac
 
     private static final int REQUEST_LOCATION_PERMISSION =1 ;
     private GoogleMap mMap;
+
     private SupportMapFragment mapFragment;
     private LatLng latLng;
     private LocationManager locationManager;
