@@ -6,47 +6,67 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.Button;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.app4.R;
-import com.example.app4.data.client;
-import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreException;
+
+import java.util.HashMap;
 
 public class launch_screen extends AppCompatActivity{
     private FirebaseFirestore db;
+    private Button btnsignup, btnsignin, btnguest;
+    private String clientid;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.launch_screen);
 
-        final Button btn1 = (Button) findViewById(R.id.signup);
-        final Button btn2 = (Button) findViewById(R.id.signin);
-        final Button btn3 = (Button) findViewById(R.id.continuee);
+        btnsignup = findViewById(R.id.signup);
+        btnsignin = findViewById(R.id.signin);
+        btnguest = findViewById(R.id.continuee);
 
         db = FirebaseFirestore.getInstance();
 
-        btn1.setOnClickListener(new OnClickListener() {
+
+        btnsignup.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 Intent activityChangeIntent = new Intent(launch_screen.this, sign_up.class);
-
-                launch_screen.this.startActivity(activityChangeIntent);
+                activityChangeIntent.putExtra("clientid", createid());
+                startActivity(activityChangeIntent);
             }
         });
-        btn2.setOnClickListener(new OnClickListener() {
+        btnsignin.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 Intent activityChangeIntent = new Intent(launch_screen.this, sign_in.class);
-
-                launch_screen.this.startActivity(activityChangeIntent);
+                activityChangeIntent.putExtra("clientid", createid());
+                startActivity(activityChangeIntent);
             }
         });
-        btn3.setOnClickListener(new OnClickListener() {
+        btnguest.setOnClickListener(new OnClickListener() {
             public void onClick(View v) {
                 Intent activityChangeIntent = new Intent(launch_screen.this, home.class);
-
-                launch_screen.this.startActivity(activityChangeIntent);
+                activityChangeIntent.putExtra("clientid", createid());
+                startActivity(activityChangeIntent);
             }
         });
+    }
+
+    private String createid() {
+        DocumentReference ref = db.collection("client").document();
+        HashMap<String, Object> m =new HashMap<String, Object>();
+        clientid = ref.getId();
+        m.put("id", clientid);
+        m.put("signed", false);
+        ref.set(m);
+
+        return clientid;
     }
 
 }

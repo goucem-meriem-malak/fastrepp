@@ -50,10 +50,13 @@ public class home extends AppCompatActivity{
         });
         btn4.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Perform action on click
-                Intent activityChangeIntent = new Intent(home.this, find_mechanic.class);
+                Intent intent = getIntent();
+                String cid = intent.getStringExtra("clientid");
 
-                home.this.startActivity(activityChangeIntent);
+                Intent activityChangeIntent = new Intent(home.this, find_mechanic.class);
+                activityChangeIntent.putExtra("clientid",cid);
+                startActivity(activityChangeIntent);
+
             }
         });
         btn5.setOnClickListener(new View.OnClickListener() {
@@ -88,15 +91,6 @@ public class home extends AppCompatActivity{
                 home.this.startActivity(activityChangeIntent);
             }
         });
-   /*     btn9.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Perform action on click
-                Intent activityChangeIntent = new Intent(home.this, find_garage.class);
-
-                home.this.startActivity(activityChangeIntent);
-            }
-        });
-*/
     }
 
 }

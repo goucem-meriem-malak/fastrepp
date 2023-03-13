@@ -1,6 +1,8 @@
 package com.example.app4.others;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -17,57 +19,50 @@ import com.google.firebase.auth.FirebaseUser;
 
 
 public class profile extends AppCompatActivity {
-    private EditText id,address,phone,name;
+    private EditText firstname, lastname, address, phone;
+    private Button btnmenu, btnprofile, btnhelpcenter, btnedit;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
 
-        final Button btn1 = (Button) findViewById(R.id.goback);
-        final Button btn2 = (Button) findViewById(R.id.helpcenter);
-        final Button btn3 = (Button) findViewById(R.id.home);
-        final Button btn4 = (Button) findViewById(R.id.menu);
-        final Button btn5 = (Button) findViewById(R.id.profil);
-        client client = new client();
-        id.setText(client.getId());
-        name.setText(client.getFirstname());
-        phone.setText(client.getPhone());
-        address.setText(client.getAddress());
+        btnhelpcenter = findViewById(R.id.helpcenter);
+        btnmenu = findViewById(R.id.home);
+        btnprofile = findViewById(R.id.profil);
+        btnedit = findViewById(R.id.edit);
 
-        btn1.setOnClickListener(new View.OnClickListener() {
+        firstname=findViewById(R.id.firstname);
+        lastname=findViewById(R.id.lastname);
+        phone=findViewById(R.id.phone);
+        address=findViewById(R.id.address);
+
+        Intent intent = getIntent();
+        firstname.setText(intent.getStringExtra("cfirstname"));
+        lastname.setText(intent.getStringExtra("clastname"));
+        phone.setText(intent.getStringExtra("cphone"));
+        address.setText(intent.getStringExtra("caddress"));
+
+        btnmenu.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Perform action on click
-                Intent activityChangeIntent = new Intent(profile.this, homee.class);
+                Intent activityChangeIntent = new Intent(profile.this, home.class);
 
                 profile.this.startActivity(activityChangeIntent);
             }
         });
-        btn2.setOnClickListener(new View.OnClickListener() {
+        btnhelpcenter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Perform action on click
                 Intent activityChangeIntent = new Intent(profile.this, help_center.class);
 
                 profile.this.startActivity(activityChangeIntent);
             }
         });
-        btn3.setOnClickListener(new View.OnClickListener() {
+        btnprofile.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                // Perform action on click
                 Intent activityChangeIntent = new Intent(profile.this, homee.class);
 
                 profile.this.startActivity(activityChangeIntent);
             }
         });
-
-        btn5.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                // Perform action on click
-                Intent activityChangeIntent = new Intent(profile.this, profile.class);
-
-                profile.this.startActivity(activityChangeIntent);
-            }
-        });
-
     }
 }
