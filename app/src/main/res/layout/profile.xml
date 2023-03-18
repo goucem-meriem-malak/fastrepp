@@ -14,9 +14,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="651dp"
         android:background="@drawable/header"
-        android:minHeight="80dp"
         android:orientation="horizontal"
         android:layout_alignParentTop="true"
         android:padding="8dp">
@@ -27,7 +25,8 @@
                 android:layout_height="50dp"
                 android:layout_gravity="center_vertical"
                 android:layout_marginLeft="15dp"
-                android:background="@drawable/go_back" />
+                android:background="@drawable/go_back"
+                android:layout_weight="1"/>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -44,17 +43,22 @@
                 android:id="@+id/helpcenter"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
+                android:layout_weight="1"
                 android:layout_gravity="center_vertical"
                 android:layout_marginRight="15dp"
                 android:background="@drawable/help_center" />
 
         </LinearLayout>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginVertical="70dp">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="100dp"
+        android:layout_marginVertical="10dp"
         android:orientation="vertical"
         android:background="@drawable/constraint">
 
@@ -86,21 +90,25 @@
                 android:layout_height="wrap_content"
                 android:text="@string/full_name"/>
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
                 <EditText
                     android:id="@+id/firstname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/firstname"
-                    android:textColor="@color/black"/>
+                    android:layout_weight="1"
+                    android:hint="@string/firstname"
+                    android:textColor="@color/black"
+                    android:enabled="false"/>
                 <EditText
                     android:id="@+id/lastname"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/Lastname"
-                    android:textColor="@color/black"/>
+                    android:layout_weight="1"
+                    android:hint="@string/Lastname"
+                    android:textColor="@color/black"
+                    android:enabled="false"/>
             </LinearLayout>
 
 
@@ -108,12 +116,27 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/phone_number"/>
-            <EditText
-                android:id="@+id/phone"
-                android:layout_width="wrap_content"
+
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/phone_number"
-                android:textColor="@color/black"/>
+                android:orientation="horizontal">
+                <EditText
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="+213"
+                    android:textColor="@color/black"
+                    android:enabled="false"/>
+                <EditText
+                    android:id="@+id/phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="6"
+                    android:hint="@string/phone_number"
+                    android:textColor="@color/black"
+                    android:enabled="false"/>
+            </LinearLayout>
 
             <TextView
                 android:layout_width="wrap_content"
@@ -121,34 +144,55 @@
                 android:text="@string/email"/>
             <EditText
                 android:id="@+id/email"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/email"
-                android:textColor="@color/black"/>
+                android:hint="@string/email"
+                android:textColor="@color/black"
+                android:enabled="false"/>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/address"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
             <EditText
-                android:id="@+id/address"
+                android:id="@+id/country"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/address"
-                android:textColor="@color/black"/>
-
+                android:layout_weight="1"
+                android:hint="@string/country"
+                android:textColor="@color/black"
+                android:enabled="false"/>
+                <EditText
+                    android:id="@+id/city"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/city"
+                    android:textColor="@color/black"
+                    android:enabled="false"/>
+                <EditText
+                    android:id="@+id/state"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:hint="@string/state"
+                    android:textColor="@color/black"
+                    android:enabled="false"/>
+            </LinearLayout>
         </LinearLayout>
-
-
-
     </LinearLayout>
+    </ScrollView>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:background="@drawable/footer"
-        android:minHeight="80dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
@@ -158,23 +202,26 @@
                 android:layout_height="50dp"
                 android:background="@drawable/home"
                 android:layout_gravity="center"
-                android:layout_marginLeft="60dp"/>
+                android:layout_marginLeft="60dp"
+                android:layout_weight="1"/>
             <Button
-                android:id="@+id/menu"
+                android:id="@+id/list_requests"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/menu"
                 android:layout_gravity="center"
                 android:layout_marginLeft="60dp"
-                android:layout_marginRight="60dp"/>
+                android:layout_marginRight="60dp"
+                android:layout_weight="1"/>
             <Button
                 android:id="@+id/profil"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/profile"
                 android:layout_gravity="center"
-                android:layout_marginRight="60dp">
-            </Button>
+                android:layout_marginRight="60dp"
+                android:clickable="false"
+                android:layout_weight="1"/>
 
         </LinearLayout>
 

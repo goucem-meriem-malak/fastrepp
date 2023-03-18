@@ -1,23 +1,24 @@
 package com.example.app4.data;
 
-import com.google.android.gms.maps.model.LatLng;
+import com.google.firebase.firestore.GeoPoint;
+
+import java.util.Map;
 
 public class client {
-    private String id,lastname,firstname,address,password;
-    private int phone;
-    private String location;
-
-    public client(String id, String lastname, String firstname, String address, int phone, String password, String location) {
-        this.id = id;
-        this.lastname = lastname;
-        this.firstname = firstname;
-        this.address = address;
-        this.phone = phone;
-        this.password = password;
-        this.location = location;
+    private String id,phone, firstname, lastname, email,country,state,city;
+    private GeoPoint location;
+    private Map<String, Object> address;
+    public client() {
     }
 
-    public client() {
+    public client(String id, String phone, String firstname, String lastname, String email, GeoPoint location, Map<String, Object> address) {
+        this.id = id;
+        this.phone = phone;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
+        this.location = location;
+        this.address = address;
     }
 
     public String getId() {
@@ -28,12 +29,12 @@ public class client {
         this.id = id;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public String getFirstname() {
@@ -44,35 +45,35 @@ public class client {
         this.firstname = firstname;
     }
 
-    public String getAddress() {
-        return address;
+    public String getLastname() {
+        return lastname;
     }
 
-    public void setAddress(String address) {
-        this.address = address;
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
     }
 
-    public int getPhone() {
-        return phone;
+    public String getEmail() {
+        return email;
     }
 
-    public void setPhone(int phone) {
-        this.phone = phone;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getLocation() {
+    public GeoPoint getLocation() {
         return location;
     }
 
-    public void setLocation(String location) {
+    public void setLocation(GeoPoint location) {
         this.location = location;
+    }
+
+    public Map<String, Object> getAddress() {
+        return address;
+    }
+
+    public void setAddress(Map<String, Object> address) {
+        this.address = address;
     }
 }

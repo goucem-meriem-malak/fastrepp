@@ -8,6 +8,9 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+
 
     <application
         android:allowBackup="true"
@@ -35,17 +38,21 @@
             android:value="AIzaSyAdj5-qiFyxzg19l13JzDN-oSNFxVNDpvw" />
 
         <activity
-            android:name=".others.launch_screen"
+            android:name=".first_screen"
             android:exported="true"
-            android:label="@string/launch_screen">
+            android:label="@string/FASTrep">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
             android:name=".others.sign_up"
+            android:exported="true"
+            android:label="@string/sign_up">
+        </activity>
+        <activity
+            android:name=".mechanic_services.mechanics_list"
             android:exported="true"
             android:label="@string/sign_up">
         </activity>
@@ -124,14 +131,26 @@
             android:exported="true"
             android:label="@string/home">
         </activity>
-        <service
-            android:name=".MyFirebaseMessagingService"
-            android:exported="false">
-            <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT" />
-            </intent-filter>
-        </service>
-
+        <activity
+            android:name=".others.launch_screen"
+            android:exported="true"
+            android:label="@string/home">
+        </activity>
+        <activity
+            android:name=".all"
+            android:exported="true"
+            android:label="@string/home">
+        </activity>
+        <activity
+            android:name=".myadapter"
+            android:exported="true"
+            android:label="@string/home">
+        </activity>
+        <activity
+            android:name=".viewholder"
+            android:exported="true"
+            android:label="@string/home">
+        </activity>
     </application>
 
 </manifest>

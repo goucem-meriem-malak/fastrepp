@@ -51,4 +51,12 @@
     <string name="Lastname">Last Name</string>
     <string name="firstname">First Name</string>
     <string name="address">Address</string>
+    <string name="FASTrep">FASTrep</string>
+    <string name="Next">Next</string>
+    <string name="fuel">Fuel</string>
+    <string name="oil">Oil</string>
+    <string name="tow_truck">Tow Truck</string>
+    <string name="country">Country</string>
+    <string name="city">City</string>
+    <string name="state">State</string>
 </resources>

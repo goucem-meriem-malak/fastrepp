@@ -40,111 +40,12 @@
             android:textSize="30dp" />
 
     </LinearLayout>
-<ScrollView
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-    <LinearLayout
-        android:id="@+id/body"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="100dp"
-        android:layout_marginBottom="20dp"
-        android:padding="18dp"
-        android:background="@drawable/constraint">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/services"
-            android:textSize="19dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/checkup"
-            android:textSize="30dp"
-            android:textColor="@color/black"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="8dp"
-            android:background="@drawable/buttonbg"
-            android:text="@string/cancel"
-            android:textSize="18dp"
-            android:textColor="@color/black"/>
-    </LinearLayout>
-    <LinearLayout
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recycler"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:layout_marginHorizontal="20dp"
-            android:layout_marginTop="20dp"
-            android:layout_marginBottom="20dp"
-            android:padding="18dp"
-            android:background="@drawable/constraint">
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/services"
-                android:textSize="19dp"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/cleaning"
-                android:textSize="30dp"
-                android:textColor="@color/black"/>
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_margin="8dp"
-                android:background="@drawable/buttonbg"
-                android:text="@string/cancel"
-                android:textSize="18dp"
-                android:textColor="@color/black"/>
-        </LinearLayout>
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="20dp"
-        android:layout_marginBottom="20dp"
-        android:padding="18dp"
-        android:background="@drawable/constraint">
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/services"
-            android:textSize="19dp"/>
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/outside_services"
-            android:textSize="30dp"
-            android:textColor="@color/black"/>
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="8dp"
-            android:background="@drawable/buttonbg"
-            android:text="@string/cancel"
-            android:textSize="18dp"
-            android:textColor="@color/black"/>
-    </LinearLayout>
-
-    </LinearLayout>
-</ScrollView>
+            android:layout_height="match_parent"
+            android:layout_marginVertical="80dp"/>
 
     <LinearLayout
         android:id="@+id/footer"

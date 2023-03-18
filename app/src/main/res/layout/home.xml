@@ -12,10 +12,8 @@
     <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
-        android:minHeight="80dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="651dp"
+        android:layout_height="70dp"
+        android:layout_gravity="center_vertical"
         android:background="@drawable/header"
         android:orientation="vertical"
         android:layout_alignParentTop="true"
@@ -27,7 +25,7 @@
             android:layout_gravity="center"
             android:text="@string/menu"
             android:textColor="@color/white"
-            android:textSize="30dp" />
+            android:textSize="30sp"/>
 
 
     </LinearLayout>
@@ -40,30 +38,38 @@
     <LinearLayout
         android:id="@+id/body"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:scrollbars="vertical"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_gravity="center">
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
     <LinearLayout
         android:id="@+id/mechanich"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:orientation="vertical"
         android:background="@drawable/constraint"
-        android:padding="20dp">
+        android:paddingHorizontal="40dp"
+        android:paddingVertical="40dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Mechanic"/>
+            android:text="@string/mechanic"
+            android:paddingBottom="10dp"/>
         <Button
             android:id="@+id/request_mechanic"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/request"
+            android:text="@string/Next"
             android:background="@drawable/buttonbg"
             android:layout_gravity="center_horizontal"/>
     </LinearLayout>
@@ -71,45 +77,56 @@
         android:id="@+id/towtruck"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="10dp"
-        android:padding="20dp"
         android:orientation="vertical"
-        android:background="@drawable/constraint">
+        android:background="@drawable/constraint"
+        android:paddingHorizontal="40dp"
+        android:paddingVertical="40dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Tow Truck"/>
+            android:text="@string/tow_truck"
+            android:paddingBottom="10dp"/>
         <Button
             android:id="@+id/request_towtruck"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/request"
+            android:text="@string/Next"
             android:background="@drawable/buttonbg"
             android:layout_gravity="center_horizontal"/>
     </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
     <LinearLayout
         android:id="@+id/oil"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="10dp"
-        android:padding="20dp"
         android:orientation="vertical"
-        android:background="@drawable/constraint">
+        android:background="@drawable/constraint"
+        android:paddingHorizontal="40dp"
+        android:paddingVertical="40dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Oil"/>
+            android:text="@string/oil"
+            android:paddingBottom="10dp"/>
         <Button
             android:id="@+id/request_oil"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/request"
+            android:text="@string/Next"
             android:background="@drawable/buttonbg"
             android:layout_gravity="center_horizontal"/>
     </LinearLayout>
@@ -117,34 +134,44 @@
         android:id="@+id/fuel"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="10dp"
-        android:padding="20dp"
         android:orientation="vertical"
-        android:background="@drawable/constraint">
+        android:background="@drawable/constraint"
+        android:paddingHorizontal="40dp"
+        android:paddingVertical="40dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="Fuel"/>
+            android:text="@string/fuel"
+            android:paddingBottom="10dp"/>
         <Button
             android:id="@+id/request_fuel"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/request"
+            android:text="@string/Next"
             android:background="@drawable/buttonbg"
             android:layout_gravity="center_horizontal"/>
     </LinearLayout>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="10dp"
+            android:orientation="horizontal"
+            android:layout_gravity="center_horizontal">
     <LinearLayout
         android:id="@+id/teams"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginVertical="10dp"
-        android:padding="20dp"
         android:orientation="vertical"
-        android:background="@drawable/constraint">
+        android:background="@drawable/constraint"
+        android:paddingHorizontal="40dp"
+        android:paddingVertical="40dp">
 
         <TextView
             android:layout_width="wrap_content"
@@ -155,47 +182,48 @@
             android:id="@+id/request_team"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/request"
+            android:text="@string/Next"
             android:background="@drawable/buttonbg"
             android:layout_gravity="center_horizontal"/>
     </LinearLayout>
     <LinearLayout
         android:id="@+id/garage"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_weight="1"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="20dp"
-        android:padding="20dp"
         android:orientation="vertical"
         android:background="@drawable/constraint"
-        >
+        android:paddingHorizontal="40dp"
+        android:paddingVertical="40dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/appointment"/>
+            android:text="@string/appointment"
+            android:paddingBottom="10dp"/>
         <Button
             android:id="@+id/request_garage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/request"
+            android:text="@string/Next"
             android:background="@drawable/buttonbg"
             android:layout_gravity="center_horizontal"/>
     </LinearLayout>
+        </LinearLayout>
     </LinearLayout>
     </ScrollView>
 
     <LinearLayout
         android:id="@+id/footer"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="70dp"
         android:padding="8dp"
         android:background="@drawable/footer"
-        android:minHeight="80dp"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:orientation="horizontal"
+        android:baselineAligned="true">
 
         <Button
             android:id="@+id/home"
@@ -203,7 +231,8 @@
             android:layout_height="50dp"
             android:background="@drawable/home"
             android:layout_gravity="center"
-            android:layout_marginLeft="60dp"/>
+            android:layout_marginLeft="60dp"
+            android:clickable="false"/>
         <Button
             android:id="@+id/menu"
             android:layout_width="50dp"

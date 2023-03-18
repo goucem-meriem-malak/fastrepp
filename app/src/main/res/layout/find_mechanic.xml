@@ -43,26 +43,14 @@
                 android:hint="From"
                 android:padding="14dp"
                 android:inputType="phone"
-                android:background="@drawable/textedit"
-                android:gravity="center"
-                />
-            <EditText
-                android:id="@+id/mechaniclocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="18dp"
-                android:layout_marginTop="510dp"
-                android:hint="To"
-                android:padding="14dp"
-                android:inputType="textPostalAddress"
-                android:background="@drawable/textedit"
+                android:background="@color/grayish"
                 android:gravity="center"
                 />
             <Button
                 android:id="@+id/request"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/request"
+                android:text="@string/Next"
                 android:background="@drawable/buttonbg"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="590dp"

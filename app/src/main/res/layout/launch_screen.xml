@@ -83,7 +83,7 @@
                         android:text="@string/skip"
                         android:textColor="@color/yellowish"
                         android:textSize="14dp"
-                        android:padding="0dp"
+                        android:visibility="gone"
                         style="?android:attr/borderlessButtonStyle"
                         />
                     <TextView
@@ -91,6 +91,7 @@
                         android:layout_height="wrap_content"
                         android:text="@string/skipp"
                         android:textColor="@color/white"
+                        android:visibility="gone"
                         android:textSize="17dp"/>
                 </LinearLayout>
             </LinearLayout>
