@@ -38,7 +38,7 @@
             android:value="AIzaSyAdj5-qiFyxzg19l13JzDN-oSNFxVNDpvw" />
 
         <activity
-            android:name=".first_screen"
+            android:name=".launch_screen"
             android:exported="true"
             android:label="@string/FASTrep">
             <intent-filter>
@@ -47,17 +47,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".others.sign_up"
+            android:name=".sign_up"
             android:exported="true"
             android:label="@string/sign_up">
         </activity>
         <activity
-            android:name=".mechanic_services.mechanics_list"
+            android:name=".mechanics_list"
             android:exported="true"
             android:label="@string/sign_up">
         </activity>
         <activity
-            android:name=".others.sign_in"
+            android:name=".sign_in"
             android:exported="true"
             android:label="@string/sign_in">
         </activity>
@@ -72,67 +72,57 @@
             android:label="@string/sign_in">
         </activity>
         <activity
-            android:name=".homee"
-            android:exported="true"
-            android:label="@string/home">
-        </activity>
-        <activity
-            android:name=".garage_services.garage_services"
+            android:name=".garage_services"
             android:exported="true"
             android:label="@string/garage_services">
         </activity>
         <activity
-            android:name=".others.list_requests"
+            android:name=".list_requests"
             android:exported="true"
             android:label="@string/list_requests">
         </activity>
         <activity
-            android:name=".others.profile"
+            android:name=".profile"
             android:exported="true"
             android:label="@string/profile">
         </activity>
         <activity
-            android:name=".others.help_center"
+            android:name=".help_center"
             android:exported="true"
             android:label="@string/Help_center">
         </activity>
         <activity
-            android:name=".others.home"
+            android:name=".find"
             android:exported="true"
             android:label="@string/home">
         </activity>
         <activity
-            android:name=".mechanic_services.find_mechanic"
+            android:name=".home"
             android:exported="true"
             android:label="@string/garage_services">
         </activity>
         <activity
-            android:name=".tow_services.find_towtruck"
+            android:name=".find_towtruck"
             android:exported="true"
             android:label="@string/list_requests">
         </activity>
         <activity
-            android:name=".oil_fuel_services.find_oil"
+            android:name=".find_oil"
             android:exported="true"
             android:label="@string/profile">
         </activity>
         <activity
-            android:name=".oil_fuel_services.find_fuel"
+            android:name=".find_fuel"
             android:exported="true"
             android:label="@string/Help_center">
         </activity>
         <activity
-            android:name=".team_services.find_team"
+            android:name=".find_team"
             android:exported="true"
             android:label="@string/home">
         </activity>
         <activity
-            android:name=".garage_services.find_garage"
-            android:exported="true"
-            android:label="@string/home">
-        </activity>
-        <activity
-            android:name=".others.launch_screen"
+            android:name=".find_garage"
             android:exported="true"
             android:label="@string/home">
         </activity>
@@ -142,12 +132,12 @@
             android:label="@string/home">
         </activity>
         <activity
-            android:name=".myadapter"
+            android:name=".get_mechanics_adapter"
             android:exported="true"
             android:label="@string/home">
         </activity>
         <activity
-            android:name=".viewholder"
+            android:name=".first_screen"
             android:exported="true"
             android:label="@string/home">
         </activity>

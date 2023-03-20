@@ -1,4 +1,4 @@
-package com.example.app4.oil_fuel_services;
+package com.example.app4;
 
 
 import androidx.core.app.ActivityCompat;
@@ -26,7 +26,7 @@ import com.google.android.gms.maps.model.MarkerOptions;
 import java.io.IOException;
 import java.util.List;
 
-public class find_fuel extends FragmentActivity implements OnMapReadyCallback {
+public class find_oil extends FragmentActivity implements OnMapReadyCallback {
 
     private static final int REQUEST_LOCATION_PERMISSION =1 ;
     private GoogleMap mMap;
@@ -37,7 +37,7 @@ public class find_fuel extends FragmentActivity implements OnMapReadyCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.find_fuel);
+        setContentView(R.layout.find_oil);
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);

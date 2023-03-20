@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="@color/grayish"
-    tools:context=".team_services.find_team">
+    tools:context=".find_team">
 
     <RelativeLayout
         android:layout_width="match_parent"

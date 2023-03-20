@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="@color/grayish"
-    tools:context=".oil_fuel_services.find_fuel">
+    tools:context=".find_fuel">
 
     <RelativeLayout
         android:layout_width="match_parent"

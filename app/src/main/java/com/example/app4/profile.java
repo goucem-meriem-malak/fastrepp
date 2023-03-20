@@ -1,41 +1,32 @@
-package com.example.app4.others;
+package com.example.app4;
 
-import static android.content.ContentValues.TAG;
-
-import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.app4.R;
+import com.example.app4.data.address;
 import com.example.app4.data.client;
-import com.example.app4.homee;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.GeoPoint;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.regex.Pattern;
 
 
 public class profile extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseUser user;
     private FirebaseAuth auth;
-    private EditText firstname, lastname, email, country, city, state, phone;
+    private EditText firstname, lastname, email, country, city, state, phone, fphone;
     private Button btnhome, btnlistrequests, btnprofile, btnedit, btnhelpcenter;
     private String clientid;
 
@@ -52,6 +43,7 @@ public class profile extends AppCompatActivity {
 
         firstname=findViewById(R.id.firstname);
         lastname=findViewById(R.id.lastname);
+        fphone=findViewById(R.id.fphone);
         phone=findViewById(R.id.phone);
         email = findViewById(R.id.email);
         country = findViewById(R.id.country);
@@ -70,8 +62,15 @@ public class profile extends AppCompatActivity {
                 client client = documentSnapshott.toObject(client.class);
                 firstname.setText(client.getFirstname());
                 lastname.setText(client.getLastname());
-                phone.setText(client.getPhone());
-                email.setText(client.getEmail());}});
+                fphone.setText(client.getPhone().substring(0,client.getPhone().length()-9));
+                phone.setText(client.getPhone().substring(client.getPhone().length()-9,client.getPhone().length()));
+                email.setText(client.getEmail());
+                country.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("country").toString());
+                state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
+                city.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("city").toString());
+
+            }
+        });
 
         btnhome.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -82,9 +81,8 @@ public class profile extends AppCompatActivity {
         });
         btnhelpcenter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent activityChangeIntent = new Intent(profile.this, help_center.class);
-
-                profile.this.startActivity(activityChangeIntent);
+                FirebaseAuth.getInstance().signOut();
+                finish();
             }
         });
         btnedit.setOnClickListener(new View.OnClickListener() {
@@ -100,17 +98,25 @@ public class profile extends AppCompatActivity {
                     btnedit.setText("Save");
                 }
                 else{
-                    btnedit.setText("Edit");
-                    firstname.setEnabled(false);
-                    lastname.setEnabled(false);
-                    country.setEnabled(false);
-                    city.setEnabled(false);
-                    state.setEnabled(false);
-                    email.setEnabled(false);
                     Map<String, Object> update = new HashMap<>();
                     update.put("firstname", firstname.getText().toString().trim());
-                    update.put("lastnsme", lastname.getText().toString().trim());
-                    update.put("email", email.getText().toString().trim());
+                    update.put("lastname", lastname.getText().toString().trim());
+                    Pattern rfc2822 = Pattern.compile(
+                            "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$");
+                    if (!rfc2822.matcher(email.getText().toString()).matches()) {
+                        Toast.makeText(profile.this, "Email invalide", Toast.LENGTH_LONG).show();
+                        email.setFocusable(true);
+                    }
+                    else {
+                        update.put("email", email.getText().toString().trim());
+                        btnedit.setText("Edit");
+                        firstname.setEnabled(false);
+                        lastname.setEnabled(false);
+                        country.setEnabled(false);
+                        city.setEnabled(false);
+                        state.setEnabled(false);
+                        email.setEnabled(false);
+                    }
                     Map<String, Object> addresss = new HashMap<>();
                     addresss.put("country", country.getText().toString().trim());
                     addresss.put("city", city.getText().toString().trim());

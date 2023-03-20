@@ -5,7 +5,7 @@ import com.google.firebase.firestore.GeoPoint;
 import java.util.Map;
 
 public class client {
-    private String id,phone, firstname, lastname, email,country,state,city;
+    private String id, phone, firstname, lastname, email;
     private GeoPoint location;
     private Map<String, Object> address;
     public client() {

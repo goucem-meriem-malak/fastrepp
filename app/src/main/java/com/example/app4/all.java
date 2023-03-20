@@ -1,21 +1,6 @@
 package com.example.app4;
 
-import android.content.Intent;
-import android.os.Bundle;
-import android.widget.AdapterView;
-import android.widget.Toast;
-
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.app4.mechanic_services.find_mechanic;
-import com.example.app4.mechanic_services.mechanics_list;
-import com.example.app4.others.home;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class all extends AppCompatActivity {
    /* implements selectlistenerRecyclerView recyclerView;

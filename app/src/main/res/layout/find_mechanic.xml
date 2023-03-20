@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="@color/grayish"
-    tools:context=".mechanic_services.find_mechanic">
+    tools:context=".home">
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -39,22 +39,21 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginHorizontal="18dp"
-                android:layout_marginTop="450dp"
+                android:layout_marginTop="520dp"
                 android:hint="From"
                 android:padding="14dp"
-                android:inputType="phone"
-                android:background="@color/grayish"
-                android:gravity="center"
-                />
+                android:enabled="false"
+                android:background="@drawable/textedit"
+                android:gravity="center" />
             <Button
-                android:id="@+id/request"
+                android:id="@+id/next"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/Next"
                 android:background="@drawable/buttonbg"
                 android:layout_gravity="center_horizontal"
                 android:layout_marginTop="590dp"
-                />
+                android:enabled="false"/>
         </fragment>
         <LinearLayout
             android:id="@+id/footer"
@@ -62,8 +61,6 @@
             android:layout_height="wrap_content"
             android:padding="8dp"
             android:background="@drawable/footer"
-            android:minHeight="80dp"
-            android:layout_marginTop="651dp"
             android:orientation="horizontal"
             android:layout_alignParentBottom="true">
 
@@ -73,9 +70,10 @@
                 android:layout_height="50dp"
                 android:background="@drawable/home"
                 android:layout_gravity="center"
-                android:layout_marginLeft="60dp"/>
+                android:layout_marginLeft="60dp"
+                android:enabled="false"/>
             <Button
-                android:id="@+id/menu"
+                android:id="@+id/list"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/menu"

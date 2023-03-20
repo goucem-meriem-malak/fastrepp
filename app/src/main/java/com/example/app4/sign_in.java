@@ -1,4 +1,4 @@
-package com.example.app4.others;
+package com.example.app4;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,9 +6,6 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import com.example.app4.R;
-import com.example.app4.homee;
 
 
 public class sign_in extends AppCompatActivity {
@@ -24,7 +21,7 @@ public class sign_in extends AppCompatActivity {
         btn1.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 // Perform action on click
-                Intent activityChangeIntent = new Intent(sign_in.this, homee.class);
+                Intent activityChangeIntent = new Intent(sign_in.this, home.class);
 
                 sign_in.this.startActivity(activityChangeIntent);
             }

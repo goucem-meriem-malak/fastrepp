@@ -7,7 +7,7 @@
     android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="@color/grayish"
-    tools:context=".others.profile">
+    tools:context=".profile">
 
     <LinearLayout
         android:id="@+id/header"
@@ -162,37 +162,39 @@
             android:layout_marginVertical="10dp"
             android:orientation="horizontal"
             android:layout_gravity="center_horizontal">
-    <LinearLayout
-        android:id="@+id/teams"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginHorizontal="20dp"
-        android:orientation="vertical"
-        android:background="@drawable/constraint"
-        android:paddingHorizontal="40dp"
-        android:paddingVertical="40dp">
+            <LinearLayout
+                android:id="@+id/team"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:orientation="vertical"
+                android:layout_marginHorizontal="20dp"
+                android:background="@drawable/constraint"
+                android:paddingHorizontal="40dp"
+                android:paddingVertical="40dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/team"/>
-        <Button
-            android:id="@+id/request_team"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="@string/Next"
-            android:background="@drawable/buttonbg"
-            android:layout_gravity="center_horizontal"/>
-    </LinearLayout>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:text="@string/team"
+                    android:paddingBottom="10dp"/>
+                <Button
+                    android:id="@+id/request_team"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/Next"
+                    android:background="@drawable/buttonbg"
+                    android:layout_gravity="center_horizontal"/>
+            </LinearLayout>
     <LinearLayout
         android:id="@+id/garage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_weight="1"
-        android:layout_marginHorizontal="20dp"
         android:orientation="vertical"
+
+        android:layout_marginHorizontal="20dp"
         android:background="@drawable/constraint"
         android:paddingHorizontal="40dp"
         android:paddingVertical="40dp">
@@ -201,7 +203,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:text="@string/appointment"
+            android:text="@string/garage"
             android:paddingBottom="10dp"/>
         <Button
             android:id="@+id/request_garage"

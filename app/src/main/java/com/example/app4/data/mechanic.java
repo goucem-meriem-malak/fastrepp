@@ -2,19 +2,26 @@ package com.example.app4.data;
 
 import com.google.firebase.firestore.GeoPoint;
 
+import java.util.Map;
+
 public class mechanic {
-    private String id,name;
-    private boolean free;
+    private String id, phone, firstname, lastname, email;
     private GeoPoint location;
+    private Map<String, Object> address;
+    private boolean free;
 
     public mechanic() {
     }
 
-    public mechanic(String id, String name, boolean free, GeoPoint location) {
+    public mechanic(String id, String phone, String firstname, String lastname, String email, GeoPoint location, Map<String, Object> address, boolean free) {
         this.id = id;
-        this.name = name;
-        this.free = free;
+        this.phone = phone;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.email = email;
         this.location = location;
+        this.address = address;
+        this.free = free;
     }
 
     public String getId() {
@@ -25,20 +32,36 @@ public class mechanic {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
-    public boolean isFree() {
-        return free;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setFree(boolean free) {
-        this.free = free;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
     }
 
     public GeoPoint getLocation() {
@@ -47,5 +70,21 @@ public class mechanic {
 
     public void setLocation(GeoPoint location) {
         this.location = location;
+    }
+
+    public Map<String, Object> getAddress() {
+        return address;
+    }
+
+    public void setAddress(Map<String, Object> address) {
+        this.address = address;
+    }
+
+    public boolean isFree() {
+        return free;
+    }
+
+    public void setFree(boolean free) {
+        this.free = free;
     }
 }

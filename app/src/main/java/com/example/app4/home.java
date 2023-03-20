@@ -1,6 +1,4 @@
-package com.example.app4.mechanic_services;
-
-import static android.content.ContentValues.TAG;
+package com.example.app4;
 
 import android.Manifest;
 import android.content.Intent;
@@ -11,21 +9,17 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import com.example.app4.R;
-import com.example.app4.others.home;
-import com.firebase.geofire.GeoFireUtils;
-import com.firebase.geofire.GeoLocation;
-import com.firebase.geofire.GeoQueryBounds;
+import com.example.app4.data.address;
+import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -33,34 +27,19 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.Tasks;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.database.ValueEventListener;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.GeoPoint;
-import com.google.firebase.firestore.Query;
-import com.google.firebase.firestore.QuerySnapshot;
 
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
-public class find_mechanic extends FragmentActivity implements OnMapReadyCallback {
+public class home extends FragmentActivity implements OnMapReadyCallback {
 
     private static final int REQUEST_LOCATION_PERMISSION = 1;
     private FirebaseUser user;
@@ -73,9 +52,14 @@ public class find_mechanic extends FragmentActivity implements OnMapReadyCallbac
     private Marker marker;
     private FirebaseFirestore db;
     private EditText userlocation;
-    private Button btnrequest;
+    private Button btnnext, btnhome, btnlist, btnprofil;
     private String clientid, address;
     private Map<String, Object> addy;
+
+
+    private FusedLocationProviderClient fusedLocationProviderClient;
+    private static final int PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION = 1;
+    private boolean locationPermissionGranted;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,7 +67,12 @@ public class find_mechanic extends FragmentActivity implements OnMapReadyCallbac
         setContentView(R.layout.find_mechanic);
 
         userlocation = findViewById(R.id.userlocation);
-        btnrequest = findViewById(R.id.request);
+
+        btnnext = findViewById(R.id.next);
+        btnhome = findViewById(R.id.home);
+        btnlist = findViewById(R.id.list);
+        btnprofil = findViewById(R.id.profil);
+
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
@@ -94,8 +83,8 @@ public class find_mechanic extends FragmentActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
-
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
+        {
             ActivityCompat.requestPermissions(this, new String[]
                             {Manifest.permission.ACCESS_FINE_LOCATION},
                     REQUEST_LOCATION_PERMISSION);
@@ -111,13 +100,17 @@ public class find_mechanic extends FragmentActivity implements OnMapReadyCallbac
                 try {
                     List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
                     address = addresses.get(0).getCountryName() + " : ";
-                    address += addresses.get(0).getLocality();
+                    address += addresses.get(0).getLocality()+ " : ";
+                    address += addresses.get(0).getSubAdminArea();
 
                     addy = new HashMap<>();
                     addy.put("country", addresses.get(0).getCountryName());
+                    addy.put("state", addresses.get(0).getSubAdminArea());
                     addy.put("city",addresses.get(0).getLocality());
 
                     userlocation.setText(address);
+                    btnnext.setEnabled(true);
+
 
                     latLng = new LatLng(latitude, longitude);
                     updateclientlocation();
@@ -125,7 +118,7 @@ public class find_mechanic extends FragmentActivity implements OnMapReadyCallbac
                     if (marker != null) {
                         marker.remove();
                     }
-                    marker = mMap.addMarker(new MarkerOptions().position(latLng).title(address));
+                    marker = mMap.addMarker(new MarkerOptions().position(latLng).title("You"));
                     mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
 
 
@@ -153,15 +146,55 @@ public class find_mechanic extends FragmentActivity implements OnMapReadyCallbac
         locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
         locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
 
-        btnrequest.setOnClickListener(new View.OnClickListener() {
+        btnnext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent activityChangeIntent = new Intent(find_mechanic.this, mechanics_list.class);
-              //  Toast.makeText(getApplicationContext(), String.valueOf(latLng.longitude), Toast.LENGTH_LONG).show();
-                find_mechanic.this.startActivity(activityChangeIntent);
+                Intent activityChangeIntent = new Intent(home.this, find.class);
+                home.this.startActivity(activityChangeIntent);
+            }
+        });
+        btnlist.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent activityChangeIntent = new Intent(home.this, list_requests.class);
+                home.this.startActivity(activityChangeIntent);
+            }
+        });
+        btnprofil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent activityChangeIntent = new Intent(home.this, profile.class);
+                home.this.startActivity(activityChangeIntent);
             }
         });
     }
+
+    private void getLocationPermission() {
+
+        if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
+                Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            locationPermissionGranted = true;
+        } else {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
+        }
+    }
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        locationPermissionGranted = false;
+        if (requestCode
+                == PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION) {
+            if (grantResults.length > 0
+                    && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                locationPermissionGranted = true;
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }}
 
     private void updateclientlocation() {
         Map<String, Object> update = new HashMap<>();

@@ -1,4 +1,4 @@
-package com.example.app4.others;
+package com.example.app4;
 
 
 import android.content.Intent;
@@ -9,17 +9,11 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.app4.R;
-import com.example.app4.mechanic_services.find_mechanic;
-import com.example.app4.oil_fuel_services.find_fuel;
-import com.example.app4.oil_fuel_services.find_oil;
-import com.example.app4.team_services.find_team;
-import com.example.app4.tow_services.find_towtruck;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
 
-public class home extends AppCompatActivity{
+public class find extends AppCompatActivity{
     private FirebaseUser user;
     private FirebaseAuth auth;
     private String uid;
@@ -47,38 +41,38 @@ public class home extends AppCompatActivity{
 
         btnprofile.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent activityChangeIntent = new Intent(home.this, profile.class);
-                home.this.startActivity(activityChangeIntent);
+                Intent activityChangeIntent = new Intent(find.this, profile.class);
+                find.this.startActivity(activityChangeIntent);
             }
         });
         btnrequestmechanic.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent activityChangeIntent = new Intent(home.this, find_mechanic.class);
+                Intent activityChangeIntent = new Intent(find.this, mechanics_list.class);
                 startActivity(activityChangeIntent);
             }
         });
         btnrequesttowtruck.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent activityChangeIntent = new Intent(home.this, find_towtruck.class);
-                home.this.startActivity(activityChangeIntent);
+                Intent activityChangeIntent = new Intent(find.this, find_towtruck.class);
+                find.this.startActivity(activityChangeIntent);
             }
         });
         btnrequestoil.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent activityChangeIntent = new Intent(home.this, find_oil.class);
-                home.this.startActivity(activityChangeIntent);
+                Intent activityChangeIntent = new Intent(find.this, find_oil.class);
+                find.this.startActivity(activityChangeIntent);
             }
         });
         btnrequestfuel.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent activityChangeIntent = new Intent(home.this, find_fuel.class);
-                home.this.startActivity(activityChangeIntent);
+                Intent activityChangeIntent = new Intent(find.this, find_fuel.class);
+                find.this.startActivity(activityChangeIntent);
             }
         });
         btnrequestteam.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                Intent activityChangeIntent = new Intent(home.this, find_team.class);
-                home.this.startActivity(activityChangeIntent);
+                Intent activityChangeIntent = new Intent(find.this, find_team.class);
+                find.this.startActivity(activityChangeIntent);
             }
         });
     }

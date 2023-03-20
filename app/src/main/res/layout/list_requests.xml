@@ -1,59 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
     android:gravity="center_horizontal"
     android:background="@color/grayish"
-    tools:context=".others.list_requests">
+    android:orientation="vertical"
+    tools:context=".list_requests">
 
     <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
+        android:gravity="center"
         android:background="@drawable/header"
-        android:minHeight="80dp"
         android:orientation="horizontal"
         android:layout_alignParentTop="true"
         android:padding="8dp">
-
-        <Button
-            android:id="@+id/goback"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center_vertical"
-            android:layout_marginLeft="15dp"
-            android:background="@drawable/go_back" />
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginLeft="40dp"
-            android:layout_marginRight="40dp"
-            android:gravity="center_horizontal"
-            android:text="@string/list_requests"
+            android:gravity="center"
+            android:text="@string/requests"
             android:textColor="@color/white"
+            android:layout_marginHorizontal="70dp"
             android:textSize="30dp" />
 
     </LinearLayout>
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recycler"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginVertical="80dp"/>
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerr"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginHorizontal="22dp"
+        android:layout_weight="1"/>
 
     <LinearLayout
-        android:id="@+id/footer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="8dp"
         android:background="@drawable/footer"
-        android:minHeight="80dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
 
@@ -63,24 +52,27 @@
             android:layout_height="50dp"
             android:background="@drawable/home"
             android:layout_gravity="center"
-            android:layout_marginLeft="60dp"/>
+            android:layout_marginLeft="60dp"
+            android:layout_weight="1"/>
         <Button
-            android:id="@+id/menu"
+            android:id="@+id/list"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/menu"
             android:layout_gravity="center"
             android:layout_marginLeft="60dp"
-            android:layout_marginRight="60dp"/>
+            android:layout_marginRight="60dp"
+            android:layout_weight="1"/>
         <Button
-            android:id="@+id/profil"
+            android:id="@+id/profile"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:background="@drawable/profile"
             android:layout_gravity="center"
-            android:layout_marginRight="60dp">
-        </Button>
+            android:layout_marginRight="60dp"
+            android:clickable="false"
+            android:layout_weight="1"/>
 
     </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>
