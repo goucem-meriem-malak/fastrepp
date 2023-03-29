@@ -64,4 +64,14 @@
     <string name="requests">Requests</string>
     <string name="fastrep">Fastrep</string>
     <string name="garage">Garage</string>
+    <string name="Fixper">Fixper</string>
+    <string name="your_address">Your Address:</string>
+    <string name="price">Price:</string>
+    <string name="statee">State:</string>
+    <string name="list_mechanics">List Mechanics</string>
+    <string name="vehicule">Vehicule</string>
+    <string name="tow">Tow</string>
+    <string name="requested">Requested:</string>
+    <string name="on">On</string>
+    <string name="onn">On:</string>
 </resources>

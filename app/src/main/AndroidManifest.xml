@@ -40,34 +40,24 @@
         <activity
             android:name=".launch_screen"
             android:exported="true"
-            android:label="@string/FASTrep">
+            android:label="@string/fastrep">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".sign_up"
+            android:name=".todelete.sign_up"
             android:exported="true"
             android:label="@string/sign_up">
         </activity>
         <activity
-            android:name=".mechanics_list"
+            android:name=".list_mechanics"
             android:exported="true"
             android:label="@string/sign_up">
         </activity>
         <activity
-            android:name=".sign_in"
-            android:exported="true"
-            android:label="@string/sign_in">
-        </activity>
-        <activity
-            android:name=".aatest"
-            android:exported="true"
-            android:label="@string/sign_in">
-        </activity>
-        <activity
-            android:name=".atest"
+            android:name=".todelete.sign_in"
             android:exported="true"
             android:label="@string/sign_in">
         </activity>
@@ -102,37 +92,32 @@
             android:label="@string/garage_services">
         </activity>
         <activity
-            android:name=".find_towtruck"
-            android:exported="true"
-            android:label="@string/list_requests">
-        </activity>
-        <activity
-            android:name=".find_oil"
-            android:exported="true"
-            android:label="@string/profile">
-        </activity>
-        <activity
-            android:name=".find_fuel"
-            android:exported="true"
-            android:label="@string/Help_center">
-        </activity>
-        <activity
-            android:name=".find_team"
+            android:name=".todelete.all"
             android:exported="true"
             android:label="@string/home">
         </activity>
         <activity
-            android:name=".find_garage"
+            android:name=".form_vehicule"
             android:exported="true"
             android:label="@string/home">
         </activity>
         <activity
-            android:name=".all"
+            android:name=".list_requests_worker"
             android:exported="true"
             android:label="@string/home">
         </activity>
         <activity
-            android:name=".get_mechanics_adapter"
+            android:name=".adapter_mechanics"
+            android:exported="true"
+            android:label="@string/home">
+        </activity>
+        <activity
+            android:name=".list_garage"
+            android:exported="true"
+            android:label="@string/home">
+        </activity>
+        <activity
+            android:name=".list_stations"
             android:exported="true"
             android:label="@string/home">
         </activity>

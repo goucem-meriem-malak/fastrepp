@@ -27,7 +27,7 @@ public class profile extends AppCompatActivity {
     private FirebaseUser user;
     private FirebaseAuth auth;
     private EditText firstname, lastname, email, country, city, state, phone, fphone;
-    private Button btnhome, btnlistrequests, btnprofile, btnedit, btnhelpcenter;
+    private Button btnhome, btnlistrequests, btnprofile, btnedit, btnhelpcenter, btngoback;
     private String clientid;
 
     @Override
@@ -40,6 +40,7 @@ public class profile extends AppCompatActivity {
         btnprofile = findViewById(R.id.profil);
         btnlistrequests = findViewById(R.id.list_requests);
         btnedit = findViewById(R.id.edit);
+        btngoback = findViewById(R.id.goback);
 
         firstname=findViewById(R.id.firstname);
         lastname=findViewById(R.id.lastname);
@@ -48,7 +49,6 @@ public class profile extends AppCompatActivity {
         email = findViewById(R.id.email);
         country = findViewById(R.id.country);
         city = findViewById(R.id.city);
-        state = findViewById(R.id.state);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -60,15 +60,40 @@ public class profile extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshott) {
                 client client = documentSnapshott.toObject(client.class);
-                firstname.setText(client.getFirstname());
-                lastname.setText(client.getLastname());
-                fphone.setText(client.getPhone().substring(0,client.getPhone().length()-9));
-                phone.setText(client.getPhone().substring(client.getPhone().length()-9,client.getPhone().length()));
-                email.setText(client.getEmail());
-                country.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("country").toString());
-                state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
-                city.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("city").toString());
-
+                if (client.getFirstname()==null){
+                    firstname.setText("");
+                }else {
+                    firstname.setText(client.getFirstname());
+                }
+                if (client.getLastname()==null){
+                    lastname.setText("");
+                } else {
+                    lastname.setText(client.getLastname());
+                }
+                if (client.getPhone()==null){
+                    fphone.setText("");
+                    phone.setText("");
+                } else {
+                    fphone.setText(client.getPhone().substring(0,client.getPhone().length()-9));
+                    phone.setText(client.getPhone().substring(client.getPhone().length()-9,client.getPhone().length()));
+                }
+                if (client.getEmail()==null){
+                    email.setText("");
+                } else {
+                    email.setText(client.getEmail());
+                }
+                if (((Map<String, Object>)documentSnapshott.getData().get("address")).get("country")==null) {
+                    country.setText("");
+                } else {
+                    country.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("country").toString());
+                }
+                //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
+                if (((Map<String, Object>)documentSnapshott.getData().get("address")).get("city")==null){
+                    city.setText("");
+                } else {
+                    city.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("city").toString());
+                }
+                //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
             }
         });
 
@@ -82,6 +107,8 @@ public class profile extends AppCompatActivity {
         btnhelpcenter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 FirebaseAuth.getInstance().signOut();
+                Intent activityChangeIntent = new Intent(profile.this, launch_screen.class);
+                profile.this.startActivity(activityChangeIntent);
                 finish();
             }
         });
@@ -93,7 +120,7 @@ public class profile extends AppCompatActivity {
                     lastname.setEnabled(true);
                     country.setEnabled(true);
                     city.setEnabled(true);
-                    state.setEnabled(true);
+                //    state.setEnabled(true);
                     email.setEnabled(true);
                     btnedit.setText("Save");
                 }
@@ -103,7 +130,7 @@ public class profile extends AppCompatActivity {
                     update.put("lastname", lastname.getText().toString().trim());
                     Pattern rfc2822 = Pattern.compile(
                             "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$");
-                    if (!rfc2822.matcher(email.getText().toString()).matches()) {
+                    if (!rfc2822.matcher(email.getText().toString()).matches()&&email.getText().toString().isEmpty()!=true) {
                         Toast.makeText(profile.this, "Email invalide", Toast.LENGTH_LONG).show();
                         email.setFocusable(true);
                     }
@@ -114,13 +141,13 @@ public class profile extends AppCompatActivity {
                         lastname.setEnabled(false);
                         country.setEnabled(false);
                         city.setEnabled(false);
-                        state.setEnabled(false);
+                      //  state.setEnabled(false);
                         email.setEnabled(false);
                     }
                     Map<String, Object> addresss = new HashMap<>();
                     addresss.put("country", country.getText().toString().trim());
                     addresss.put("city", city.getText().toString().trim());
-                    addresss.put("state", state.getText().toString().trim());
+                 //   addresss.put("state", state.getText().toString().trim());
                     update.put("address", addresss);
 
 
@@ -136,5 +163,11 @@ public class profile extends AppCompatActivity {
                profile.this.startActivity(activityChangeIntent);
            }
        });
+        btngoback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 }

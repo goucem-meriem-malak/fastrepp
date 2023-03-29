@@ -13,21 +13,31 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:gravity="center"
         android:background="@drawable/header"
         android:orientation="horizontal"
         android:layout_alignParentTop="true"
         android:padding="8dp">
 
+        <Button
+            android:id="@+id/goback"
+            android:layout_width="30dp"
+            android:layout_height="50dp"
+            android:layout_gravity="center_vertical"
+            android:gravity="left"
+            android:layout_marginLeft="15dp"
+            android:background="@drawable/go_back"
+            android:layout_weight="1"/>
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:gravity="center"
-            android:text="@string/requests"
+            android:gravity="left"
+            android:text="@string/list_requests"
             android:textColor="@color/white"
             android:layout_marginHorizontal="70dp"
-            android:textSize="30dp" />
+            android:textSize="25dp"
+            android:layout_weight="3"/>
 
     </LinearLayout>
 

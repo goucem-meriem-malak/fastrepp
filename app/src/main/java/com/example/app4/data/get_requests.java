@@ -2,21 +2,24 @@ package com.example.app4.data;
 
 import androidx.cardview.widget.CardView;
 
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.GeoPoint;
 
-import java.sql.Timestamp;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Map;
 
 public class get_requests {
     private String id, client_id, mechanic_id, type, state;
     private GeoPoint client_location, mechanic_location;
+    private Map<String, Object> address;
+    private Timestamp date;
     private float distance, price;
 
     public get_requests() {
     }
 
-    public get_requests(String id, String client_id, String mechanic_id, String type, String state, GeoPoint client_location, GeoPoint mechanic_location, float distance, float price) {
+    public get_requests(String id, String client_id, String mechanic_id, String type, String state, GeoPoint client_location, GeoPoint mechanic_location, Map<String, Object> address, Timestamp date, float distance, float price) {
         this.id = id;
         this.client_id = client_id;
         this.mechanic_id = mechanic_id;
@@ -24,6 +27,8 @@ public class get_requests {
         this.state = state;
         this.client_location = client_location;
         this.mechanic_location = mechanic_location;
+        this.address = address;
+        this.date = date;
         this.distance = distance;
         this.price = price;
     }
@@ -84,7 +89,23 @@ public class get_requests {
         this.mechanic_location = mechanic_location;
     }
 
-    public double getDistance() {
+    public Map<String, Object> getAddress() {
+        return address;
+    }
+
+    public void setAddress(Map<String, Object> address) {
+        this.address = address;
+    }
+
+    public Timestamp getDate() {
+        return date;
+    }
+
+    public void setDate(Timestamp date) {
+        this.date = date;
+    }
+
+    public float getDistance() {
         return distance;
     }
 
@@ -92,7 +113,7 @@ public class get_requests {
         this.distance = distance;
     }
 
-    public double getPrice() {
+    public float getPrice() {
         return price;
     }
 

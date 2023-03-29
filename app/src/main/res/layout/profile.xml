@@ -37,17 +37,18 @@
             android:text="@string/profil"
             android:textColor="@color/white"
             android:layout_marginHorizontal="70dp"
-            android:textSize="30dp" />
+            android:textSize="30dp"
+            android:layout_weight="3"/>
 
         <Button
             android:id="@+id/helpcenter"
-            android:layout_width="50dp"
+            android:layout_width="30dp"
             android:layout_height="50dp"
             android:layout_weight="1"
             android:layout_gravity="center_vertical"
             android:gravity="right"
             android:layout_marginRight="15dp"
-            android:background="@drawable/help_center" />
+            android:background="@drawable/logout" />
 
     </LinearLayout>
 
@@ -178,15 +179,7 @@
                     android:hint="@string/city"
                     android:textColor="@color/black"
                     android:enabled="false"/>
-                <EditText
-                    android:id="@+id/state"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:hint="@string/state"
-                    android:textColor="@color/black"
-                    android:enabled="false"/>
-            </LinearLayout>
+                </LinearLayout>
         </LinearLayout>
     </LinearLayout>
     </ScrollView>

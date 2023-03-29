@@ -18,7 +18,6 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.FragmentActivity;
 
-import com.example.app4.data.address;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -64,7 +63,7 @@ public class home extends FragmentActivity implements OnMapReadyCallback {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.find_mechanic);
+        setContentView(R.layout.home);
 
         userlocation = findViewById(R.id.userlocation);
 
@@ -100,13 +99,13 @@ public class home extends FragmentActivity implements OnMapReadyCallback {
                 try {
                     List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
                     address = addresses.get(0).getCountryName() + " : ";
-                    address += addresses.get(0).getLocality()+ " : ";
-                    address += addresses.get(0).getSubAdminArea();
+                    address += addresses.get(0).getLocality();
+                    //address += addresses.get(0).getSubAdminArea();
 
                     addy = new HashMap<>();
                     addy.put("country", addresses.get(0).getCountryName());
-                    addy.put("state", addresses.get(0).getSubAdminArea());
-                    addy.put("city",addresses.get(0).getLocality());
+                    addy.put("city", addresses.get(0).getSubAdminArea());
+                    //addy.put("city",addresses.get(0).getLocality());
 
                     userlocation.setText(address);
                     btnnext.setEnabled(true);
