@@ -33,8 +33,6 @@ public class adapter_request extends RecyclerView.Adapter<adapter_request.myview
 
     @Override
     public void onBindViewHolder(@NonNull adapter_request.myviewholder holder, int position) {
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss.SSSSSS");
-       // String formattedDateTime = localDateTime.format(formatter);
         com.example.app4.data.get_requests request = get_requests.get(position);
         if(request.getAddress()==null){
             holder.address.setText("");
@@ -51,11 +49,15 @@ public class adapter_request extends RecyclerView.Adapter<adapter_request.myview
         } else {
             holder.type.setText(request.getType());
         }
-        /*if(request.getPrice()==null){
-            holder.price.setText("");
-        } else {
-            holder.price.setText(String.valueOf(request.getPrice()));
-        }*/
+        if (holder.type.getText().equals("mechanic")){
+            holder.price.setVisibility(View.INVISIBLE);
+        }else{
+            /* if(request.getPrice()==null){
+                holder.price.setText("");
+            } else {
+                holder.price.setText(String.valueOf(request.getPrice()));
+            }*/
+        }
         if(request.getState()==null){
             holder.state.setText("");
         } else {

@@ -40,14 +40,14 @@ public class list_mechanics extends AppCompatActivity implements listener_mechan
     private FirebaseFirestore db;
     private FirebaseUser user;
     private FirebaseAuth auth;
-    private String clientid;
+    private String clientid, requestid;
     private GeoPoint client_location, mechanic_location;
     private Map<String, Object> client_address;
     private mechanic mech;
     private RecyclerView recyclerView;
     private ArrayList<com.example.app4.data.get_mechanics> get_mechanics;
     private adapter_mechanics adapter_mechanics;
-    private Button btnhome, btnlist, btnprofile;
+    private Button btnhome, btnlist, btnprofile, btngoback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +57,7 @@ public class list_mechanics extends AppCompatActivity implements listener_mechan
         btnhome = findViewById(R.id.home);
         btnlist = findViewById(R.id.list);
         btnprofile = findViewById(R.id.profile);
+        btngoback = findViewById(R.id.goback);
         recyclerView = findViewById(R.id.recycler);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -99,6 +100,17 @@ public class list_mechanics extends AppCompatActivity implements listener_mechan
             public void onClick(View v) {
                 Intent activityChangeIntent = new Intent(list_mechanics.this, profile.class);
                 list_mechanics.this.startActivity(activityChangeIntent);
+            }
+        });
+        btngoback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (requestid!=null){
+                    db.collection("request").document(requestid).delete();
+                    finish();
+                } else {
+                    finish();
+                }
             }
         });
     }
@@ -161,19 +173,15 @@ public class list_mechanics extends AppCompatActivity implements listener_mechan
 
                                             HashMap<String, Object> m = new HashMap<String, Object>();
 
-                                            DocumentReference ref = db.collection("request").document();
-                                            String requestid = ref.getId();
-                                            m.put("id", requestid);
-                                            m.put("client_id", clientid);
+                                            DocumentReference ref = db.collection("request").document(getIntent().getStringExtra("requestid"));
                                             m.put("mechanic_id", mech.getId());
                                             m.put("client_location", client.getLocation());
                                             m.put("mechanic_location", mech.getLocation());
                                             m.put("address",client.getAddress());
-                                            m.put("type", "mechanic");
                                             m.put("date", Calendar.getInstance().getTime());
                                             m.put("distance", get_distance(client_location, mech.getLocation()));
                                             m.put("price", distance * 200);
-                                            m.put("state", "ongoing");
+                                            m.put("state", "waiting");
                                             ref.set(m);
 
                                             HashMap<String, Object> n = new HashMap<>();

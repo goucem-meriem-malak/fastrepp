@@ -8,6 +8,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.LinearLayout;
+import android.widget.NumberPicker;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -57,13 +59,16 @@ public class form_vehicule extends AppCompatActivity implements AdapterView.OnIt
         private FirebaseFirestore db;
         private FirebaseUser user;
         private FirebaseAuth auth;
-        private String clientid;
-        private ArrayList<String> type, mark, model;
+        private String clientid, type, mark, model;
         private ArrayAdapter typee, markk, modell;
-        private com.example.app4.data.vehicule vehicule;
-        private Button btnhome, btnlist, btnprofile, btnnext;
+        private com.example.app4.data.veh vehicle;
+        private Button btnhome, btnlist, btnprofile, btnnext, btngoback;
         private Spinner types, marks, models;
+        private NumberPicker nbrpeople;
+        private LinearLayout taxii;
         private veh veh = new veh();
+        private String requestid;
+        private int nbr_people;
 
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +79,9 @@ public class form_vehicule extends AppCompatActivity implements AdapterView.OnIt
             btnlist = findViewById(R.id.list);
             btnprofile = findViewById(R.id.profile);
             btnnext = findViewById(R.id.next);
+            btngoback = findViewById(R.id.goback);
+            nbrpeople = findViewById(R.id.nbrpeople);
+            taxii = findViewById(R.id.taxi);
 
             types = findViewById(R.id.type);
             types.setOnItemSelectedListener(this);
@@ -82,18 +90,35 @@ public class form_vehicule extends AppCompatActivity implements AdapterView.OnIt
             models = findViewById(R.id.model);
             models.setOnItemSelectedListener(this);
 
+            if(getIntent().getStringExtra("service").equals("both")){
+                taxii.setVisibility(View.VISIBLE);
+            } else if (getIntent().getStringExtra("service").equals("taxi")) {
+                taxii.setVisibility(View.VISIBLE);
+            }
+
             db = FirebaseFirestore.getInstance();
             auth = FirebaseAuth.getInstance();
             user = auth.getCurrentUser();
             clientid = user.getUid();
 
-            typee = new ArrayAdapter<String>(form_vehicule.this, android.R.layout.simple_spinner_item, veh.getType());
+            typee = new ArrayAdapter<String>(form_vehicule.this, android.R.layout.simple_spinner_item, veh.getTypes());
             typee.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             types.setAdapter(typee);
 
-            markk = new ArrayAdapter<String>(form_vehicule.this, android.R.layout.simple_spinner_item, veh.getPassenger_vehicule());
+            markk = new ArrayAdapter<String>(form_vehicule.this, android.R.layout.simple_spinner_item, veh.getPassenger_vehicle());
             markk.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             marks.setAdapter(markk);
+
+            nbrpeople.setMinValue(1);
+            nbrpeople.setMaxValue(5);
+            nbrpeople.setValue(1);
+
+            nbrpeople.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+                @Override
+                public void onValueChange(NumberPicker nbrpeople, int oldVal, int newVal) {
+                    nbr_people = nbrpeople.getValue();
+                }
+            });
 
             btnhome.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -119,44 +144,125 @@ public class form_vehicule extends AppCompatActivity implements AdapterView.OnIt
             btnnext.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent activityChangeIntent = new Intent(form_vehicule.this, list_mechanics.class);
-                    form_vehicule.this.startActivity(activityChangeIntent);
+                    if(getIntent().getStringExtra("service").equals("both")){
+                        request_both();
+                        Intent activityChangeIntent = new Intent(form_vehicule.this, list_taxis.class);
+                        activityChangeIntent.putExtra("requestid",requestid);
+                        Toast.makeText(form_vehicule.this, requestid, Toast.LENGTH_SHORT).show();
+                        form_vehicule.this.startActivity(activityChangeIntent);
+                    } else if (getIntent().getStringExtra("service").equals("taxi")) {
+                        request_taxi();
+                        Intent activityChangeIntent = new Intent(form_vehicule.this, list_taxis.class);
+                        activityChangeIntent.putExtra("requestid",requestid);
+                        Toast.makeText(form_vehicule.this, requestid, Toast.LENGTH_SHORT).show();
+                        form_vehicule.this.startActivity(activityChangeIntent);
+                    } else if (getIntent().getStringExtra("service").equals("ambulance")){
+                        request_ambulance();
+                        Intent activityChangeIntent = new Intent(form_vehicule.this, list_tow_truck.class);
+                        activityChangeIntent.putExtra("requestid",requestid);
+                        Toast.makeText(form_vehicule.this, requestid, Toast.LENGTH_SHORT).show();
+                        form_vehicule.this.startActivity(activityChangeIntent);
+                    } else if (getIntent().getStringExtra("service").equals("mechanic")){
+                        request_mechanic();
+                        Intent activityChangeIntent = new Intent(form_vehicule.this, list_mechanics.class);
+                        activityChangeIntent.putExtra("requestid",requestid);
+                        form_vehicule.this.startActivity(activityChangeIntent);
+                    }
+                }
+            });
+            btngoback.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (requestid!=null){
+                        db.collection("request").document(requestid).delete();
+                        finish();
+                    } else {
+                        finish();
+                    }
                 }
             });
         }
 
-    private void get_list_types() {
-  /*      db.collection("vehicule").whereEqualTo("id","vehicule").addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                String name = null;
+    private void request_mechanic() {
+        HashMap<String, Object> m = new HashMap<String, Object>();
+        Map<String, Object> veh = new HashMap<String, Object>();
+        veh.put("type", type);
+        veh.put("mark", mark);
+        veh.put("model", model);
 
-                for (DocumentChange dc : value.getDocumentChanges()) {
-                    if (dc.getType() == DocumentChange.Type.ADDED) {
-                        name = dc.getDocument().get("category").toString();
-                        Toast.makeText(form_vehicule.this, type.toString(), Toast.LENGTH_LONG).show();
-                        type.add(name);
-                    }
-                }
-            }
-        });*/
-        db.collection("vehicule").get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : task.getResult()) {
-                        String subject = document.getString("category");
-                        type.add(subject);
-                    }
-                    typee.notifyDataSetChanged();
-                }
-            }
-        });
+        DocumentReference ref = db.collection("request").document();
+        String request_id = ref.getId();
+        requestid =request_id;
+        m.put("id", request_id);
+        m.put("client_id", clientid);
+        m.put("type","mechanic");
+        m.put("vehicle", veh);
+        ref.set(m);
+    }
 
+    private void request_ambulance() {
+    }
+
+    private void request_taxi() {
+        HashMap<String, Object> m = new HashMap<String, Object>();
+        Map<String, Object> veh = new HashMap<String, Object>();
+        veh.put("type", type);
+        veh.put("mark", mark);
+        veh.put("model", model);
+
+        DocumentReference ref = db.collection("request").document();
+        String request_id = ref.getId();
+        requestid =request_id;
+        m.put("id", request_id);
+        m.put("client_id", clientid);
+        m.put("date", Calendar.getInstance().getTime());
+        m.put("type","tow_truck");
+        m.put("vehicle", veh);
+        m.put("people_number", nbr_people);
+        m.put("ambulance", false);
+        m.put("taxi", true);
+        ref.set(m);
+    }
+
+    private void request_both() {
+        HashMap<String, Object> m = new HashMap<String, Object>();
+        Map<String, Object> veh = new HashMap<String, Object>();
+        veh.put("type", type);
+        veh.put("mark", mark);
+        veh.put("model", model);
+
+        DocumentReference ref = db.collection("request").document();
+        String request_id = ref.getId();
+        requestid =request_id;
+        m.put("id", request_id);
+        m.put("client_id", clientid);
+        m.put("date", Calendar.getInstance().getTime());
+        m.put("type","tow_truck");
+        m.put("vehicle", veh);
+        m.put("people_number", nbr_people);
+        m.put("ambulance", false);
+        m.put("taxi", true);
+        m.put("state", "not finished");
+        ref.set(m);
     }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+            mark = marks.getSelectedItem().toString();
+        if (marks.getSelectedItem().toString().equals("Nissan")){
+            modell = new ArrayAdapter<String>(form_vehicule.this, android.R.layout.simple_spinner_item, veh.getNissan());
+            modell.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            models.setAdapter(modell);
+        } else if (marks.getSelectedItem().toString().equals("Hyundai")) {
+            modell = new ArrayAdapter<String>(form_vehicule.this, android.R.layout.simple_spinner_item, veh.getHyundai());
+            modell.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            models.setAdapter(modell);
+        }
+        type = types.getSelectedItem().toString();
+        mark = marks.getSelectedItem().toString();
+        if (models.getSelectedItem()!=null){
+            model = models.getSelectedItem().toString();
+        }
     }
 
     @Override

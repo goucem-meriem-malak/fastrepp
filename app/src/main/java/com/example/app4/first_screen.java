@@ -252,7 +252,7 @@ public class first_screen extends Activity {
                             pd.dismiss();
                             FirebaseUser user = task.getResult().getUser();
 
-                            db.collection("mechanic").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                            db.collection("worker").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                                 @Override
                                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                                     if (task.isSuccessful()) {

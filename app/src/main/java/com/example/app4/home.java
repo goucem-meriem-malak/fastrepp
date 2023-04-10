@@ -9,9 +9,11 @@ import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.core.app.ActivityCompat;
@@ -54,6 +56,7 @@ public class home extends FragmentActivity implements OnMapReadyCallback {
     private Button btnnext, btnhome, btnlist, btnprofil;
     private String clientid, address;
     private Map<String, Object> addy;
+    private static int LOCATION_PERMISSION_REQUEST_CODE = 1;
 
 
     private FusedLocationProviderClient fusedLocationProviderClient;
@@ -82,12 +85,79 @@ public class home extends FragmentActivity implements OnMapReadyCallback {
         mapFragment.getMapAsync(this);
 
         locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            // Permission is not granted, request it
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                    LOCATION_PERMISSION_REQUEST_CODE);
+        } else {
+            locationlistener();
+            locationListener = new LocationListener() {
+                @Override
+                public void onLocationChanged(Location location) {
+                    double latitude = location.getLatitude();
+                    double longitude = location.getLongitude();
+
+                    Geocoder geocoder = new Geocoder(getApplicationContext());
+                    try {
+                        List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                        address = addresses.get(0).getCountryName() + " : ";
+                        address += addresses.get(0).getLocality();
+                        //address += addresses.get(0).getSubAdminArea();
+
+                        addy = new HashMap<>();
+                        addy.put("country", addresses.get(0).getCountryName());
+                        addy.put("city", addresses.get(0).getSubAdminArea());
+                        //addy.put("city",addresses.get(0).getLocality());
+
+                        userlocation.setText(address);
+                        btnnext.setEnabled(true);
+
+
+                        latLng = new LatLng(latitude, longitude);
+                        updateclientlocation();
+
+                        if (marker != null) {
+                            marker.remove();
+                        }
+                        marker = mMap.addMarker(new MarkerOptions().position(latLng).title("You"));
+                        mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+
+
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                @Override
+                public void onStatusChanged(String s, int i, Bundle bundle) {
+
+                }
+
+                @Override
+                public void onProviderEnabled(String s) {
+
+                }
+
+                @Override
+                public void onProviderDisabled(String s) {
+
+                }
+            };
+
+            locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+            locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+            Toast.makeText(this, "Please Check Your Connection", Toast.LENGTH_SHORT).show();
+        }
+        /*
+        locationManager = (LocationManager) getSystemService(LOCATION_SERVICE);
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED)
         {
             ActivityCompat.requestPermissions(this, new String[]
                             {Manifest.permission.ACCESS_FINE_LOCATION},
                     REQUEST_LOCATION_PERMISSION);
-        }
+        }*/
 
         locationListener = new LocationListener() {
             @Override
@@ -168,6 +238,65 @@ public class home extends FragmentActivity implements OnMapReadyCallback {
         });
     }
 
+    private void locationlistener() {
+        locationListener = new LocationListener() {
+            @Override
+            public void onLocationChanged(Location location) {
+                double latitude = location.getLatitude();
+                double longitude = location.getLongitude();
+
+                Geocoder geocoder = new Geocoder(getApplicationContext());
+                try {
+                    List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+                    address = addresses.get(0).getCountryName() + " : ";
+                    address += addresses.get(0).getLocality();
+                    //address += addresses.get(0).getSubAdminArea();
+
+                    addy = new HashMap<>();
+                    addy.put("country", addresses.get(0).getCountryName());
+                    addy.put("city", addresses.get(0).getSubAdminArea());
+                    //addy.put("city",addresses.get(0).getLocality());
+
+                    userlocation.setText(address);
+                    btnnext.setEnabled(true);
+
+
+                    latLng = new LatLng(latitude, longitude);
+                    updateclientlocation();
+
+                    if (marker != null) {
+                        marker.remove();
+                    }
+                    marker = mMap.addMarker(new MarkerOptions().position(latLng).title("You"));
+                    mMap.moveCamera(CameraUpdateFactory.newLatLngZoom(latLng, 15));
+
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+            @Override
+            public void onStatusChanged(String s, int i, Bundle bundle) {
+
+            }
+
+            @Override
+            public void onProviderEnabled(String s) {
+
+            }
+
+            @Override
+            public void onProviderDisabled(String s) {
+
+            }
+        };
+
+        locationManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, locationListener);
+        locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, locationListener);
+
+    }
+
     private void getLocationPermission() {
 
         if (ContextCompat.checkSelfPermission(this.getApplicationContext(),
@@ -180,7 +309,7 @@ public class home extends FragmentActivity implements OnMapReadyCallback {
                     PERMISSIONS_REQUEST_ACCESS_FINE_LOCATION);
         }
     }
-    @Override
+  /*  @Override
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
@@ -194,6 +323,7 @@ public class home extends FragmentActivity implements OnMapReadyCallback {
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }}
+    */
 
     private void updateclientlocation() {
         Map<String, Object> update = new HashMap<>();
@@ -212,5 +342,28 @@ public class home extends FragmentActivity implements OnMapReadyCallback {
     @Override
     public void onMapReady(GoogleMap googleMap) {
         mMap=googleMap;
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == LOCATION_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // Permission has been granted
+                // Do something with the camera
+                Toast.makeText(this, "Permission Granted", Toast.LENGTH_SHORT).show();
+                // Create a new Intent object to open the camera app
+                // Create an Intent object to launch the Location Settings activity
+                Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+
+// Start the activity and wait for a result
+                startActivityForResult(intent, LOCATION_PERMISSION_REQUEST_CODE);
+
+
+            } else {
+                Toast.makeText(this, "Permission Denied", Toast.LENGTH_SHORT).show();
+            }
+        }
     }
 }

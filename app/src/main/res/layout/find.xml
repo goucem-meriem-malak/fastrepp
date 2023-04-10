@@ -40,149 +40,209 @@
             android:textSize="30dp"
             android:layout_weight="3"/>
     </LinearLayout>
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_marginBottom="80dp"
-        android:layout_marginTop="80dp">
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_gravity="center"
+    android:layout_marginVertical="70dp">
+
     <LinearLayout
         android:id="@+id/body"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:scrollbars="vertical"
-        android:orientation="vertical"
-        android:layout_gravity="center">
+        android:layout_height="match_parent"
+        android:layout_gravity="center"
+        android:layout_marginTop="80dp"
+        android:orientation="vertical">
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/tow"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
-            android:orientation="horizontal"
+            android:layout_margin="20dp"
             android:layout_weight="1"
-            android:layout_gravity="center_horizontal">
-    <LinearLayout
-        android:id="@+id/mechanich"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginHorizontal="20dp"
-        android:orientation="vertical"
-        android:background="@drawable/constraint"
-        android:paddingHorizontal="40dp"
-        android:paddingVertical="40dp">
+            android:background="@drawable/constraint"
+            android:orientation="vertical"
+            android:paddingHorizontal="40dp"
+            android:paddingVertical="40dp"
+            android:clickable="true">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/mechanic"
-            android:paddingBottom="10dp"/>
-        <Button
-            android:id="@+id/request_mechanic"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:text="@string/Next"
-            android:background="@drawable/mechanic"
-            android:layout_gravity="center_horizontal"/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/towtruck"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginHorizontal="20dp"
-        android:orientation="vertical"
-        android:background="@drawable/constraint"
-        android:paddingHorizontal="40dp"
-        android:paddingVertical="40dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:text="@string/tow" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/tow"
-            android:paddingBottom="10dp"/>
-        <Button
-            android:id="@+id/request_towtruck"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:text="@string/Next"
-            android:background="@drawable/truck"
-            android:layout_gravity="center_horizontal"/>
-    </LinearLayout>
+            <Button
+                android:id="@+id/request_towtruck"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/truck" />
+            <LinearLayout
+                android:id="@+id/veh"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:visibility="gone">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/type"/>
+            <Spinner
+                android:id="@+id/type"
+                android:layout_margin="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/mark"/>
+            <Spinner
+                android:id="@+id/mark"
+                android:layout_margin="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Model:"/>
+            <Spinner
+                android:id="@+id/model"
+                android:layout_margin="20dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:gravity="center">
+                    <CheckBox
+                        android:id="@+id/taxi"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="false" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Taxi"
+                        />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:gravity="center"
+                    android:layout_weight="1">
+                    <CheckBox
+                        android:id="@+id/ambulance"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:checked="false"/>
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Ambulance"/>
+                </LinearLayout>
+
+            </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:id="@+id/station"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="10dp"
-            android:orientation="horizontal"
+            android:layout_marginHorizontal="20dp"
             android:layout_weight="1"
-            android:layout_gravity="center_horizontal">
-    <LinearLayout
-        android:id="@+id/oil"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginHorizontal="20dp"
-        android:orientation="vertical"
-        android:background="@drawable/constraint"
-        android:paddingHorizontal="40dp"
-        android:paddingVertical="40dp">
+            android:background="@drawable/constraint"
+            android:orientation="vertical"
+            android:paddingHorizontal="40dp"
+            android:paddingVertical="40dp">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/oil"
-            android:paddingBottom="10dp"/>
-        <Button
-            android:id="@+id/request_oil"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:text="@string/Next"
-            android:background="@drawable/oil"
-            android:layout_gravity="center_horizontal"/>
-    </LinearLayout>
-    <LinearLayout
-        android:id="@+id/fuel"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:layout_marginHorizontal="20dp"
-        android:orientation="vertical"
-        android:background="@drawable/constraint"
-        android:paddingHorizontal="40dp"
-        android:paddingVertical="40dp">
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:gravity="center"
+                android:paddingBottom="10dp"
+                android:text="Station" />
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/fuel"
-            android:paddingBottom="10dp"/>
-        <Button
-            android:id="@+id/request_fuel"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:text="@string/Next"
-            android:background="@drawable/fuel"
-            android:layout_gravity="center_horizontal"/>
-    </LinearLayout>
+            <Button
+                android:id="@+id/request_station"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/baseline_oil_barrel_24" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    android:layout_weight="1"
+                    android:gravity="center">
+                    <CheckBox
+                        android:id="@+id/fuel"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="false" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Fuel"/>
+                </LinearLayout>
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:gravity="center">
+                    <CheckBox
+                        android:id="@+id/oil"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:checked="false" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="Oil"/>
+                </LinearLayout>
+            </LinearLayout>
+
         </LinearLayout>
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
             android:layout_marginVertical="10dp"
-            android:orientation="horizontal"
             android:layout_weight="1"
-            android:layout_gravity="center_horizontal">
+            android:orientation="horizontal">
+
             <LinearLayout
                 android:id="@+id/team"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:orientation="vertical"
                 android:layout_marginHorizontal="20dp"
+                android:layout_weight="1"
                 android:background="@drawable/constraint"
+                android:orientation="vertical"
                 android:paddingHorizontal="40dp"
                 android:paddingVertical="40dp">
 
@@ -190,45 +250,71 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
-                    android:text="@string/team"
-                    android:paddingBottom="10dp"/>
+                    android:paddingBottom="10dp"
+                    android:text="@string/team" />
+
                 <Button
                     android:id="@+id/request_team"
                     android:layout_width="50dp"
                     android:layout_height="50dp"
-                    android:text="@string/Next"
-                    android:background="@drawable/team"
-                    android:layout_gravity="center_horizontal"/>
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/team" />
             </LinearLayout>
-    <LinearLayout
-        android:id="@+id/garage"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:orientation="vertical"
-        android:layout_marginHorizontal="20dp"
-        android:background="@drawable/constraint"
-        android:paddingHorizontal="40dp"
-        android:paddingVertical="40dp">
 
-        <TextView
-            android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/garage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginHorizontal="20dp"
+                android:layout_weight="1"
+                android:background="@drawable/constraint"
+                android:orientation="vertical"
+                android:paddingHorizontal="40dp"
+                android:paddingVertical="40dp">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:paddingBottom="10dp"
+                    android:text="@string/garage" />
+
+                <Button
+                    android:id="@+id/request_garage"
+                    android:layout_width="50dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/garage" />
+            </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/mechanich"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:text="@string/garage"
-            android:paddingBottom="10dp"/>
-        <Button
-            android:id="@+id/request_garage"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:text="@string/Next"
-            android:background="@drawable/garage"
-            android:layout_gravity="center_horizontal"/>
-    </LinearLayout>
+            android:layout_marginHorizontal="20dp"
+            android:layout_weight="1"
+            android:background="@drawable/constraint"
+            android:orientation="vertical"
+            android:paddingHorizontal="40dp"
+            android:paddingVertical="40dp">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:paddingBottom="10dp"
+                android:text="@string/mechanic" />
+
+            <Button
+                android:id="@+id/request_mechanic"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center_horizontal"
+                android:background="@drawable/baseline_construction_24" />
         </LinearLayout>
     </LinearLayout>
-    </ScrollView>
-
+</ScrollView>
     <LinearLayout
         android:id="@+id/footer"
         android:layout_width="match_parent"

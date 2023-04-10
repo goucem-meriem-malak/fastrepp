@@ -1,35 +1,69 @@
 package com.example.app4.data;
 
 public class veh {
-    private String[] type = new String[]{"Passenger Vehicule", "Bus", "Tractor", "Trailer", "Vans", "Truck"};
-    private String[] Passenger_vehicule = new String[]{"Audi", "BMW", "Dacia", "Chevrolet", "Dacia", "Hyundai", "Nissan","Skoda", "Volkswagen", "Toyota", "Seat", "Kia"};
+    private String mark, type, model;
+    private String[] types = new String[]{"Passenger Vehicule", "Bus", "Tractor", "Trailer", "Vans", "Truck"};
+    private String[] Passenger_vehicle = new String[]{"Audi", "BMW", "Dacia", "Chevrolet", "Dacia", "Hyundai", "Nissan","Skoda", "Volkswagen", "Toyota", "Seat", "Kia"};
     private String[] nissan = new String[]{"Micra", "Sunny"};
-    private String[] hyunda = new String[]{"Accent"};
+    private String[] hyundai = new String[]{"Accent"};
 
     public veh() {
     }
 
-    public veh(String[] type, String[] passenger_vehicule, String[] nissan, String[] hyunda) {
+    public veh(String mark, String type, String model) {
+        this.mark = mark;
         this.type = type;
-        Passenger_vehicule = passenger_vehicule;
-        this.nissan = nissan;
-        this.hyunda = hyunda;
+        this.model = model;
     }
 
-    public String[] getType() {
+    public veh(String mark, String type, String model, String[] types, String[] passenger_vehicle, String[] nissan, String[] hyundai) {
+        this.mark = mark;
+        this.type = type;
+        this.model = model;
+        this.types = types;
+        Passenger_vehicle = passenger_vehicle;
+        this.nissan = nissan;
+        this.hyundai = hyundai;
+    }
+
+    public String getMark() {
+        return mark;
+    }
+
+    public void setMark(String mark) {
+        this.mark = mark;
+    }
+
+    public String getType() {
         return type;
     }
 
-    public void setType(String[] type) {
+    public void setType(String type) {
         this.type = type;
     }
 
-    public String[] getPassenger_vehicule() {
-        return Passenger_vehicule;
+    public String getModel() {
+        return model;
     }
 
-    public void setPassenger_vehicule(String[] passenger_vehicule) {
-        Passenger_vehicule = passenger_vehicule;
+    public void setModel(String model) {
+        this.model = model;
+    }
+
+    public String[] getTypes() {
+        return types;
+    }
+
+    public void setTypes(String[] types) {
+        this.types = types;
+    }
+
+    public String[] getPassenger_vehicle() {
+        return Passenger_vehicle;
+    }
+
+    public void setPassenger_vehicle(String[] passenger_vehicle) {
+        Passenger_vehicle = passenger_vehicle;
     }
 
     public String[] getNissan() {
@@ -40,11 +74,11 @@ public class veh {
         this.nissan = nissan;
     }
 
-    public String[] getHyunda() {
-        return hyunda;
+    public String[] getHyundai() {
+        return hyundai;
     }
 
-    public void setHyunda(String[] hyunda) {
-        this.hyunda = hyunda;
+    public void setHyundai(String[] hyundai) {
+        this.hyundai = hyundai;
     }
 }

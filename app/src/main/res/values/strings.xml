@@ -74,4 +74,10 @@
     <string name="requested">Requested:</string>
     <string name="on">On</string>
     <string name="onn">On:</string>
+    <string name="oil_fuel"><![CDATA[Oil & Fuel]]></string>
+    <string name="type">Type:</string>
+    <string name="mark">Mark:</string>
+    <string name="list_taxi">List Taxi</string>
+    <string name="list_stations">List Stations</string>
+    <string name="vehicle">Vehicle</string>
 </resources>

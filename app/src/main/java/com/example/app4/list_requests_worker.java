@@ -1,14 +1,20 @@
 package com.example.app4;
 
 
+import static android.content.ContentValues.TAG;
+
+import android.app.PendingIntent;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -16,6 +22,7 @@ import com.example.app4.data.get_requests;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
@@ -32,7 +39,7 @@ public class list_requests_worker extends AppCompatActivity{
     private Button btnhome, btngoback, btnhelpcenter, btnlist, btnprofile;
     private RecyclerView recyclerView;
     private ArrayList<com.example.app4.data.get_requests> get_requests;
-    private adapter_request adapter_request;
+    private com.example.app4.adapter_requests_worker adapter_requests_worker;
     private ProgressDialog pd;
 
     @Override
@@ -47,7 +54,6 @@ public class list_requests_worker extends AppCompatActivity{
 
         btnlist = findViewById(R.id.list);
         btnprofile = findViewById(R.id.profile);
-        btngoback = findViewById(R.id.goback);
         recyclerView = findViewById(R.id.recyclerr);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -58,29 +64,62 @@ public class list_requests_worker extends AppCompatActivity{
         clientid = user.getUid();
 
         get_requests = new ArrayList<get_requests>();
-        adapter_request = new adapter_request(this, get_requests);
-        recyclerView.setAdapter(adapter_request);
+        adapter_requests_worker = new adapter_requests_worker(this, get_requests);
+        recyclerView.setAdapter(adapter_requests_worker);
 
         get_list_requests();
-
-        btngoback.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-                finish();
-            }
-        });
         btnprofile.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
-                Intent activityChangeIntent = new Intent(list_requests_worker.this, launch_screen.class);
+              //  FirebaseAuth.getInstance().signOut();
+                Intent activityChangeIntent = new Intent(list_requests_worker.this, profile.class);
                 list_requests_worker.this.startActivity(activityChangeIntent);
                 finish();
             }
         });
+        notification();
+    }
+
+    private void notification() {
+        db.collection("request").whereEqualTo("mechanicid",user.getUid()).orderBy("date", Query.Direction.DESCENDING).addSnapshotListener(new EventListener<QuerySnapshot>() {
+            @Override
+            public void onEvent(@Nullable QuerySnapshot queryDocumentSnapshots, @Nullable FirebaseFirestoreException e) {
+                if (e != null) {
+                    Log.w(TAG, "Listen failed.", e);
+                    return;
+                }
+
+                for (DocumentChange dc : queryDocumentSnapshots.getDocumentChanges()) {
+                    if (dc.getType() == DocumentChange.Type.ADDED) {
+                        DocumentSnapshot documentSnapshot = dc.getDocument();
+                        String documentId = documentSnapshot.getId();
+                        String documentName = documentSnapshot.getString("name");
+
+                        // Send notification to user
+                        sendNotification(documentName + " document created with ID: " + documentId);
+                    }
+                }
+            }
+        });
+
+    }
+
+    private void sendNotification(String message) {
+     /*   Intent intent = new Intent(this, list_requests_worker.class);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this, CHANNEL_ID)
+                .setSmallIcon(R.drawable.ic_notification)
+                .setContentTitle("New Document Created")
+                .setContentText(message)
+                .setContentIntent(pendingIntent)
+                .setAutoCancel(true);
+
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        notificationManager.notify(notificationId, builder.build());*/
     }
 
     private void get_list_requests() {
-        db.collection("request").whereEqualTo("client_id", clientid).orderBy("date", Query.Direction.DESCENDING)
-                .addSnapshotListener(new EventListener<QuerySnapshot>() {
+        db.collection("request").whereEqualTo("client_id", clientid).addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
                         if (error != null) {
@@ -91,7 +130,7 @@ public class list_requests_worker extends AppCompatActivity{
                                 get_requests request = dc.getDocument().toObject(get_requests.class);
                                 get_requests.add(request);
                             }
-                            adapter_request.notifyDataSetChanged();
+                            adapter_requests_worker.notifyDataSetChanged();
                         }
                     }
                 });

@@ -6,16 +6,18 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class tow_truck {
-    private String id, name;
+    private String id, firstname, lastname, phone;
     private ArrayList<vehicule_type> address;
     private GeoPoint location;
 
     public tow_truck() {
     }
 
-    public tow_truck(String id, String name, ArrayList<vehicule_type> address, GeoPoint location) {
+    public tow_truck(String id, String firstname, String lastname, String phone, ArrayList<vehicule_type> address, GeoPoint location) {
         this.id = id;
-        this.name = name;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.phone = phone;
         this.address = address;
         this.location = location;
     }
@@ -28,12 +30,28 @@ public class tow_truck {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getFirstname() {
+        return firstname;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 
     public ArrayList<vehicule_type> getAddress() {

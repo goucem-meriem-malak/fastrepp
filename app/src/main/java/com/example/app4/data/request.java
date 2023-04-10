@@ -4,7 +4,6 @@ import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Map;
 
 public class request {
@@ -15,12 +14,12 @@ public class request {
     private Map<String, Object> address;
     private ArrayList<vehicule_type> vehicule;
     private ArrayList<fuel> fuel;
-    private ArrayList<oil> oil;
+    private ArrayList<oil_fuel> oil;
 
     public request() {
     }
 
-    public request(String id, String client_id, String mechanic_id, String id_station, String id_garage, String id_oil, String id_fuel, String type, String state, Timestamp date, float price, float distance, GeoPoint client_location, GeoPoint mechanic_location, Map<String, Object> address, ArrayList<vehicule_type> vehicule, ArrayList<com.example.app4.data.fuel> fuel, ArrayList<com.example.app4.data.oil> oil) {
+    public request(String id, String client_id, String mechanic_id, String id_station, String id_garage, String id_oil, String id_fuel, String type, String state, Timestamp date, float price, float distance, GeoPoint client_location, GeoPoint mechanic_location, Map<String, Object> address, ArrayList<vehicule_type> vehicule, ArrayList<com.example.app4.data.fuel> fuel, ArrayList<oil_fuel> oil) {
         this.id = id;
         this.client_id = client_id;
         this.mechanic_id = mechanic_id;
@@ -177,11 +176,11 @@ public class request {
         this.fuel = fuel;
     }
 
-    public ArrayList<com.example.app4.data.oil> getOil() {
+    public ArrayList<oil_fuel> getOil() {
         return oil;
     }
 
-    public void setOil(ArrayList<com.example.app4.data.oil> oil) {
+    public void setOil(ArrayList<oil_fuel> oil) {
         this.oil = oil;
     }
 }

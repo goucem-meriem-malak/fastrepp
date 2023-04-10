@@ -168,7 +168,7 @@ public class list_garage extends AppCompatActivity implements listener_garage {
                                         m.put("date", Calendar.getInstance().getTime());
                                         m.put("distance", distance);
                                         m.put("price", distance * 200);
-                                        m.put("state", "ongoing");
+                                        m.put("state", "wait");
                                         ref.set(m);
 
                                         HashMap n = new HashMap<>();

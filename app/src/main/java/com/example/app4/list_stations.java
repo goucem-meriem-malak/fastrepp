@@ -41,14 +41,14 @@ public class list_stations extends AppCompatActivity implements listener_station
     private FirebaseFirestore db;
     private FirebaseUser user;
     private FirebaseAuth auth;
-    private String clientid;
+    private String clientid, requestid;
     private GeoPoint client_location, station_location;
     private Map<String, Object> client_address;
     private station stat;
     private RecyclerView recyclerView;
     private ArrayList<com.example.app4.data.station> station;
     private adapter_station adapter_stations;
-    private Button btnhome, btnlist, btnprofile;
+    private Button btnhome, btnlist, btnprofile, btngoback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,7 @@ public class list_stations extends AppCompatActivity implements listener_station
         btnhome = findViewById(R.id.home);
         btnlist = findViewById(R.id.list);
         btnprofile = findViewById(R.id.profile);
+        btngoback = findViewById(R.id.goback);
         recyclerView = findViewById(R.id.recycler_station);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -66,6 +67,9 @@ public class list_stations extends AppCompatActivity implements listener_station
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         clientid = user.getUid();
+
+        requestid = getIntent().getStringExtra("requestid");
+        Toast.makeText(this, requestid, Toast.LENGTH_SHORT).show();
 
         station = new ArrayList<station>();
         adapter_stations = new adapter_station(this, station, new listener_station() {
@@ -100,6 +104,12 @@ public class list_stations extends AppCompatActivity implements listener_station
             public void onClick(View v) {
                 Intent activityChangeIntent = new Intent(list_stations.this, profile.class);
                 list_stations.this.startActivity(activityChangeIntent);
+            }
+        });
+        btngoback.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                db.collection("request").document(requestid).delete();
+                finish();
             }
         });
     }
@@ -146,31 +156,25 @@ public class list_stations extends AppCompatActivity implements listener_station
                                 for (DocumentChange dc : value.getDocumentChanges() ) {
                                     if (dc.getType() == DocumentChange.Type.ADDED) {
                                         stat = dc.getDocument().toObject(station.class);
-                                        station it = dc.getDocument().toObject(station.class);
-
                                         float distance = get_distance(client.getLocation(), stat.getLocation());
-                                        it.setDistance(distance);
-                                        it.setDunit("M");
+                                        stat.setDistance(distance);
+                                        stat.setDunit("M");
 
                                         HashMap<String, Object> m = new HashMap<String, Object>();
 
-                                        DocumentReference ref = db.collection("request").document();
-                                        String requestid = ref.getId();
-                                        m.put("id", requestid);
-                                        m.put("client_id", clientid);
+                                        DocumentReference ref = db.collection("request").document(requestid);
                                         m.put("station_id", station_id);
                                         m.put("client_location", client.getLocation());
+                                        m.put("client_address", client_address);
                                         m.put("station_location", stat.getLocation());
-                                        m.put("date", Calendar.getInstance().getTime());
-                                        m.put("type", "fuel");
                                         m.put("distance", get_distance(client_location, stat.getLocation()));
                                         m.put("price", distance * 200);
-                                        m.put("state", "ongoing");
-                                        ref.set(m);
+                                        m.put("state", "waiting");
+                                        ref.update(m);
 
-                                        HashMap n = new HashMap<>();
+                                        /*HashMap n = new HashMap<>();
                                         n.put("available", false);
-                                        db.collection("station").document(station_id).update(n);
+                                        db.collection("station").document(station_id).update(n);*/
                                     }
 
                                     adapter_stations.notifyDataSetChanged();

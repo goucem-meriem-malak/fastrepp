@@ -1,23 +1,36 @@
 package com.example.app4;
 
+import static android.content.ContentValues.TAG;
+
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.app4.data.address;
 import com.example.app4.data.client;
+import com.example.app4.data.garage;
+import com.example.app4.data.mechanic;
+import com.example.app4.data.station;
+import com.example.app4.data.tow_truck;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
+import java.util.Locale;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -56,46 +69,245 @@ public class profile extends AppCompatActivity {
 
         clientid = user.getUid();
 
-        db.collection("client").document(clientid).get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+        db.collection("worker").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
-            public void onSuccess(DocumentSnapshot documentSnapshott) {
-                client client = documentSnapshott.toObject(client.class);
-                if (client.getFirstname()==null){
-                    firstname.setText("");
-                }else {
-                    firstname.setText(client.getFirstname());
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+            if (task.isSuccessful()) {
+            DocumentSnapshot document = task.getResult();
+            if (document.exists()) {
+                btnhome.setVisibility(View.GONE);
+                btnlistrequests.setOnClickListener(new View.OnClickListener() {
+                    public void onClick(View v) {
+                        Intent activityChangeIntent = new Intent(profile.this, list_requests_worker.class);
+                        profile.this.startActivity(activityChangeIntent);
+                        finish();
+                    }
+                });
+            String type = document.get("type").toString();
+            if (type.equals("mechanic")) {
+            db.collection("mechanic").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            mechanic mechanic = document.toObject(mechanic.class);
+                            if (mechanic.getFirstname() == null) {
+                                firstname.setText("");
+                            } else {
+                                firstname.setText(mechanic.getFirstname());
+                            }
+                            if (mechanic.getLastname() == null) {
+                                lastname.setText("");
+                            } else {
+                                lastname.setText(mechanic.getLastname());
+                            }
+                            if (mechanic.getPhone() == null) {
+                                fphone.setText("");
+                                phone.setText("");
+                            } else {
+                                fphone.setText(mechanic.getPhone().substring(0, mechanic.getPhone().length() - 9));
+                                phone.setText(mechanic.getPhone().substring(mechanic.getPhone().length() - 9, mechanic.getPhone().length()));
+                            }
+                            if (mechanic.getEmail() == null) {
+                                email.setText("");
+                            } else {
+                                email.setText(mechanic.getEmail());
+                            }
+                            if(((Map<String, Object>) document.getData().get("address"))==null){
+                                country.setText("");
+                                city.setText("");
+                            } else {
+                                if (((Map<String, Object>) document.getData().get("address")).get("country") == null) {
+                                    country.setText("");
+                                } else {
+                                    country.setText(((Map<String, Object>) document.getData().get("address")).get("country").toString());
+                                }
+                                //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
+                                if (((Map<String, Object>) document.getData().get("address")).get("city") == null) {
+                                    city.setText("");
+                                } else {
+                                    city.setText(((Map<String, Object>) document.getData().get("address")).get("city").toString());
+                                }
+                                //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
+                            }
+                        }
+                    }
                 }
-                if (client.getLastname()==null){
-                    lastname.setText("");
-                } else {
-                    lastname.setText(client.getLastname());
+            });
+            } else if (type.equals("station")) {
+            db.collection("station").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+
+                            station station = document.toObject(station.class);
+                            if (station.getName() == null) {
+                                firstname.setText("");
+                            } else {
+                                firstname.setText(station.getName());
+                            }
+                            if (station.getPhone() == null) {
+                                fphone.setText("");
+                                phone.setText("");
+                            } else {
+                                fphone.setText(station.getPhone().substring(0, station.getPhone().length() - 9));
+                                phone.setText(station.getPhone().substring(station.getPhone().length() - 9, station.getPhone().length()));
+                            }
+                            if (((Map<String, Object>) document.getData().get("address")).get("country") == null) {
+                                country.setText("");
+                            } else {
+                                country.setText(((Map<String, Object>) document.getData().get("address")).get("country").toString());
+                            }
+                            //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
+                            if (((Map<String, Object>) document.getData().get("address")).get("city") == null) {
+                                city.setText("");
+                            } else {
+                                city.setText(((Map<String, Object>) document.getData().get("address")).get("city").toString());
+                            }
+                            //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
+                        }
+                    }
                 }
-                if (client.getPhone()==null){
-                    fphone.setText("");
-                    phone.setText("");
-                } else {
-                    fphone.setText(client.getPhone().substring(0,client.getPhone().length()-9));
-                    phone.setText(client.getPhone().substring(client.getPhone().length()-9,client.getPhone().length()));
+
+            });
+            } else if (type.equals("garage")) {
+            db.collection("garage").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            garage garage = document.toObject(garage.class);
+                            if (garage.getName() == null) {
+                                firstname.setText("");
+                            } else {
+                                firstname.setText(garage.getName());
+                            }
+                            if (garage.getPhone() == null) {
+                                fphone.setText("");
+                                phone.setText("");
+                            } else {
+                                fphone.setText(garage.getPhone().substring(0, garage.getPhone().length() - 9));
+                                phone.setText(garage.getPhone().substring(garage.getPhone().length() - 9, garage.getPhone().length()));
+                            }
+                            if (((Map<String, Object>) document.getData().get("address")).get("country") == null) {
+                                country.setText("");
+                            } else {
+                                country.setText(((Map<String, Object>) document.getData().get("address")).get("country").toString());
+                            }
+                            //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
+                            if (((Map<String, Object>) document.getData().get("address")).get("city") == null) {
+                                city.setText("");
+                            } else {
+                                city.setText(((Map<String, Object>) document.getData().get("address")).get("city").toString());
+                            }
+                            //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
+                        }
+                    }
                 }
-                if (client.getEmail()==null){
-                    email.setText("");
-                } else {
-                    email.setText(client.getEmail());
+
+            });
+            } else if (type.equals("towtruck")) {
+            db.collection("towtruck").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                    if (task.isSuccessful()) {
+                        DocumentSnapshot document = task.getResult();
+                        if (document.exists()) {
+                            tow_truck tow_truck = document.toObject(tow_truck.class);
+                            if (tow_truck.getFirstname() == null) {
+                                firstname.setText("");
+                            } else {
+                                firstname.setText(tow_truck.getFirstname());
+                            }
+                            if (tow_truck.getLastname() == null) {
+                                lastname.setText("");
+                            } else {
+                                lastname.setText(tow_truck.getFirstname());
+                            }
+                            if (tow_truck.getPhone() == null) {
+                                fphone.setText("");
+                                phone.setText("");
+                            } else {
+                                fphone.setText(tow_truck.getPhone().substring(0, tow_truck.getPhone().length() - 9));
+                                phone.setText(tow_truck.getPhone().substring(tow_truck.getPhone().length() - 9, tow_truck.getPhone().length()));
+                            }
+                            if (((Map<String, Object>) document.getData().get("address")).get("country") == null) {
+                                country.setText("");
+                            } else {
+                                country.setText(((Map<String, Object>) document.getData().get("address")).get("country").toString());
+                            }
+                            //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
+                            if (((Map<String, Object>) document.getData().get("address")).get("city") == null) {
+                                city.setText("");
+                            } else {
+                                city.setText(((Map<String, Object>) document.getData().get("address")).get("city").toString());
+                            }
+                            //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
+                        }
+                    }
                 }
-                if (((Map<String, Object>)documentSnapshott.getData().get("address")).get("country")==null) {
-                    country.setText("");
-                } else {
-                    country.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("country").toString());
-                }
-                //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
-                if (((Map<String, Object>)documentSnapshott.getData().get("address")).get("city")==null){
-                    city.setText("");
-                } else {
-                    city.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("city").toString());
-                }
-                //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
+
+            });
             }
-        });
+            } else {
+            db.collection("client").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        client client = document.toObject(client.class);
+                        if (client.getFirstname() == null) {
+                            firstname.setText("");
+                        } else {
+                            firstname.setText(client.getFirstname());
+                        }
+                        if (client.getLastname() == null) {
+                            lastname.setText("");
+                        } else {
+                            lastname.setText(client.getLastname());
+                        }
+                        if (client.getPhone() == null) {
+                            fphone.setText("");
+                            phone.setText("");
+                        } else {
+                            fphone.setText(client.getPhone().substring(0, client.getPhone().length() - 9));
+                            phone.setText(client.getPhone().substring(client.getPhone().length() - 9, client.getPhone().length()));
+                        }
+                        if (client.getEmail() == null) {
+                            email.setText("");
+                        } else {
+                            email.setText(client.getEmail());
+                        }
+                        if (((Map<String, Object>) document.getData().get("address")).get("country") == null) {
+                            country.setText("");
+                        } else {
+                            country.setText(((Map<String, Object>) document.getData().get("address")).get("country").toString());
+                        }
+                        //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
+                        if (((Map<String, Object>) document.getData().get("address")).get("city") == null) {
+                            city.setText("");
+                        } else {
+                            city.setText(((Map<String, Object>) document.getData().get("address")).get("city").toString());
+                        }
+                        //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
+
+                    }
+                } else {
+                    Log.d(TAG, "Failed to get document.", task.getException());
+                }
+            }
+            });
+            }
+            } else {
+            Log.d(TAG, "Failed to get document.", task.getException());
+            }
+            }
+            });
 
         btnhome.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
@@ -106,10 +318,26 @@ public class profile extends AppCompatActivity {
         });
         btnhelpcenter.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                FirebaseAuth.getInstance().signOut();
+             /*   FirebaseAuth.getInstance().signOut();
                 Intent activityChangeIntent = new Intent(profile.this, launch_screen.class);
                 profile.this.startActivity(activityChangeIntent);
+                finish();*/
+                // Define a string for the language code to switch to
+                String languageCode = "ar"; // Arabic
+
+// Set the desired locale
+                Locale locale = new Locale(languageCode);
+
+// Set the configuration of the Resources object to use the new locale
+                Configuration config = new Configuration(getResources().getConfiguration());
+                config.setLocale(locale);
+                getResources().updateConfiguration(config, getResources().getDisplayMetrics());
+
+// Restart the activity to apply the new language
+                Intent intent = getIntent();
                 finish();
+                startActivity(intent);
+
             }
         });
         btnedit.setOnClickListener(new View.OnClickListener() {
