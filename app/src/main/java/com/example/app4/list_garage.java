@@ -7,19 +7,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.icu.text.DecimalFormat;
 import android.location.Location;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.app4.data.client;
 import com.example.app4.data.garage;
-import com.example.app4.data.get_mechanics;
-import com.example.app4.data.mechanic;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -49,7 +45,7 @@ public class list_garage extends AppCompatActivity implements listener_garage {
     private RecyclerView recyclerView;
     private ArrayList<com.example.app4.data.garage> garage;
     private adapter_garage adapter_garage;
-    private Button btnhome, btnlist, btnprofile;
+    private Button btnhome, btnlist, btnprofile, btngoback, btnhelpcenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,8 +53,10 @@ public class list_garage extends AppCompatActivity implements listener_garage {
         setContentView(R.layout.list_garages);
 
         btnhome = findViewById(R.id.home);
-        btnlist = findViewById(R.id.list);
+        btnlist = findViewById(R.id.list_requests);
         btnprofile = findViewById(R.id.profile);
+        btngoback = findViewById(R.id.go_back);
+        btnhelpcenter = findViewById(R.id.help_center);
         recyclerView = findViewById(R.id.recycler_garage);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -103,6 +101,24 @@ public class list_garage extends AppCompatActivity implements listener_garage {
                 list_garage.this.startActivity(activityChangeIntent);
             }
         });
+        btngoback.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+          //      if (requestid!=null){
+          //          db.collection("request").document(requestid).delete();
+          //          finish();
+           //     } else {
+                    finish();
+           //     }
+            }
+        });
+        btnhelpcenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent activityChangeIntent = new Intent(list_garage.this, help_center.class);
+                list_garage.this.startActivity(activityChangeIntent);
+            }
+        });
     }
 
     private void get_list_available_garages() {
@@ -111,8 +127,7 @@ public class list_garage extends AppCompatActivity implements listener_garage {
             public void onSuccess(DocumentSnapshot documentSnapshott) {
                 client client = documentSnapshott.toObject(client.class);
                 client_location = client.getLocation();
-                client_address = (Map<String, Object>) documentSnapshott.get("address");
-                db.collection("garage").whereEqualTo("available", true).whereEqualTo("address", client_address)
+                db.collection("garage").whereEqualTo("available", true).whereEqualTo("address", client.getLocationaddress())
                         .addSnapshotListener(new EventListener<QuerySnapshot>() {
                             @Override
                             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -122,10 +137,9 @@ public class list_garage extends AppCompatActivity implements listener_garage {
                                 for (DocumentChange dc : value.getDocumentChanges()) {
                                     if (dc.getType() == DocumentChange.Type.ADDED) {
                                         grg = dc.getDocument().toObject(garage.class);
-                                        garage it = dc.getDocument().toObject(garage.class);
-                                        it.setDistance(get_distance(client_location, grg.getLocation()));
-                                        it.setDunit("M");
-                                        garage.add(it);
+                                        grg.setDistance(get_distance(client.getLocation(), grg.getLocation()));
+                                        grg.setDunit("M");
+                                        garage.add(grg);
                                     }
 
                                     adapter_garage.notifyDataSetChanged();
@@ -201,10 +215,25 @@ public class list_garage extends AppCompatActivity implements listener_garage {
         }
         else return distanceInMeters;
     }
+    private String get_unit(GeoPoint client_location, GeoPoint mechanic_location) {
 
+        Location client_loc = new Location("");
+        client_loc.setLatitude(client_location.getLatitude() / 1E6);
+        client_loc.setLongitude(client_location.getLongitude() / 1E6);
+        Location mechanic_loc = new Location("");
+        mechanic_loc.setLatitude(mechanic_location.getLatitude() / 1E6);
+        mechanic_loc.setLongitude(mechanic_location.getLongitude() / 1E6);
+        DecimalFormat df = new DecimalFormat("#.##");
+        float distanceInMeters = Float.parseFloat(df.format(client_loc.distanceTo(mechanic_loc)));
+
+        if (distanceInMeters>1000){
+            return "Km";
+        }
+        else return "M";
+    }
     @Override
     public void onItemClicked(String doc_id, garage garage, int position) {
-        Intent activityChangeIntent = new Intent(list_garage.this, find.class);
+        Intent activityChangeIntent = new Intent(list_garage.this, menu.class);
         list_garage.this.startActivity(activityChangeIntent);
     }
 }

@@ -8,5 +8,8 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="grayish">#E2E2E2</color>
-    <color name="yellowish">#FF9800</color>
+    <color name="greenish">#4e704a</color>
+    <color name="yellowish">#f5a925</color>
+    <color name="blueish">#193852</color>
+    <color name="biegish">#39FFEFCD</color>
 </resources>

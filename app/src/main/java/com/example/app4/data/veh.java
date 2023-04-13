@@ -2,8 +2,8 @@ package com.example.app4.data;
 
 public class veh {
     private String mark, type, model;
-    private String[] types = new String[]{"Passenger Vehicule", "Bus", "Tractor", "Trailer", "Vans", "Truck"};
-    private String[] Passenger_vehicle = new String[]{"Audi", "BMW", "Dacia", "Chevrolet", "Dacia", "Hyundai", "Nissan","Skoda", "Volkswagen", "Toyota", "Seat", "Kia"};
+    private String[] types = new String[]{"Passenger Vehicle", "Bus", "Tractor", "Trailer", "Vans", "Truck"};
+    private String[] Passenger_vehicle = new String[]{"Audi", "BMW", "Dacia", "Chevrolet", "Hyundai", "Nissan","Skoda", "Volkswagen", "Toyota", "Seat", "Kia"};
     private String[] nissan = new String[]{"Micra", "Sunny"};
     private String[] hyundai = new String[]{"Accent"};
 

@@ -12,7 +12,7 @@ import android.widget.Toast;
 
 import com.example.app4.R;
 import com.example.app4.data.client;
-import com.example.app4.find;
+import com.example.app4.menu;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -81,7 +81,7 @@ public class sign_up extends AppCompatActivity{
                                 }
                             });
 
-                    Intent intent = new Intent(sign_up.this, find.class);
+                    Intent intent = new Intent(sign_up.this, menu.class);
 
                     intent.putExtra("clientid",cid);
                     startActivity(intent);

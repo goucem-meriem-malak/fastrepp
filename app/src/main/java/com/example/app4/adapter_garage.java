@@ -36,9 +36,21 @@ public class adapter_garage extends RecyclerView.Adapter<adapter_garage.myviewho
     @Override
     public void onBindViewHolder(@NonNull adapter_garage.myviewholder holder, int position) {
         holder.id.setText(garage.get(position).getId());
-        holder.name.setText(garage.get(position).getName());
-        holder.distance.setText(String.valueOf(garage.get(position).getDistance()));
-        holder.dunit.setText(garage.get(position).getDunit());
+        if (garage.get(position).getName()==null){
+            holder.name.setText("");
+        } else {
+            holder.name.setText(garage.get(position).getName());
+        }
+        if (garage.get(position).getDistance()==0){
+            holder.distance.setText("");
+        } else {
+            holder.distance.setText(String.valueOf(garage.get(position).getDistance()));
+        }
+        if (garage.get(position).getDunit()==null){
+            holder.dunit.setText("");
+        } else {
+            holder.dunit.setText(garage.get(position).getDunit());
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

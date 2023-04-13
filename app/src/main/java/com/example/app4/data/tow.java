@@ -3,23 +3,27 @@ package com.example.app4.data;
 import com.google.firebase.firestore.GeoPoint;
 
 import java.util.ArrayList;
-import java.util.Map;
 
-public class tow_truck {
-    private String id, firstname, lastname, phone;
-    private ArrayList<vehicule_type> address;
+public class tow {
+    private String id, firstname, lastname, phone, dunit;
+    private address address;
     private GeoPoint location;
+    private float distance;
+    private veh vehicle;
 
-    public tow_truck() {
+    public tow() {
     }
 
-    public tow_truck(String id, String firstname, String lastname, String phone, ArrayList<vehicule_type> address, GeoPoint location) {
+    public tow(String id, String firstname, String lastname, String phone, String dunit, com.example.app4.data.address address, GeoPoint location, float distance, veh vehicle) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
         this.phone = phone;
+        this.dunit = dunit;
         this.address = address;
         this.location = location;
+        this.distance = distance;
+        this.vehicle = vehicle;
     }
 
     public String getId() {
@@ -54,11 +58,19 @@ public class tow_truck {
         this.phone = phone;
     }
 
-    public ArrayList<vehicule_type> getAddress() {
+    public String getDunit() {
+        return dunit;
+    }
+
+    public void setDunit(String dunit) {
+        this.dunit = dunit;
+    }
+
+    public com.example.app4.data.address getAddress() {
         return address;
     }
 
-    public void setAddress(ArrayList<vehicule_type> address) {
+    public void setAddress(com.example.app4.data.address address) {
         this.address = address;
     }
 
@@ -68,5 +80,21 @@ public class tow_truck {
 
     public void setLocation(GeoPoint location) {
         this.location = location;
+    }
+
+    public float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(float distance) {
+        this.distance = distance;
+    }
+
+    public veh getVehicle() {
+        return vehicle;
+    }
+
+    public void setVehicle(veh vehicle) {
+        this.vehicle = vehicle;
     }
 }

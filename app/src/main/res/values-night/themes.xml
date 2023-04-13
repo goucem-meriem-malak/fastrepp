@@ -2,9 +2,9 @@
     <!-- Base application theme. -->
     <style name="Theme.App4" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/yellowish</item>
-        <item name="colorPrimaryVariant">@color/yellowish</item>
-        <item name="colorOnPrimary">@color/black</item>
+        <item name="colorPrimary">#9E8900</item>
+        <item name="colorPrimaryVariant">@color/blueish</item>
+        <item name="colorOnPrimary">#51000000</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/black</item>
         <item name="colorSecondaryVariant">@color/black</item>

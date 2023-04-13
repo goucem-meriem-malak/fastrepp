@@ -7,37 +7,49 @@ import java.util.ArrayList;
 import java.util.Map;
 
 public class request {
-    private String id, client_id, mechanic_id, id_station, id_garage, id_oil, id_fuel, type, state;
+    private String id, client_id, mechanic_id, station_id, garage_id, taxi_id, type, state, dunit, oil_type, fuel_type,
+    oil_unit, fuel_unit;
+    boolean fuel, oil, taxi, ambulance;
+    private int passenger_number, team_nbr;
     private Timestamp date;
     private float price, distance;
-    private GeoPoint client_location, mechanic_location;
+    private GeoPoint client_location, mechanic_location, station_location, garage_location, taxi_location;
     private Map<String, Object> address;
-    private ArrayList<vehicule_type> vehicule;
-    private ArrayList<fuel> fuel;
-    private ArrayList<oil_fuel> oil;
+    private veh vehicle;
 
     public request() {
     }
 
-    public request(String id, String client_id, String mechanic_id, String id_station, String id_garage, String id_oil, String id_fuel, String type, String state, Timestamp date, float price, float distance, GeoPoint client_location, GeoPoint mechanic_location, Map<String, Object> address, ArrayList<vehicule_type> vehicule, ArrayList<com.example.app4.data.fuel> fuel, ArrayList<oil_fuel> oil) {
+    public request(String id, String client_id, String mechanic_id, String station_id, String garage_id, String taxi_id, String type, String state, String dunit, String oil_type, String fuel_type, String oil_unit, String fuel_unit, boolean fuel, boolean oil, boolean taxi, boolean ambulance, int passenger_number, int team_nbr, Timestamp date, float price, float distance, GeoPoint client_location, GeoPoint mechanic_location, GeoPoint station_location, GeoPoint garage_location, GeoPoint taxi_location, Map<String, Object> address, veh vehicle) {
         this.id = id;
         this.client_id = client_id;
         this.mechanic_id = mechanic_id;
-        this.id_station = id_station;
-        this.id_garage = id_garage;
-        this.id_oil = id_oil;
-        this.id_fuel = id_fuel;
+        this.station_id = station_id;
+        this.garage_id = garage_id;
+        this.taxi_id = taxi_id;
         this.type = type;
         this.state = state;
+        this.dunit = dunit;
+        this.oil_type = oil_type;
+        this.fuel_type = fuel_type;
+        this.oil_unit = oil_unit;
+        this.fuel_unit = fuel_unit;
+        this.fuel = fuel;
+        this.oil = oil;
+        this.taxi = taxi;
+        this.ambulance = ambulance;
+        this.passenger_number = passenger_number;
+        this.team_nbr = team_nbr;
         this.date = date;
         this.price = price;
         this.distance = distance;
         this.client_location = client_location;
         this.mechanic_location = mechanic_location;
+        this.station_location = station_location;
+        this.garage_location = garage_location;
+        this.taxi_location = taxi_location;
         this.address = address;
-        this.vehicule = vehicule;
-        this.fuel = fuel;
-        this.oil = oil;
+        this.vehicle = vehicle;
     }
 
     public String getId() {
@@ -64,36 +76,28 @@ public class request {
         this.mechanic_id = mechanic_id;
     }
 
-    public String getId_station() {
-        return id_station;
+    public String getStation_id() {
+        return station_id;
     }
 
-    public void setId_station(String id_station) {
-        this.id_station = id_station;
+    public void setStation_id(String station_id) {
+        this.station_id = station_id;
     }
 
-    public String getId_garage() {
-        return id_garage;
+    public String getGarage_id() {
+        return garage_id;
     }
 
-    public void setId_garage(String id_garage) {
-        this.id_garage = id_garage;
+    public void setGarage_id(String garage_id) {
+        this.garage_id = garage_id;
     }
 
-    public String getId_oil() {
-        return id_oil;
+    public String getTaxi_id() {
+        return taxi_id;
     }
 
-    public void setId_oil(String id_oil) {
-        this.id_oil = id_oil;
-    }
-
-    public String getId_fuel() {
-        return id_fuel;
-    }
-
-    public void setId_fuel(String id_fuel) {
-        this.id_fuel = id_fuel;
+    public void setTaxi_id(String taxi_id) {
+        this.taxi_id = taxi_id;
     }
 
     public String getType() {
@@ -110,6 +114,94 @@ public class request {
 
     public void setState(String state) {
         this.state = state;
+    }
+
+    public String getDunit() {
+        return dunit;
+    }
+
+    public void setDunit(String dunit) {
+        this.dunit = dunit;
+    }
+
+    public String getOil_type() {
+        return oil_type;
+    }
+
+    public void setOil_type(String oil_type) {
+        this.oil_type = oil_type;
+    }
+
+    public String getFuel_type() {
+        return fuel_type;
+    }
+
+    public void setFuel_type(String fuel_type) {
+        this.fuel_type = fuel_type;
+    }
+
+    public String getOil_unit() {
+        return oil_unit;
+    }
+
+    public void setOil_unit(String oil_unit) {
+        this.oil_unit = oil_unit;
+    }
+
+    public String getFuel_unit() {
+        return fuel_unit;
+    }
+
+    public void setFuel_unit(String fuel_unit) {
+        this.fuel_unit = fuel_unit;
+    }
+
+    public boolean isFuel() {
+        return fuel;
+    }
+
+    public void setFuel(boolean fuel) {
+        this.fuel = fuel;
+    }
+
+    public boolean isOil() {
+        return oil;
+    }
+
+    public void setOil(boolean oil) {
+        this.oil = oil;
+    }
+
+    public boolean isTaxi() {
+        return taxi;
+    }
+
+    public void setTaxi(boolean taxi) {
+        this.taxi = taxi;
+    }
+
+    public boolean isAmbulance() {
+        return ambulance;
+    }
+
+    public void setAmbulance(boolean ambulance) {
+        this.ambulance = ambulance;
+    }
+
+    public int getPassenger_number() {
+        return passenger_number;
+    }
+
+    public void setPassenger_number(int passenger_number) {
+        this.passenger_number = passenger_number;
+    }
+
+    public int getTeam_nbr() {
+        return team_nbr;
+    }
+
+    public void setTeam_nbr(int team_nbr) {
+        this.team_nbr = team_nbr;
     }
 
     public Timestamp getDate() {
@@ -152,6 +244,30 @@ public class request {
         this.mechanic_location = mechanic_location;
     }
 
+    public GeoPoint getStation_location() {
+        return station_location;
+    }
+
+    public void setStation_location(GeoPoint station_location) {
+        this.station_location = station_location;
+    }
+
+    public GeoPoint getGarage_location() {
+        return garage_location;
+    }
+
+    public void setGarage_location(GeoPoint garage_location) {
+        this.garage_location = garage_location;
+    }
+
+    public GeoPoint getTaxi_location() {
+        return taxi_location;
+    }
+
+    public void setTaxi_location(GeoPoint taxi_location) {
+        this.taxi_location = taxi_location;
+    }
+
     public Map<String, Object> getAddress() {
         return address;
     }
@@ -160,27 +276,11 @@ public class request {
         this.address = address;
     }
 
-    public ArrayList<vehicule_type> getVehicule() {
-        return vehicule;
+    public veh getVehicle() {
+        return vehicle;
     }
 
-    public void setVehicule(ArrayList<vehicule_type> vehicule) {
-        this.vehicule = vehicule;
-    }
-
-    public ArrayList<com.example.app4.data.fuel> getFuel() {
-        return fuel;
-    }
-
-    public void setFuel(ArrayList<com.example.app4.data.fuel> fuel) {
-        this.fuel = fuel;
-    }
-
-    public ArrayList<oil_fuel> getOil() {
-        return oil;
-    }
-
-    public void setOil(ArrayList<oil_fuel> oil) {
-        this.oil = oil;
+    public void setVehicle(veh vehicle) {
+        this.vehicle = vehicle;
     }
 }

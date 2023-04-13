@@ -7,11 +7,12 @@ import java.util.Map;
 public class client {
     private String id, phone, firstname, lastname, email;
     private GeoPoint location;
-    private Map<String, Object> address;
+    private Map<String, Object> address, locationaddress;
+    private veh veh;
     public client() {
     }
 
-    public client(String id, String phone, String firstname, String lastname, String email, GeoPoint location, Map<String, Object> address) {
+    public client(String id, String phone, String firstname, String lastname, String email, GeoPoint location, Map<String, Object> address, Map<String, Object> locationaddress, com.example.app4.data.veh veh) {
         this.id = id;
         this.phone = phone;
         this.firstname = firstname;
@@ -19,6 +20,8 @@ public class client {
         this.email = email;
         this.location = location;
         this.address = address;
+        this.locationaddress = locationaddress;
+        this.veh = veh;
     }
 
     public String getId() {
@@ -75,5 +78,21 @@ public class client {
 
     public void setAddress(Map<String, Object> address) {
         this.address = address;
+    }
+
+    public Map<String, Object> getLocationaddress() {
+        return locationaddress;
+    }
+
+    public void setLocationaddress(Map<String, Object> locationaddress) {
+        this.locationaddress = locationaddress;
+    }
+
+    public com.example.app4.data.veh getVeh() {
+        return veh;
+    }
+
+    public void setVeh(com.example.app4.data.veh veh) {
+        this.veh = veh;
     }
 }

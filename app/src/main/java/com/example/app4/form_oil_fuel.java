@@ -130,13 +130,13 @@ public class form_oil_fuel extends AppCompatActivity implements AdapterView.OnIt
 
         btnnext.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(getIntent().getStringExtra("service").trim().equals("both")) {
+             /*   if(getIntent().getStringExtra("service").trim().equals("both")) {
                     request_both();
                 } else if(getIntent().getStringExtra("service").trim().equals("oil")) {
                     request_oil();
                 } else if (getIntent().getStringExtra("service").equals("fuel")) {
                     request_fuel();
-                }
+                }*/
                 Intent activityChangeIntent = new Intent(form_oil_fuel.this, list_stations.class);
                 activityChangeIntent.putExtra("requestid",requestid);
                 form_oil_fuel.this.startActivity(activityChangeIntent);

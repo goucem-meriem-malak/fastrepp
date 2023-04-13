@@ -80,4 +80,17 @@
     <string name="list_taxi">List Taxi</string>
     <string name="list_stations">List Stations</string>
     <string name="vehicle">Vehicle</string>
+    <string name="edit_profile">Edit Profile</string>
+    <string name="see_vehicles">See Vehicles</string>
+    <string name="_213">+213</string>
+    <string name="typee">Type:</string>
+    <string name="markk">Mark:</string>
+    <string name="modell">Model:</string>
+    <string name="model">Model</string>
+    <string name="matriculation_number">Matriculation Number:</string>
+    <string name="garages">Garages</string>
+    <string name="mechanics">Mechanics</string>
+    <string name="stations">Stations</string>
+    <string name="station">Station</string>
+    <string name="your_vehicle">Your Vehicle</string>
 </resources>

@@ -6,7 +6,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.icu.text.DecimalFormat;
 import android.location.Location;
@@ -16,8 +15,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.app4.data.client;
-import com.example.app4.data.get_mechanics;
-import com.example.app4.data.mechanic;
 import com.example.app4.data.station;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -32,7 +29,6 @@ import com.google.firebase.firestore.GeoPoint;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,7 +44,7 @@ public class list_stations extends AppCompatActivity implements listener_station
     private RecyclerView recyclerView;
     private ArrayList<com.example.app4.data.station> station;
     private adapter_station adapter_stations;
-    private Button btnhome, btnlist, btnprofile, btngoback;
+    private Button btnhome, btnlist, btnprofile, btngoback, btnhelpcenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -56,9 +52,10 @@ public class list_stations extends AppCompatActivity implements listener_station
         setContentView(R.layout.list_stations);
 
         btnhome = findViewById(R.id.home);
-        btnlist = findViewById(R.id.list);
+        btnlist = findViewById(R.id.list_request);
         btnprofile = findViewById(R.id.profile);
         btngoback = findViewById(R.id.goback);
+        btnhelpcenter = findViewById(R.id.help_center);
         recyclerView = findViewById(R.id.recycler_station);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -112,6 +109,13 @@ public class list_stations extends AppCompatActivity implements listener_station
                 finish();
             }
         });
+        btnhelpcenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent activityChangeIntent = new Intent(list_stations.this, help_center.class);
+                list_stations.this.startActivity(activityChangeIntent);
+            }
+        });
     }
 
     private void get_list_stations() {
@@ -119,9 +123,7 @@ public class list_stations extends AppCompatActivity implements listener_station
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 client client = documentSnapshot.toObject(client.class);
-                client_location = client.getLocation();
-                client_address = (Map<String, Object>) documentSnapshot.get("address");
-                db.collection("station").whereEqualTo("available", true).whereEqualTo("address", client_address)
+                db.collection("station").whereEqualTo("available", true).whereEqualTo("address", client.getLocationaddress())
                         .addSnapshotListener(new EventListener<QuerySnapshot>() {
                             @Override
                             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -145,7 +147,6 @@ public class list_stations extends AppCompatActivity implements listener_station
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 client client = documentSnapshot.toObject(client.class);
-                client_address = (Map<String, Object>) documentSnapshot.get("address");
                 db.collection("station").whereEqualTo("id", station_id)
                         .addSnapshotListener(new EventListener<QuerySnapshot>() {
                             @Override
@@ -156,25 +157,24 @@ public class list_stations extends AppCompatActivity implements listener_station
                                 for (DocumentChange dc : value.getDocumentChanges() ) {
                                     if (dc.getType() == DocumentChange.Type.ADDED) {
                                         stat = dc.getDocument().toObject(station.class);
-                                        float distance = get_distance(client.getLocation(), stat.getLocation());
-                                        stat.setDistance(distance);
-                                        stat.setDunit("M");
+                                        stat.setDistance(get_distance(client.getLocation(), stat.getLocation()));
+                                        stat.setDunit(get_unit(client.getLocation(), stat.getLocation()));
 
                                         HashMap<String, Object> m = new HashMap<String, Object>();
 
                                         DocumentReference ref = db.collection("request").document(requestid);
-                                        m.put("station_id", station_id);
+                                        m.put("station_id", stat.getId());
                                         m.put("client_location", client.getLocation());
-                                        m.put("client_address", client_address);
+                                        m.put("address", client.getLocationaddress());
                                         m.put("station_location", stat.getLocation());
-                                        m.put("distance", get_distance(client_location, stat.getLocation()));
-                                        m.put("price", distance * 200);
+                                        m.put("distance", stat.getDistance());
+                                        m.put("price", stat.getDistance());
                                         m.put("state", "waiting");
                                         ref.update(m);
 
-                                        /*HashMap n = new HashMap<>();
+                                        HashMap n = new HashMap<>();
                                         n.put("available", false);
-                                        db.collection("station").document(station_id).update(n);*/
+                                        db.collection("station").document(station_id).update(n);
                                     }
 
                                     adapter_stations.notifyDataSetChanged();
@@ -202,10 +202,27 @@ public class list_stations extends AppCompatActivity implements listener_station
         }
         else return distanceInMeters;
     }
+    private String get_unit(GeoPoint client_location, GeoPoint mechanic_location) {
+
+        Location client_loc = new Location("");
+        client_loc.setLatitude(client_location.getLatitude() / 1E6);
+        client_loc.setLongitude(client_location.getLongitude() / 1E6);
+        Location mechanic_loc = new Location("");
+        mechanic_loc.setLatitude(mechanic_location.getLatitude() / 1E6);
+        mechanic_loc.setLongitude(mechanic_location.getLongitude() / 1E6);
+        DecimalFormat df = new DecimalFormat("#.##");
+        float distanceInMeters = Float.parseFloat(df.format(client_loc.distanceTo(mechanic_loc)));
+
+        if (distanceInMeters>1000){
+            return "Km";
+        }
+        else return "M";
+    }
+
 
     @Override
     public void onItemClicked(String doc_id, station station, int position) {
-        Intent activityChangeIntent = new Intent(list_stations.this, find.class);
+        Intent activityChangeIntent = new Intent(list_stations.this, menu.class);
         list_stations.this.startActivity(activityChangeIntent);
     }
 }

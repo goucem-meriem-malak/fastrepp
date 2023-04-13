@@ -5,23 +5,26 @@ import com.google.firebase.firestore.GeoPoint;
 import java.util.Map;
 
 public class mechanic {
-    private String id, phone, firstname, lastname, email;
+    private String id, phone, firstname, lastname, email, dunit;
     private GeoPoint location;
     private Map<String, Object> address;
     private boolean free;
+    private float distance;
 
     public mechanic() {
     }
 
-    public mechanic(String id, String phone, String firstname, String lastname, String email, GeoPoint location, Map<String, Object> address, boolean free) {
+    public mechanic(String id, String phone, String firstname, String lastname, String email, String dunit, GeoPoint location, Map<String, Object> address, boolean free, float distance) {
         this.id = id;
         this.phone = phone;
         this.firstname = firstname;
         this.lastname = lastname;
         this.email = email;
+        this.dunit = dunit;
         this.location = location;
         this.address = address;
         this.free = free;
+        this.distance = distance;
     }
 
     public String getId() {
@@ -64,6 +67,14 @@ public class mechanic {
         this.email = email;
     }
 
+    public String getDunit() {
+        return dunit;
+    }
+
+    public void setDunit(String dunit) {
+        this.dunit = dunit;
+    }
+
     public GeoPoint getLocation() {
         return location;
     }
@@ -86,5 +97,13 @@ public class mechanic {
 
     public void setFree(boolean free) {
         this.free = free;
+    }
+
+    public float getDistance() {
+        return distance;
+    }
+
+    public void setDistance(float distance) {
+        this.distance = distance;
     }
 }

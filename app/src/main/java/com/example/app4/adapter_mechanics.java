@@ -10,18 +10,19 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app4.data.get_mechanics;
+import com.example.app4.data.mechanic;
 
 import java.util.ArrayList;
 
 public class adapter_mechanics extends RecyclerView.Adapter<adapter_mechanics.myviewholder> {
 
     Context context;
-    ArrayList<com.example.app4.data.get_mechanics> get_mechanics;
+    ArrayList<mechanic> mechanics;
     listener_mechanic ocl;
 
-    public adapter_mechanics(Context context, ArrayList<get_mechanics> get_mechanics, listener_mechanic ocl) {
+    public adapter_mechanics(Context context, ArrayList<mechanic> mechanics, listener_mechanic ocl) {
         this.context = context;
-        this.get_mechanics = get_mechanics;
+        this.mechanics = mechanics;
         this.ocl = ocl;
     }
 
@@ -34,30 +35,48 @@ public class adapter_mechanics extends RecyclerView.Adapter<adapter_mechanics.my
 
     @Override
     public void onBindViewHolder(@NonNull adapter_mechanics.myviewholder holder, int position) {
-        holder.id.setText(get_mechanics.get(position).getId());
-        holder.name.setText(get_mechanics.get(position).getName());
-        holder.distance.setText(String.valueOf(get_mechanics.get(position).getDistance()));
-        holder.dunit.setText(get_mechanics.get(position).getDunit());
+        holder.id.setText(mechanics.get(position).getId());
+        if (mechanics.get(position).getFirstname()!=null) {
+            holder.firstname.setText(mechanics.get(position).getFirstname());
+        } else {
+            holder.firstname.setText("");
+        }
+        if (mechanics.get(position).getLastname()!=null) {
+            holder.lastname.setText(mechanics.get(position).getLastname());
+        } else {
+            holder.lastname.setText("");
+        }
+        if (mechanics.get(position).getDistance()!=0){
+            holder.distance.setText(String.valueOf(mechanics.get(position).getDistance()));
+        } else {
+            holder.distance.setText("");
+        }
+        if (mechanics.get(position).getDunit()!=null){
+            holder.dunit.setText(mechanics.get(position).getDunit());
+        } else {
+            holder.dunit.setText(mechanics.get(position).getDunit());
+        }
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 String dc = String.valueOf(holder.id.getText());
-                ocl.onItemClicked(dc, get_mechanics.get(position),position);
+                ocl.onItemClicked(dc, mechanics.get(position),position);
             }
         });
     }
 
     @Override
     public int getItemCount() {
-        return get_mechanics.size();
+        return mechanics.size();
     }
 
     public static class myviewholder extends RecyclerView.ViewHolder{
-        TextView id, name, distance, dunit;
+        TextView id, firstname, lastname, distance, dunit;
         public myviewholder(@NonNull View itemView) {
             super(itemView);
             id = itemView.findViewById(R.id.id);
-            name = itemView.findViewById(R.id.name);
+            firstname = itemView.findViewById(R.id.firstname);
+            lastname = itemView.findViewById(R.id.lastname);
             distance = itemView.findViewById(R.id.distance);
             dunit = itemView.findViewById(R.id.dunit);
         }

@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center_horizontal"
-    android:background="@color/grayish"
-    tools:context=".home">
-
-    <RelativeLayout
+<FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:app="http://schemas.android.com/apk/res-auto"
+        xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:gravity="center"
+        android:background="@color/biegish"
+        tools:context=".home">
         <fragment xmlns:android="http://schemas.android.com/apk/res/android"
             xmlns:map="http://schemas.android.com/apk/res-auto"
             android:name="com.google.android.gms.maps.SupportMapFragment"
@@ -32,64 +28,71 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:enabled="true"
-            android:clickable="true"
-            >
-            <EditText
-                android:id="@+id/userlocation"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginHorizontal="18dp"
-                android:layout_marginTop="520dp"
-                android:hint="From"
-                android:padding="14dp"
-                android:enabled="false"
-                android:background="@drawable/textedit"
-                android:gravity="center" />
-            <Button
-                android:id="@+id/next"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/Next"
-                android:background="@drawable/buttonbg"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="590dp"
-                android:enabled="false"/>
-        </fragment>
-        <LinearLayout
-            android:id="@+id/footer"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:background="@drawable/footer"
-            android:orientation="horizontal"
-            android:layout_alignParentBottom="true">
+            android:clickable="true"/>
+    <EditText
+        android:id="@+id/userlocation"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="18dp"
+        android:layout_marginTop="520dp"
+        android:gravity="center"
+        android:hint="From"
+        android:padding="14dp"
+        android:enabled="false"
+        android:background="@drawable/mapbtn"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="170dp"
+        android:textColor="@color/white"/>
+    <Button
+        android:id="@+id/next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/Next"
+        android:background="@drawable/buttonbg"
+        android:layout_gravity="bottom|center_horizontal"
+        android:layout_marginBottom="100dp"/>
+    <LinearLayout
+        android:id="@+id/footer"
+        android:layout_width="match_parent"
+        android:layout_height="70dp"
+        android:background="@color/blueish"
+        android:orientation="horizontal"
+        android:padding="10dp"
+        android:gravity="bottom"
+        android:layout_gravity="bottom"
+        android:layout_alignParentBottom="true">
 
-            <Button
-                android:id="@+id/home"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/home"
-                android:layout_gravity="center"
-                android:layout_marginLeft="60dp"
-                android:enabled="false"/>
-            <Button
-                android:id="@+id/list"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/menu"
-                android:layout_gravity="center"
-                android:layout_marginLeft="60dp"
-                android:layout_marginRight="60dp"/>
-            <Button
-                android:id="@+id/profil"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/profile"
-                android:layout_gravity="center"
-                android:layout_marginRight="60dp">
-            </Button>
+        <Button
+            android:id="@+id/home"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginStart="60dp"
+            android:layout_weight="1"
+            android:background="@drawable/home"
+            android:backgroundTint="@color/yellowish"/>
 
-        </LinearLayout>
-    </RelativeLayout>
+        <Button
+            android:id="@+id/list_requests"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="60dp"
+            android:layout_marginRight="60dp"
+            android:layout_weight="1"
+            android:background="@drawable/history"
+            android:backgroundTint="@color/yellowish"/>
 
-</RelativeLayout>
+        <Button
+            android:id="@+id/profile"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:layout_marginEnd="60dp"
+            android:layout_weight="1"
+            android:background="@drawable/profile"
+            android:clickable="false"
+            android:backgroundTint="@color/yellowish"/>
+
+    </LinearLayout>
+    </FrameLayout>

@@ -1,7 +1,7 @@
 package com.example.app4;
 
-import com.example.app4.data.get_mechanics;
+import com.example.app4.data.mechanic;
 
 public interface listener_mechanic {
-    void onItemClicked(String doc_id, get_mechanics mechanic, int position);
+    void onItemClicked(String doc_id, mechanic mechanic, int position);
 }

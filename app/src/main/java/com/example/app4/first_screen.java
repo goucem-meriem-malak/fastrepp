@@ -111,7 +111,7 @@ public class first_screen extends Activity {
                 if ((phone.getText()!=null)&&(fphone.getText()!=null)){
                     if ((fphone.getText().toString().length()<=9)&&
                             (fphone.getText().toString().length()>1)&&
-                            (fphone.getText().toString().substring(0,1).equals("+"))){
+                            (fphone.getText().toString().charAt(0) == '+')){
                         if ((phone.getText().toString().length()==9)&&
                                 (Integer.parseInt(phone.getText().toString().substring(0,1))!=0)){
                             nbrphone = fphone.getText().toString()+phone.getText().toString();

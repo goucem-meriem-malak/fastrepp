@@ -14,17 +14,14 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.example.app4.data.address;
 import com.example.app4.data.client;
 import com.example.app4.data.garage;
 import com.example.app4.data.mechanic;
 import com.example.app4.data.station;
-import com.example.app4.data.tow_truck;
+import com.example.app4.data.tow;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthInvalidCredentialsException;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -39,21 +36,22 @@ public class profile extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseUser user;
     private FirebaseAuth auth;
-    private EditText firstname, lastname, email, country, city, state, phone, fphone;
-    private Button btnhome, btnlistrequests, btnprofile, btnedit, btnhelpcenter, btngoback;
-    private String clientid;
+    private EditText firstname, lastname, email, country, city, state, phone, fphone, type, mark, model, matriculation;
+    private Button btnhome, btnlistrequests, btnprofile, btneditprofile, btneditvehicle, btngoback, brnsettings;
+    private String userid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.profile);
 
-        btnhelpcenter = findViewById(R.id.helpcenter);
-        btnhome = findViewById(R.id.home);
-        btnprofile = findViewById(R.id.profil);
-        btnlistrequests = findViewById(R.id.list_requests);
-        btnedit = findViewById(R.id.edit);
         btngoback = findViewById(R.id.goback);
+        btnhome = findViewById(R.id.home);
+        btnprofile = findViewById(R.id.profile);
+        btnlistrequests = findViewById(R.id.list_requests);
+        btneditprofile = findViewById(R.id.edit_profile);
+        btneditvehicle = findViewById(R.id.see_vehicle);
+        brnsettings = findViewById(R.id.settings);
 
         firstname=findViewById(R.id.firstname);
         lastname=findViewById(R.id.lastname);
@@ -63,13 +61,18 @@ public class profile extends AppCompatActivity {
         country = findViewById(R.id.country);
         city = findViewById(R.id.city);
 
+        type = findViewById(R.id.type);
+        mark = findViewById(R.id.mark);
+        model = findViewById(R.id.model);
+        matriculation = findViewById(R.id.matri_nbr);
+
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
-        clientid = user.getUid();
+        userid = user.getUid();
 
-        db.collection("worker").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+        db.collection("worker").document(userid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
             if (task.isSuccessful()) {
@@ -85,7 +88,7 @@ public class profile extends AppCompatActivity {
                 });
             String type = document.get("type").toString();
             if (type.equals("mechanic")) {
-            db.collection("mechanic").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            db.collection("mechanic").document(userid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
@@ -136,7 +139,7 @@ public class profile extends AppCompatActivity {
                 }
             });
             } else if (type.equals("station")) {
-            db.collection("station").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            db.collection("station").document(userid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
@@ -174,7 +177,7 @@ public class profile extends AppCompatActivity {
 
             });
             } else if (type.equals("garage")) {
-            db.collection("garage").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            db.collection("garage").document(userid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
@@ -211,13 +214,13 @@ public class profile extends AppCompatActivity {
 
             });
             } else if (type.equals("towtruck")) {
-            db.collection("towtruck").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            db.collection("towtruck").document(userid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                     if (task.isSuccessful()) {
                         DocumentSnapshot document = task.getResult();
                         if (document.exists()) {
-                            tow_truck tow_truck = document.toObject(tow_truck.class);
+                            tow tow_truck = document.toObject(tow.class);
                             if (tow_truck.getFirstname() == null) {
                                 firstname.setText("");
                             } else {
@@ -254,7 +257,7 @@ public class profile extends AppCompatActivity {
             });
             }
             } else {
-            db.collection("client").document(user.getUid()).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            db.collection("client").document(userid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
@@ -312,11 +315,10 @@ public class profile extends AppCompatActivity {
         btnhome.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent activityChangeIntent = new Intent(profile.this, home.class);
-
                 profile.this.startActivity(activityChangeIntent);
             }
         });
-        btnhelpcenter.setOnClickListener(new View.OnClickListener() {
+        brnsettings.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
              /*   FirebaseAuth.getInstance().signOut();
                 Intent activityChangeIntent = new Intent(profile.this, launch_screen.class);
@@ -340,17 +342,17 @@ public class profile extends AppCompatActivity {
 
             }
         });
-        btnedit.setOnClickListener(new View.OnClickListener() {
+        btneditprofile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (btnedit.getText().equals("Edit")){
+                if (btneditprofile.getText().equals("Edit Profile")){
                     firstname.setEnabled(true);
                     lastname.setEnabled(true);
                     country.setEnabled(true);
                     city.setEnabled(true);
                 //    state.setEnabled(true);
                     email.setEnabled(true);
-                    btnedit.setText("Save");
+                    btneditprofile.setText("Save");
                 }
                 else{
                     Map<String, Object> update = new HashMap<>();
@@ -364,7 +366,7 @@ public class profile extends AppCompatActivity {
                     }
                     else {
                         update.put("email", email.getText().toString().trim());
-                        btnedit.setText("Edit");
+                        btneditprofile.setText("Edit Profile");
                         firstname.setEnabled(false);
                         lastname.setEnabled(false);
                         country.setEnabled(false);
@@ -379,7 +381,7 @@ public class profile extends AppCompatActivity {
                     update.put("address", addresss);
 
 
-                    db.collection("client").document(clientid).update(update);
+                    db.collection("client").document(userid).update(update);
                 }
             }
         });
@@ -387,7 +389,6 @@ public class profile extends AppCompatActivity {
            @Override
            public void onClick(View v) {
                Intent activityChangeIntent = new Intent(profile.this, list_requests.class);
-
                profile.this.startActivity(activityChangeIntent);
            }
        });

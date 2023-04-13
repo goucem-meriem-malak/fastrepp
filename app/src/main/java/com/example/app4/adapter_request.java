@@ -4,22 +4,24 @@ import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.app4.data.get_requests;
+import com.example.app4.data.request;
 
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class adapter_request extends RecyclerView.Adapter<adapter_request.myviewholder> {
     Context context;
-    ArrayList<com.example.app4.data.get_requests> get_requests;
+    ArrayList<request> get_requests;
     private double distance;
 
-    public adapter_request(Context context, ArrayList<get_requests> get_requests) {
+    public adapter_request(Context context, ArrayList<request> get_requests) {
         this.context = context;
         this.get_requests = get_requests;
     }
@@ -33,7 +35,7 @@ public class adapter_request extends RecyclerView.Adapter<adapter_request.myview
 
     @Override
     public void onBindViewHolder(@NonNull adapter_request.myviewholder holder, int position) {
-        com.example.app4.data.get_requests request = get_requests.get(position);
+        request request = get_requests.get(position);
         if(request.getAddress()==null){
             holder.address.setText("");
         } else {
@@ -48,15 +50,37 @@ public class adapter_request extends RecyclerView.Adapter<adapter_request.myview
             holder.type.setText("");
         } else {
             holder.type.setText(request.getType());
-        }
-        if (holder.type.getText().equals("mechanic")){
-            holder.price.setVisibility(View.INVISIBLE);
-        }else{
-            /* if(request.getPrice()==null){
+            if (request.getType().equals("mechanic")){
+                holder.p.setVisibility(View.GONE);
+                holder.price.setVisibility(View.GONE);
+                if (request.getVehicle()==null){
+                    holder.veh_type.setText("");
+                    holder.veh_mark.setText("");
+                    holder.veh_model.setText("");
+                } else {
+                    if (request.getVehicle().getType()==null){
+                        holder.veh_type.setText("");
+                    } else {
+                        holder.veh_type.setText(request.getVehicle().getType());
+                    }
+                    if (request.getVehicle().getMark()==null){
+                        holder.veh_mark.setText("");
+                    } else {
+                        holder.veh_mark.setText(request.getVehicle().getMark());
+                    }
+                    if (request.getVehicle().getModel()==null){
+                        holder.veh_model.setText("");
+                    } else {
+                        holder.veh_model.setText(request.getVehicle().getModel());
+                    }
+                }
+            }else{
+            if(request.getPrice()==0){
                 holder.price.setText("");
             } else {
                 holder.price.setText(String.valueOf(request.getPrice()));
-            }*/
+            }
+            }
         }
         if(request.getState()==null){
             holder.state.setText("");
@@ -71,14 +95,20 @@ public class adapter_request extends RecyclerView.Adapter<adapter_request.myview
     }
 
     public static class myviewholder extends RecyclerView.ViewHolder{
-        TextView id, client_id, mechanic_id, address, mechanic_location, date, type, state, price, distance;
+        TextView id, veh_mark, veh_type, veh_model, address, mechanic_location, date, type, state, price, p, distance;
+        LinearLayout v;
         public myviewholder(@NonNull View itemView) {
             super(itemView);
             address = itemView.findViewById(R.id.address);
             date = itemView.findViewById(R.id.date);
             state = itemView.findViewById(R.id.state);
             type = itemView.findViewById(R.id.type);
+            p = itemView.findViewById(R.id.p);
             price = itemView.findViewById(R.id.price);
+            veh_type = itemView.findViewById(R.id.veh_type);
+            veh_mark = itemView.findViewById(R.id.veh_mark);
+            veh_model = itemView.findViewById(R.id.veh_model);
+            v = itemView.findViewById(R.id.v);
         }
     }
 }

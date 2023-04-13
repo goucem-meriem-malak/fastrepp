@@ -3,7 +3,7 @@
     <style name="Theme.App4" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
         <item name="colorPrimary">@color/yellowish</item>
-        <item name="colorPrimaryVariant">@color/yellowish</item>
+        <item name="colorPrimaryVariant">@color/blueish</item>
         <item name="colorOnPrimary">@color/grayish</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/grayish</item>

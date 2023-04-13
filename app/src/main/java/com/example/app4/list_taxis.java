@@ -44,7 +44,7 @@ public class list_taxis extends AppCompatActivity implements listener_taxi {
     private taxi taxi;
     private ArrayList<taxi> taxis;
     private adapter_taxi adapter_taxi;
-    private Button btnhome, btnlist, btnprofile, btngoback;
+    private Button btnhome, btnlist, btnprofile, btngoback, btnhelpcenter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,9 +52,10 @@ public class list_taxis extends AppCompatActivity implements listener_taxi {
         setContentView(R.layout.list_taxis);
 
         btnhome = findViewById(R.id.home);
-        btnlist = findViewById(R.id.list);
+        btnlist = findViewById(R.id.list_requests);
         btnprofile = findViewById(R.id.profile);
         btngoback = findViewById(R.id.goback);
+        btnhelpcenter = findViewById(R.id.help_center);
         recyclerView = findViewById(R.id.recycler_taxi);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -63,13 +64,14 @@ public class list_taxis extends AppCompatActivity implements listener_taxi {
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
         clientid = user.getUid();
+        requestid = getIntent().getStringExtra("requestid");
 
         taxis = new ArrayList<taxi>();
         adapter_taxi = new adapter_taxi(this, taxis, new listener_taxi() {
             @Override
             public void onItemClicked(String doc_id, taxi items, int position) {
                 sendrequest(client_location, doc_id);
-                Intent activityChangeIntent = new Intent(list_taxis.this, list_mechanics.class);
+                Intent activityChangeIntent = new Intent(list_taxis.this, list_tows.class);
                 activityChangeIntent.putExtra("requestid", requestid);
                 list_taxis.this.startActivity(activityChangeIntent);
             }
@@ -111,6 +113,13 @@ public class list_taxis extends AppCompatActivity implements listener_taxi {
                 }
             }
         });
+        btnhelpcenter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent activityChangeIntent = new Intent(list_taxis.this, help_center.class);
+                list_taxis.this.startActivity(activityChangeIntent);
+            }
+        });
     }
 
     private void get_list_free_taxis() {
@@ -118,9 +127,7 @@ public class list_taxis extends AppCompatActivity implements listener_taxi {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshott) {
                 client client = documentSnapshott.toObject(client.class);
-                client_location = client.getLocation();
-                client_address = (Map<String, Object>) documentSnapshott.get("address");
-                db.collection("taxi").whereEqualTo("free", true).whereEqualTo("address", client_address)
+                db.collection("taxi").whereEqualTo("free", true).whereEqualTo("address", client.getLocationaddress())
                         .addSnapshotListener(new EventListener<QuerySnapshot>() {
                             @Override
                             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -130,9 +137,8 @@ public class list_taxis extends AppCompatActivity implements listener_taxi {
                                 for (DocumentChange dc : value.getDocumentChanges()) {
                                     if (dc.getType() == DocumentChange.Type.ADDED) {
                                         taxi = dc.getDocument().toObject(taxi.class);
-                                        client_location = client.getLocation();
-                                        taxi.setDistance(get_distance(client_location, taxi.getLocation()));
-                                        taxi.setDunit("M");
+                                        taxi.setDistance(get_distance(client.getLocation(), taxi.getLocation()));
+                                        taxi.setDunit(get_unit(client.getLocation(), taxi.getLocation()));
                                         taxis.add(taxi);
                                     }
 
@@ -149,8 +155,7 @@ public class list_taxis extends AppCompatActivity implements listener_taxi {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshott) {
                 client client = documentSnapshott.toObject(client.class);
-                client_address = (Map<String, Object>) documentSnapshott.get("address");
-                db.collection("mechanic").whereEqualTo("id", mechanic_id)
+                db.collection("taxi").whereEqualTo("id", taxi.getId())
                         .addSnapshotListener(new EventListener<QuerySnapshot>() {
                             @Override
                             public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
@@ -160,24 +165,20 @@ public class list_taxis extends AppCompatActivity implements listener_taxi {
                                 }
                                 for (DocumentChange dc : value.getDocumentChanges() ) {
                                     if (dc.getType() == DocumentChange.Type.ADDED) {
-                                        float distance = get_distance(client.getLocation(), taxi.getLocation());
-                                        taxi.setDistance(distance);
-                                        taxi.setDunit("M");
+                                        taxi.setDistance(get_distance(client.getLocation(), taxi.getLocation()));
+                                        taxi.setDunit(get_unit(client.getLocation(), taxi.getLocation()));
 
                                         HashMap<String, Object> m = new HashMap<String, Object>();
 
                                         DocumentReference ref = db.collection("request").document(requestid);
-                                        String requestid = ref.getId();
                                         m.put("id", requestid);
                                         m.put("client_id", clientid);
                                         m.put("taxi_id", taxi.getId());
                                         m.put("client_location", client.getLocation());
                                         m.put("taxi_location", taxi.getLocation());
                                         m.put("address",client.getAddress());
-                                        m.put("type", "taxi");
-                                        m.put("date", Calendar.getInstance().getTime());
-                                        m.put("distance", get_distance(client_location, taxi.getLocation()));
-                                        m.put("price", distance * 200);
+                                        m.put("distance", taxi.getDistance());
+                                        m.put("price", taxi.getDistance() * 200);
                                         m.put("state", "waiting");
                                         ref.update(m);
 
@@ -212,10 +213,27 @@ public class list_taxis extends AppCompatActivity implements listener_taxi {
         }
         else return distanceInMeters;
     }
+    private String get_unit(GeoPoint client_location, GeoPoint mechanic_location) {
+
+        Location client_loc = new Location("");
+        client_loc.setLatitude(client_location.getLatitude() / 1E6);
+        client_loc.setLongitude(client_location.getLongitude() / 1E6);
+        Location mechanic_loc = new Location("");
+        mechanic_loc.setLatitude(mechanic_location.getLatitude() / 1E6);
+        mechanic_loc.setLongitude(mechanic_location.getLongitude() / 1E6);
+        DecimalFormat df = new DecimalFormat("#.##");
+        float distanceInMeters = Float.parseFloat(df.format(client_loc.distanceTo(mechanic_loc)));
+
+        if (distanceInMeters>1000){
+            return "Km";
+        }
+        else return "M";
+    }
+
 
     @Override
     public void onItemClicked(String doc_id, taxi items, int position) {
-        Intent activityChangeIntent = new Intent(list_taxis.this, find.class);
+        Intent activityChangeIntent = new Intent(list_taxis.this, menu.class);
         list_taxis.this.startActivity(activityChangeIntent);
     }
 }
