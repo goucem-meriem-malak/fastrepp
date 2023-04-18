@@ -2,19 +2,17 @@ package com.example.app4.data;
 
 import com.google.firebase.firestore.GeoPoint;
 
-import java.util.ArrayList;
-
 public class tow {
     private String id, firstname, lastname, phone, dunit;
     private address address;
     private GeoPoint location;
     private float distance;
-    private veh vehicle;
+    private vehicle vehicle;
 
     public tow() {
     }
 
-    public tow(String id, String firstname, String lastname, String phone, String dunit, com.example.app4.data.address address, GeoPoint location, float distance, veh vehicle) {
+    public tow(String id, String firstname, String lastname, String phone, String dunit, address address, GeoPoint location, float distance, vehicle vehicle) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -66,11 +64,11 @@ public class tow {
         this.dunit = dunit;
     }
 
-    public com.example.app4.data.address getAddress() {
+    public address getAddress() {
         return address;
     }
 
-    public void setAddress(com.example.app4.data.address address) {
+    public void setAddress(address address) {
         this.address = address;
     }
 
@@ -90,11 +88,11 @@ public class tow {
         this.distance = distance;
     }
 
-    public veh getVehicle() {
+    public vehicle getVehicle() {
         return vehicle;
     }
 
-    public void setVehicle(veh vehicle) {
+    public void setVehicle(vehicle vehicle) {
         this.vehicle = vehicle;
     }
 }

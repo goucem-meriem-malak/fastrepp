@@ -3,30 +3,26 @@ package com.example.app4.data;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.GeoPoint;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 public class request {
-    private String id, client_id, mechanic_id, station_id, garage_id, taxi_id, type, state, dunit, oil_type, fuel_type,
+    private String id, client_id, worker_id, type, state, dunit, oil_type, fuel_type,
     oil_unit, fuel_unit;
     boolean fuel, oil, taxi, ambulance;
     private int passenger_number, team_nbr;
     private Timestamp date;
     private float price, distance;
-    private GeoPoint client_location, mechanic_location, station_location, garage_location, taxi_location;
+    private GeoPoint client_location, worker_location;
     private Map<String, Object> address;
-    private veh vehicle;
+    private com.example.app4.data.vehicle vehicle;
 
     public request() {
     }
 
-    public request(String id, String client_id, String mechanic_id, String station_id, String garage_id, String taxi_id, String type, String state, String dunit, String oil_type, String fuel_type, String oil_unit, String fuel_unit, boolean fuel, boolean oil, boolean taxi, boolean ambulance, int passenger_number, int team_nbr, Timestamp date, float price, float distance, GeoPoint client_location, GeoPoint mechanic_location, GeoPoint station_location, GeoPoint garage_location, GeoPoint taxi_location, Map<String, Object> address, veh vehicle) {
+    public request(String id, String client_id, String worker_id, String type, String state, String dunit, String oil_type, String fuel_type, String oil_unit, String fuel_unit, boolean fuel, boolean oil, boolean taxi, boolean ambulance, int passenger_number, int team_nbr, Timestamp date, float price, float distance, GeoPoint client_location, GeoPoint worker_location, Map<String, Object> address, com.example.app4.data.vehicle vehicle) {
         this.id = id;
         this.client_id = client_id;
-        this.mechanic_id = mechanic_id;
-        this.station_id = station_id;
-        this.garage_id = garage_id;
-        this.taxi_id = taxi_id;
+        this.worker_id = worker_id;
         this.type = type;
         this.state = state;
         this.dunit = dunit;
@@ -44,10 +40,7 @@ public class request {
         this.price = price;
         this.distance = distance;
         this.client_location = client_location;
-        this.mechanic_location = mechanic_location;
-        this.station_location = station_location;
-        this.garage_location = garage_location;
-        this.taxi_location = taxi_location;
+        this.worker_location = worker_location;
         this.address = address;
         this.vehicle = vehicle;
     }
@@ -68,36 +61,12 @@ public class request {
         this.client_id = client_id;
     }
 
-    public String getMechanic_id() {
-        return mechanic_id;
+    public String getWorker_id() {
+        return worker_id;
     }
 
-    public void setMechanic_id(String mechanic_id) {
-        this.mechanic_id = mechanic_id;
-    }
-
-    public String getStation_id() {
-        return station_id;
-    }
-
-    public void setStation_id(String station_id) {
-        this.station_id = station_id;
-    }
-
-    public String getGarage_id() {
-        return garage_id;
-    }
-
-    public void setGarage_id(String garage_id) {
-        this.garage_id = garage_id;
-    }
-
-    public String getTaxi_id() {
-        return taxi_id;
-    }
-
-    public void setTaxi_id(String taxi_id) {
-        this.taxi_id = taxi_id;
+    public void setWorker_id(String worker_id) {
+        this.worker_id = worker_id;
     }
 
     public String getType() {
@@ -236,36 +205,12 @@ public class request {
         this.client_location = client_location;
     }
 
-    public GeoPoint getMechanic_location() {
-        return mechanic_location;
+    public GeoPoint getWorker_location() {
+        return worker_location;
     }
 
-    public void setMechanic_location(GeoPoint mechanic_location) {
-        this.mechanic_location = mechanic_location;
-    }
-
-    public GeoPoint getStation_location() {
-        return station_location;
-    }
-
-    public void setStation_location(GeoPoint station_location) {
-        this.station_location = station_location;
-    }
-
-    public GeoPoint getGarage_location() {
-        return garage_location;
-    }
-
-    public void setGarage_location(GeoPoint garage_location) {
-        this.garage_location = garage_location;
-    }
-
-    public GeoPoint getTaxi_location() {
-        return taxi_location;
-    }
-
-    public void setTaxi_location(GeoPoint taxi_location) {
-        this.taxi_location = taxi_location;
+    public void setWorker_location(GeoPoint worker_location) {
+        this.worker_location = worker_location;
     }
 
     public Map<String, Object> getAddress() {
@@ -276,11 +221,11 @@ public class request {
         this.address = address;
     }
 
-    public veh getVehicle() {
+    public com.example.app4.data.vehicle getVehicle() {
         return vehicle;
     }
 
-    public void setVehicle(veh vehicle) {
+    public void setVehicle(com.example.app4.data.vehicle vehicle) {
         this.vehicle = vehicle;
     }
 }

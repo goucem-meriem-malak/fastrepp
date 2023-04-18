@@ -433,14 +433,12 @@
                                 android:layout_margin="20dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:layout_gravity="center_vertical"
                                 android:padding="10dp"/>
                             <NumberPicker
                                 android:id="@+id/qoil"
                                 android:layout_width="170dp"
                                 android:layout_height="50dp"
-                                android:layout_weight="1"
                                 android:layout_gravity="center_vertical"/>
                             <Spinner
                                 android:id="@+id/oil_unit"
@@ -490,14 +488,12 @@
                                 android:layout_margin="20dp"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
-                                android:layout_weight="1"
                                 android:layout_gravity="center_vertical"
                                 android:padding="10dp"/>
                             <NumberPicker
                                 android:id="@+id/qfuel"
                                 android:layout_width="170dp"
                                 android:layout_height="50dp"
-                                android:layout_weight="1"
                                 android:layout_gravity="center_vertical"/>
                             <Spinner
                                 android:id="@+id/fuel_unit"

@@ -1,12 +1,8 @@
 package com.example.app4;
 
 
-import static android.content.ContentValues.TAG;
-
-import android.app.Service;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -20,32 +16,17 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.lifecycle.LiveData;
-import androidx.lifecycle.MutableLiveData;
 
-import com.example.app4.data.mechanic;
-import com.example.app4.data.oil_fuel;
-import com.example.app4.data.other;
-import com.example.app4.data.team_services;
-import com.example.app4.data.veh;
+import com.example.app4.data.vehicle;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
-import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QueryDocumentSnapshot;
-import com.google.firebase.firestore.QuerySnapshot;
 
-import java.util.AbstractCollection;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.HashMap;
@@ -61,11 +42,10 @@ public class menu extends AppCompatActivity implements AdapterView.OnItemSelecte
             tow_veh_modell, oil_typee, fuel_typee, team_service_typee, oil_unitt, fuel_unitt;
     private ArrayAdapter<String> mech_veh_types, mech_veh_marks, mech_veh_models, tow_veh_types, tow_veh_marks,
             tow_veh_models, oil_types, fuel_types, team_service_types, oil_units, fuel_units;
-    private oil_fuel oil_fuel = new oil_fuel();
-    private veh mech_veh = new veh(), tow_veh = new veh();
-    private other other;
-    private List<String> team_service = new ArrayList<>(), fueltype = new ArrayList<>(), oiltype = new ArrayList<>();
-    private team_services team_services = new team_services();
+    private vehicle mech_vehicle = new vehicle(), tow_vehicle = new vehicle();
+    private List<String> team_service = new ArrayList<>(), fueltype = new ArrayList<>(), oiltype = new ArrayList<>(),
+    mech_vehtype = new ArrayList<>(), mech_vechmark = new ArrayList<>(), mech_vehmodel = new ArrayList<>(), tow_vehtype = new ArrayList<>(),
+    tow_vehmark = new ArrayList<>(), tow_vehmodel = new ArrayList<>();
     private Button btnhome, btnlistrequests, btngoback, btnprofile, btnhelpcenter,
             btnrequestmechanic, btnrequesttowtruck, btnrequeststation, btnrequestteam, btnrequestgarage;
     private LinearLayout mechanic, mech_veh_form, towtruck, tow_veh_form, tow_taxi_form, station,
@@ -75,7 +55,7 @@ public class menu extends AppCompatActivity implements AdapterView.OnItemSelecte
             oil_type, oil_unit, fuel_type, fuel_unit, team_service_type;
     private NumberPicker taxi_nbr_passengers, qoil, qfuel;
     private TextView fprice, oprice;
-    private String clientid, requestid, fuelunit, oilunit;
+    private String clientid, requestid, fuelunit, oilunit, f, o;
     private String[] units = new String[]{"mL", "L"};
     private int nbr_people, fuelquantity, oilquantity;
     private float fuelprice, oilprice;
@@ -159,31 +139,12 @@ public class menu extends AppCompatActivity implements AdapterView.OnItemSelecte
             }
         });
 
-        oil_units = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, units);
-        oil_units.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        oil_unit.setAdapter(oil_units);
-
-        fuel_units = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, units);
-        fuel_units.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        fuel_unit.setAdapter(fuel_units);
-
-        oil_types = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, oiltype);
-        oil_types.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        oil_type.setAdapter(oil_types);
-        get_oil();
-
-        fuel_types = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, fueltype);
-        fuel_types.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        fuel_type.setAdapter(fuel_types);
-        get_fuel();
-
         mech_veh_type = findViewById(R.id.mech_veh_type);
         mech_veh_type.setOnItemSelectedListener(this);
         mech_veh_mark = findViewById(R.id.mech_veh_mark);
         mech_veh_mark.setOnItemSelectedListener(this);
         mech_veh_model = findViewById(R.id.mech_veh_model);
         mech_veh_model.setOnItemSelectedListener(this);
-
         tow_veh_type = findViewById(R.id.tow_veh_type);
         tow_veh_type.setOnItemSelectedListener(this);
         tow_veh_mark = findViewById(R.id.tow_veh_mark);
@@ -201,60 +162,182 @@ public class menu extends AppCompatActivity implements AdapterView.OnItemSelecte
         team_service_type = findViewById(R.id.service_type);
         team_service_type.setOnItemSelectedListener(this);
 
-        mech_veh_types = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, mech_veh.getTypes());
+        mech_veh_types = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, mech_vehtype);
         mech_veh_types.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mech_veh_type.setAdapter(mech_veh_types);
+        mech_veh_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mech_veh_typee = mech_veh_type.getSelectedItem().toString();
+            }
 
-        mech_veh_marks = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, mech_veh.getPassenger_vehicle());
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                mech_veh_typee = mech_veh_type.getSelectedItem().toString();
+            }
+        });
+
+        mech_veh_marks = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, mech_vechmark);
         mech_veh_marks.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mech_veh_mark.setAdapter(mech_veh_marks);
+        mech_veh_mark.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mech_veh_markk = mech_veh_mark.getSelectedItem().toString();
+                get_mech_veh();
+            }
 
-        mech_veh_models = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, mech_veh.getNissan());
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        mech_veh_models = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, mech_vehmodel);
         mech_veh_models.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         mech_veh_model.setAdapter(mech_veh_models);
+        mech_veh_model.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                mech_veh_modell = mech_veh_model.getSelectedItem().toString();
+            }
 
-        tow_veh_types = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, mech_veh.getTypes());
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        get_mech_veh();
+
+
+        tow_veh_types = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, tow_vehtype);
         tow_veh_types.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         tow_veh_type.setAdapter(tow_veh_types);
+        tow_veh_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tow_veh_typee = tow_veh_type.getSelectedItem().toString();
+            }
 
-        tow_veh_marks = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, mech_veh.getPassenger_vehicle());
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        tow_veh_marks = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, tow_vehmark);
         tow_veh_marks.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         tow_veh_mark.setAdapter(tow_veh_marks);
+        tow_veh_mark.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tow_veh_markk = tow_veh_mark.getSelectedItem().toString();
+            }
 
-        tow_veh_models = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, mech_veh.getNissan());
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
+        tow_veh_models = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, tow_vehmodel);
         tow_veh_models.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         tow_veh_model.setAdapter(tow_veh_models);
+        tow_veh_model.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                tow_veh_modell = tow_veh_model.getSelectedItem().toString();
+            }
 
-    //    oil_types = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, oiltype);
-      //  oil_types.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-      //  oil_type.setAdapter(oil_types);
-      //  get_oil();
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+        get_tow_veh();
+
+        oil_units = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, units);
+        oil_units.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        oil_unit.setAdapter(oil_units);
+        oil_unit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                oil_unitt = oil_unit.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                oil_unitt = oil_unit.getSelectedItem().toString();
+            }
+        });
+
+        fuel_units = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, units);
+        fuel_units.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        fuel_unit.setAdapter(fuel_units);
+        fuel_unit.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                fuel_unitt = fuel_unit.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                fuel_unitt = fuel_unit.getSelectedItem().toString();
+            }
+        });
+
+        oil_types = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, oiltype);
+        oil_types.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        oil_type.setAdapter(oil_types);
+        get_oil();
+         oil_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                oil_typee = oil_type.getSelectedItem().toString();
+                Toast.makeText(menu.this, oil_typee, Toast.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
 
         fuel_types = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, fueltype);
         fuel_types.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         fuel_type.setAdapter(fuel_types);
         get_fuel();
+        fuel_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                fuel_typee = fuel_type.getSelectedItem().toString();
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                fuel_typee = fuel_type.getSelectedItem().toString();
+            }
+        });
 
         team_service_types = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_dropdown_item, team_service);
         team_service_types.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         team_service_type.setAdapter(team_service_types);
         get_team_services();
+        team_service_type.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                team_service_typee = team_service_type.getSelectedItem().toString();
+            }
 
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+                team_service_typee = team_service_type.getSelectedItem().toString();
+            }
+        });
 
         taxi_nbr_passengers.setMinValue(1);
         taxi_nbr_passengers.setMaxValue(5);
         taxi_nbr_passengers.setValue(1);
-
-        DocumentReference docRef = db.collection("myCollection").document("myDocument");
-
-//        team_service_type<DocumentSnapshot> future = docRef.get();
-        // DocumentSnapshot document = db.collection("other").document("team_services").get().getResult();
-
-       /* if (document.exists()) {
-            List<String> stringList = (List<String>) document.get("myArrayField");
-            String[] stringArray = stringList.toArray(new String[stringList.size()]);
-            // Now you can use the stringArray variable as an array of strings
-        }*/
 
         taxi_nbr_passengers.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
@@ -493,42 +576,8 @@ public class menu extends AppCompatActivity implements AdapterView.OnItemSelecte
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        if (mech_veh_mark.getSelectedItem().toString().equals("Hyundai")) {
-            mech_veh_models = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, mech_veh.getHyundai());
-            mech_veh_models.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            mech_veh_model.setAdapter(mech_veh_models);
-        } else if (mech_veh_mark.getSelectedItem().toString().equals("Nissan")) {
-            mech_veh_models = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, mech_veh.getNissan());
-            mech_veh_models.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            mech_veh_model.setAdapter(mech_veh_models);
-        }
-        mech_veh_typee = mech_veh_type.getSelectedItem().toString();
-        mech_veh_markk = mech_veh_mark.getSelectedItem().toString();
-        if (mech_veh_model.getSelectedItem() != null) {
-            mech_veh_modell = mech_veh_model.getSelectedItem().toString();
-        }
-        if (tow_veh_mark.getSelectedItem().toString().equals("Hyundai")) {
-            tow_veh_models = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, mech_veh.getHyundai());
-            tow_veh_models.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            tow_veh_model.setAdapter(tow_veh_models);
-        } else if (tow_veh_mark.getSelectedItem().toString().equals("Nissan")) {
-            tow_veh_models = new ArrayAdapter<String>(menu.this, android.R.layout.simple_spinner_item, mech_veh.getNissan());
-            tow_veh_models.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            tow_veh_model.setAdapter(tow_veh_models);
-        }
-        tow_veh_typee = tow_veh_type.getSelectedItem().toString();
-        tow_veh_markk = tow_veh_mark.getSelectedItem().toString();
-        if (tow_veh_model.getSelectedItem() != null) {
-            tow_veh_modell = tow_veh_model.getSelectedItem().toString();
-        }
-//        oil_typee = oil_type.getSelectedItem().toString().trim();
-        fuel_typee = fuel_type.getSelectedItem().toString();
-        fuelunit = fuel_unit.getSelectedItem().toString();
-//        oil_typee = oil_type.getSelectedItem().toString();
-        oilunit = oil_unit.getSelectedItem().toString();
-//        team_service_typee = team_service_type.getSelectedItem().toString().trim();
-    }
 
+    }
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
@@ -550,7 +599,6 @@ public class menu extends AppCompatActivity implements AdapterView.OnItemSelecte
         ref.set(m);
         Toast.makeText(this, requestid, Toast.LENGTH_SHORT).show();
     }
-
     private void request_tow() {
         HashMap<String, Object> m = new HashMap<String, Object>();
         Map<String, Object> veh = new HashMap<String, Object>();
@@ -567,7 +615,6 @@ public class menu extends AppCompatActivity implements AdapterView.OnItemSelecte
         m.put("vehicle", veh);
         ref.set(m);
     }
-
     private void request_taxi() {
         HashMap<String, Object> m = new HashMap<String, Object>();
         DocumentReference ref;
@@ -586,7 +633,6 @@ public class menu extends AppCompatActivity implements AdapterView.OnItemSelecte
             ref.update(m);
         }
     }
-
     private void request_ambulance() {
         HashMap<String, Object> m = new HashMap<String, Object>();
         DocumentReference ref;
@@ -604,7 +650,6 @@ public class menu extends AppCompatActivity implements AdapterView.OnItemSelecte
             ref.update(m);
         }
     }
-
     private void request_fuel() {
         HashMap<String, Object> m = new HashMap<String, Object>();
 
@@ -613,7 +658,7 @@ public class menu extends AppCompatActivity implements AdapterView.OnItemSelecte
         m.put("date", Calendar.getInstance().getTime());
         m.put("type", "station");
         m.put("fuel", true);
-        m.put("fuel_type", fueltype);
+        m.put("fuel_type", fuel_typee);
         m.put("fuel_quantity", fuelquantity);
         m.put("fuel_unit", fuel_unitt);
         m.put("state", "not finished");
@@ -628,7 +673,6 @@ public class menu extends AppCompatActivity implements AdapterView.OnItemSelecte
             ref.update(m);
         }
     }
-
     private void request_oil() {
         HashMap<String, Object> m = new HashMap<String, Object>();
 
@@ -652,7 +696,6 @@ public class menu extends AppCompatActivity implements AdapterView.OnItemSelecte
             ref.update(m);
         }
     }
-
     private void request_team() {
         HashMap<String, Object> m = new HashMap<String, Object>();
         DocumentReference ref;
@@ -662,23 +705,99 @@ public class menu extends AppCompatActivity implements AdapterView.OnItemSelecte
         m.put("client_id", clientid);
         m.put("date", Calendar.getInstance().getTime());
         m.put("type", "team");
+        m.put("service", team_service_typee);
         m.put("team_nbr", nbr_people);
         m.put("state", "not finished");
         ref.set(m);
     }
-    public void get_vehicle () {
+    public void get_mech_veh() {
         db.collection("other").document("vehicle").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        List<String> markList = (List<String>) document.get("mark");
-                        if (markList!= null) {
-                            for (String mark : markList) {
-                                //mech_veh_marks.add(mark);
+                        List<String> types = (List<String>) document.get("type");
+                        mech_vehtype.clear();
+                        if (types != null) {
+                            for (String type : types) {
+                                mech_vehtype.add(type);
                             }
-                            team_service_types.notifyDataSetChanged();
+                            mech_veh_types.notifyDataSetChanged();
+                        }
+                        List<String> marks = (List<String>) document.get("mark");
+                        mech_vechmark.clear();
+                        if (marks != null) {
+                            for (String mark : marks) {
+                                mech_vechmark.add(mark);
+                            }
+                            mech_veh_marks.notifyDataSetChanged();
+                        }
+                        if (mech_veh_markk!=null){
+                            List<String> models = (List<String>) document.get(mech_veh_markk);
+                            mech_vehmodel.clear();
+                            if (models != null) {
+                                for (String model : models) {
+                                    mech_vehmodel.add(model);
+                                }
+                                mech_veh_models.notifyDataSetChanged();
+                            }
+                        } else {
+                            List<String> models = (List<String>) document.get("model");
+                            mech_vehmodel.clear();
+                            if (models != null) {
+                                for (String model : models) {
+                                    mech_vehmodel.add(model);
+                                }
+                                mech_veh_models.notifyDataSetChanged();
+                            }
+                        }
+                    }
+                }
+            }
+        });
+    }
+    public void get_tow_veh() {
+        db.collection("other").document("vehicle").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if (task.isSuccessful()) {
+                    DocumentSnapshot document = task.getResult();
+                    if (document.exists()) {
+                        List<String> types = (List<String>) document.get("type");
+                        tow_vehtype.clear();
+                        if (types != null) {
+                            for (String type : types) {
+                                tow_vehtype.add(type);
+                            }
+                            tow_veh_types.notifyDataSetChanged();
+                        }
+                        List<String> marks = (List<String>) document.get("mark");
+                        tow_vehmark.clear();
+                        if (marks != null) {
+                            for (String mark : marks) {
+                                tow_vehmark.add(mark);
+                            }
+                            tow_veh_marks.notifyDataSetChanged();
+                        }
+                        if (mech_veh_markk!=null){
+                            List<String> models = (List<String>) document.get(tow_veh_markk);
+                            tow_vehmodel.clear();
+                            if (models != null) {
+                                for (String model : models) {
+                                    tow_vehmodel.add(model);
+                                }
+                                tow_veh_models.notifyDataSetChanged();
+                            }
+                        } else {
+                            List<String> models = (List<String>) document.get("model");
+                            tow_vehmodel.clear();
+                            if (models != null) {
+                                for (String model : models) {
+                                    tow_vehmodel.add(model);
+                                }
+                                tow_veh_models.notifyDataSetChanged();
+                            }
                         }
                     }
                 }
@@ -691,18 +810,23 @@ public class menu extends AppCompatActivity implements AdapterView.OnItemSelecte
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
+                    if (document != null && document.exists()) {
                         List<String> oilList = (List<String>) document.get("oil");
-                        if (oilList!= null) {
+                        if (oilList != null) {
                             for (String oil : oilList) {
                                 oiltype.add(oil);
                             }
                             oil_types.notifyDataSetChanged();
                         }
+                    } else {
+                        Toast.makeText(menu.this, "no document", Toast.LENGTH_SHORT).show();
                     }
+                } else {
+                    Toast.makeText(menu.this, "error getting the documnt", Toast.LENGTH_SHORT).show();
                 }
             }
         });
+
     }
     public void get_fuel () {
         db.collection("other").document("fuel_oil").get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
@@ -712,7 +836,7 @@ public class menu extends AppCompatActivity implements AdapterView.OnItemSelecte
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
                         List<String> fuelList = (List<String>) document.get("fuel");
-                        if (fuelList!= null) {
+                        if (fuelList != null) {
                             for (String fuel : fuelList) {
                                 fueltype.add(fuel);
                             }
@@ -730,9 +854,9 @@ public class menu extends AppCompatActivity implements AdapterView.OnItemSelecte
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
                     if (document.exists()) {
-                        List<String> servicesList = (List<String>) document.get("services");
-                        if (servicesList != null) {
-                            for (String service : servicesList) {
+                        List<String> serviceList = (List<String>) document.get("services");
+                        if (serviceList != null) {
+                            for (String service : serviceList) {
                                 team_service.add(service);
                             }
                             team_service_types.notifyDataSetChanged();

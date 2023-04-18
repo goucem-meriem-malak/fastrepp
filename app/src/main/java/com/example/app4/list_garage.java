@@ -39,11 +39,11 @@ public class list_garage extends AppCompatActivity implements listener_garage {
     private FirebaseUser user;
     private FirebaseAuth auth;
     private String clientid;
-    private GeoPoint client_location, garage_id;
+    private GeoPoint client_location, worker_id;
     private Map<String, Object> client_address;
-    private com.example.app4.data.garage grg;
+    private garage grg;
     private RecyclerView recyclerView;
-    private ArrayList<com.example.app4.data.garage> garage;
+    private ArrayList<garage> garage;
     private adapter_garage adapter_garage;
     private Button btnhome, btnlist, btnprofile, btngoback, btnhelpcenter;
 
@@ -175,9 +175,9 @@ public class list_garage extends AppCompatActivity implements listener_garage {
                                         String requestid = ref.getId();
                                         m.put("id", requestid);
                                         m.put("client_id", clientid);
-                                        m.put("garage_id", grg.getId());
+                                        m.put("worker_id", grg.getId());
                                         m.put("client_location", client_location);
-                                        m.put("garage_location", grg.getLocation());
+                                        m.put("worker_location", grg.getLocation());
                                         m.put("type", "team");
                                         m.put("date", Calendar.getInstance().getTime());
                                         m.put("distance", distance);

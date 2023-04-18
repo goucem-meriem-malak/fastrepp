@@ -9,7 +9,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.app4.data.get_mechanics;
 import com.example.app4.data.taxi;
 
 import java.util.ArrayList;

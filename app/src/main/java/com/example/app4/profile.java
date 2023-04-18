@@ -2,13 +2,23 @@ package com.example.app4;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.PopupMenu;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -20,11 +30,15 @@ import com.example.app4.data.mechanic;
 import com.example.app4.data.station;
 import com.example.app4.data.tow;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.HashMap;
 import java.util.Locale;
@@ -33,11 +47,15 @@ import java.util.regex.Pattern;
 
 
 public class profile extends AppCompatActivity {
+    private static final int REQUEST_CODE_SELECT_IMAGE = 1;
     private FirebaseFirestore db;
     private FirebaseUser user;
     private FirebaseAuth auth;
-    private EditText firstname, lastname, email, country, city, state, phone, fphone, type, mark, model, matriculation;
-    private Button btnhome, btnlistrequests, btnprofile, btneditprofile, btneditvehicle, btngoback, brnsettings;
+    private FirebaseStorage storage;
+    private StorageReference storageRef;
+    private TextView fullname;
+    private Button btnhome, btnlistrequests, btnprofile, btngoback, btneditprofile, btnseevehicles, btnlogout, btndelete, btnlanguage;
+    private ImageView pfp;
     private String userid;
 
     @Override
@@ -50,353 +68,176 @@ public class profile extends AppCompatActivity {
         btnprofile = findViewById(R.id.profile);
         btnlistrequests = findViewById(R.id.list_requests);
         btneditprofile = findViewById(R.id.edit_profile);
-        btneditvehicle = findViewById(R.id.see_vehicle);
-        brnsettings = findViewById(R.id.settings);
+        btnseevehicles = findViewById(R.id.see_vehicles);
+        btndelete = findViewById(R.id.delete_account);
+        btnlogout = findViewById(R.id.logout);
+        btnlanguage = findViewById(R.id.language);
+        pfp = findViewById(R.id.pfp);
 
-        firstname=findViewById(R.id.firstname);
-        lastname=findViewById(R.id.lastname);
-        fphone=findViewById(R.id.fphone);
-        phone=findViewById(R.id.phone);
-        email = findViewById(R.id.email);
-        country = findViewById(R.id.country);
-        city = findViewById(R.id.city);
-
-        type = findViewById(R.id.type);
-        mark = findViewById(R.id.mark);
-        model = findViewById(R.id.model);
-        matriculation = findViewById(R.id.matri_nbr);
+        fullname =findViewById(R.id.fullname);
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
         user = auth.getCurrentUser();
 
+        storage = FirebaseStorage.getInstance();
+        storageRef = storage.getReference();
+
         userid = user.getUid();
-
-        db.collection("worker").document(userid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-            if (task.isSuccessful()) {
-            DocumentSnapshot document = task.getResult();
-            if (document.exists()) {
-                btnhome.setVisibility(View.GONE);
-                btnlistrequests.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        Intent activityChangeIntent = new Intent(profile.this, list_requests_worker.class);
-                        profile.this.startActivity(activityChangeIntent);
-                        finish();
-                    }
-                });
-            String type = document.get("type").toString();
-            if (type.equals("mechanic")) {
-            db.collection("mechanic").document(userid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            mechanic mechanic = document.toObject(mechanic.class);
-                            if (mechanic.getFirstname() == null) {
-                                firstname.setText("");
-                            } else {
-                                firstname.setText(mechanic.getFirstname());
-                            }
-                            if (mechanic.getLastname() == null) {
-                                lastname.setText("");
-                            } else {
-                                lastname.setText(mechanic.getLastname());
-                            }
-                            if (mechanic.getPhone() == null) {
-                                fphone.setText("");
-                                phone.setText("");
-                            } else {
-                                fphone.setText(mechanic.getPhone().substring(0, mechanic.getPhone().length() - 9));
-                                phone.setText(mechanic.getPhone().substring(mechanic.getPhone().length() - 9, mechanic.getPhone().length()));
-                            }
-                            if (mechanic.getEmail() == null) {
-                                email.setText("");
-                            } else {
-                                email.setText(mechanic.getEmail());
-                            }
-                            if(((Map<String, Object>) document.getData().get("address"))==null){
-                                country.setText("");
-                                city.setText("");
-                            } else {
-                                if (((Map<String, Object>) document.getData().get("address")).get("country") == null) {
-                                    country.setText("");
-                                } else {
-                                    country.setText(((Map<String, Object>) document.getData().get("address")).get("country").toString());
-                                }
-                                //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
-                                if (((Map<String, Object>) document.getData().get("address")).get("city") == null) {
-                                    city.setText("");
-                                } else {
-                                    city.setText(((Map<String, Object>) document.getData().get("address")).get("city").toString());
-                                }
-                                //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
-                            }
-                        }
-                    }
-                }
-            });
-            } else if (type.equals("station")) {
-            db.collection("station").document(userid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-
-                            station station = document.toObject(station.class);
-                            if (station.getName() == null) {
-                                firstname.setText("");
-                            } else {
-                                firstname.setText(station.getName());
-                            }
-                            if (station.getPhone() == null) {
-                                fphone.setText("");
-                                phone.setText("");
-                            } else {
-                                fphone.setText(station.getPhone().substring(0, station.getPhone().length() - 9));
-                                phone.setText(station.getPhone().substring(station.getPhone().length() - 9, station.getPhone().length()));
-                            }
-                            if (((Map<String, Object>) document.getData().get("address")).get("country") == null) {
-                                country.setText("");
-                            } else {
-                                country.setText(((Map<String, Object>) document.getData().get("address")).get("country").toString());
-                            }
-                            //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
-                            if (((Map<String, Object>) document.getData().get("address")).get("city") == null) {
-                                city.setText("");
-                            } else {
-                                city.setText(((Map<String, Object>) document.getData().get("address")).get("city").toString());
-                            }
-                            //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
-                        }
-                    }
-                }
-
-            });
-            } else if (type.equals("garage")) {
-            db.collection("garage").document(userid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            garage garage = document.toObject(garage.class);
-                            if (garage.getName() == null) {
-                                firstname.setText("");
-                            } else {
-                                firstname.setText(garage.getName());
-                            }
-                            if (garage.getPhone() == null) {
-                                fphone.setText("");
-                                phone.setText("");
-                            } else {
-                                fphone.setText(garage.getPhone().substring(0, garage.getPhone().length() - 9));
-                                phone.setText(garage.getPhone().substring(garage.getPhone().length() - 9, garage.getPhone().length()));
-                            }
-                            if (((Map<String, Object>) document.getData().get("address")).get("country") == null) {
-                                country.setText("");
-                            } else {
-                                country.setText(((Map<String, Object>) document.getData().get("address")).get("country").toString());
-                            }
-                            //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
-                            if (((Map<String, Object>) document.getData().get("address")).get("city") == null) {
-                                city.setText("");
-                            } else {
-                                city.setText(((Map<String, Object>) document.getData().get("address")).get("city").toString());
-                            }
-                            //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
-                        }
-                    }
-                }
-
-            });
-            } else if (type.equals("towtruck")) {
-            db.collection("towtruck").document(userid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if (task.isSuccessful()) {
-                        DocumentSnapshot document = task.getResult();
-                        if (document.exists()) {
-                            tow tow_truck = document.toObject(tow.class);
-                            if (tow_truck.getFirstname() == null) {
-                                firstname.setText("");
-                            } else {
-                                firstname.setText(tow_truck.getFirstname());
-                            }
-                            if (tow_truck.getLastname() == null) {
-                                lastname.setText("");
-                            } else {
-                                lastname.setText(tow_truck.getFirstname());
-                            }
-                            if (tow_truck.getPhone() == null) {
-                                fphone.setText("");
-                                phone.setText("");
-                            } else {
-                                fphone.setText(tow_truck.getPhone().substring(0, tow_truck.getPhone().length() - 9));
-                                phone.setText(tow_truck.getPhone().substring(tow_truck.getPhone().length() - 9, tow_truck.getPhone().length()));
-                            }
-                            if (((Map<String, Object>) document.getData().get("address")).get("country") == null) {
-                                country.setText("");
-                            } else {
-                                country.setText(((Map<String, Object>) document.getData().get("address")).get("country").toString());
-                            }
-                            //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
-                            if (((Map<String, Object>) document.getData().get("address")).get("city") == null) {
-                                city.setText("");
-                            } else {
-                                city.setText(((Map<String, Object>) document.getData().get("address")).get("city").toString());
-                            }
-                            //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
-                        }
-                    }
-                }
-
-            });
-            }
-            } else {
-            db.collection("client").document(userid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+/*      db.collection("client").document(userid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if (task.isSuccessful()) {
                     DocumentSnapshot document = task.getResult();
-                    if (document.exists()) {
+                    if (document != null && document.exists()) {
                         client client = document.toObject(client.class);
-                        if (client.getFirstname() == null) {
-                            firstname.setText("");
-                        } else {
-                            firstname.setText(client.getFirstname());
-                        }
-                        if (client.getLastname() == null) {
-                            lastname.setText("");
-                        } else {
-                            lastname.setText(client.getLastname());
-                        }
-                        if (client.getPhone() == null) {
-                            fphone.setText("");
-                            phone.setText("");
-                        } else {
-                            fphone.setText(client.getPhone().substring(0, client.getPhone().length() - 9));
-                            phone.setText(client.getPhone().substring(client.getPhone().length() - 9, client.getPhone().length()));
-                        }
-                        if (client.getEmail() == null) {
-                            email.setText("");
-                        } else {
-                            email.setText(client.getEmail());
-                        }
-                        if (((Map<String, Object>) document.getData().get("address")).get("country") == null) {
-                            country.setText("");
-                        } else {
-                            country.setText(((Map<String, Object>) document.getData().get("address")).get("country").toString());
-                        }
-                        //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
-                        if (((Map<String, Object>) document.getData().get("address")).get("city") == null) {
-                            city.setText("");
-                        } else {
-                            city.setText(((Map<String, Object>) document.getData().get("address")).get("city").toString());
-                        }
-                        //state.setText(((Map<String, Object>)documentSnapshott.getData().get("address")).get("state").toString());
+                        if (client!=null){
+                            if (client.getLastname() != null){
+                                lastname.setText(client.getLastname());
+                            } else {
+                                lastname.setText("");
+                            }
+                            if (client.getFirstname() != null){
+                                firstname.setText(client.getFirstname());
+                            } else {
+                                firstname.setText("");
+                            }
+                            if (client.getPhone() != null){
+                                fphone.setText(client.getPhone().substring(0, client.getPhone().length() - 9));
+                                phone.setText(client.getPhone().substring(client.getPhone().length() - 9, client.getPhone().length()));
 
+                            } else {
+                                fphone.setText("");
+                                phone.setText("");
+                            }
+                            if (client.getEmail() != null) {
+                                email.setText(client.getEmail());
+                            } else {
+                                email.setText("");
+                            }
+                            if (client.getAddress().getCountry() != null){
+                                country.setText(client.getAddress().getCountry());
+                            } else {
+                                country.setText("");
+                            }
+                            if (client.getAddress().getCity() != null){
+                                city.setText(client.getAddress().getCity());
+                            } else {
+                                city.setText("");
+                            }
+                            if (client.getAddress().getState() != null){
+                                state.setText(client.getAddress().getState());
+                            } else {
+                                state.setText("");
+                            }
+                        }
+                    } else {
+                        Toast.makeText(profile.this, "Please Try Later", Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Log.d(TAG, "Failed to get document.", task.getException());
+                    Toast.makeText(profile.this, "Check Your Connection", Toast.LENGTH_SHORT).show();
                 }
             }
-            });
-            }
-            } else {
-            Log.d(TAG, "Failed to get document.", task.getException());
-            }
-            }
-            });
+        });
 
+ */
         btnhome.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 Intent activityChangeIntent = new Intent(profile.this, home.class);
                 profile.this.startActivity(activityChangeIntent);
             }
         });
-        brnsettings.setOnClickListener(new View.OnClickListener() {
-            public void onClick(View v) {
-             /*   FirebaseAuth.getInstance().signOut();
-                Intent activityChangeIntent = new Intent(profile.this, launch_screen.class);
-                profile.this.startActivity(activityChangeIntent);
-                finish();*/
-                // Define a string for the language code to switch to
-                String languageCode = "ar"; // Arabic
-
-// Set the desired locale
-                Locale locale = new Locale(languageCode);
-
-// Set the configuration of the Resources object to use the new locale
-                Configuration config = new Configuration(getResources().getConfiguration());
-                config.setLocale(locale);
-                getResources().updateConfiguration(config, getResources().getDisplayMetrics());
-
-// Restart the activity to apply the new language
-                Intent intent = getIntent();
-                finish();
-                startActivity(intent);
-
-            }
-        });
-        btneditprofile.setOnClickListener(new View.OnClickListener() {
+        btnlistrequests.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (btneditprofile.getText().equals("Edit Profile")){
-                    firstname.setEnabled(true);
-                    lastname.setEnabled(true);
-                    country.setEnabled(true);
-                    city.setEnabled(true);
-                //    state.setEnabled(true);
-                    email.setEnabled(true);
-                    btneditprofile.setText("Save");
-                }
-                else{
-                    Map<String, Object> update = new HashMap<>();
-                    update.put("firstname", firstname.getText().toString().trim());
-                    update.put("lastname", lastname.getText().toString().trim());
-                    Pattern rfc2822 = Pattern.compile(
-                            "^[a-z0-9!#$%&'*+/=?^_`{|}~-]+(?:\\.[a-z0-9!#$%&'*+/=?^_`{|}~-]+)*@(?:[a-z0-9](?:[a-z0-9-]*[a-z0-9])?\\.)+[a-z0-9](?:[a-z0-9-]*[a-z0-9])?$");
-                    if (!rfc2822.matcher(email.getText().toString()).matches()&&email.getText().toString().isEmpty()!=true) {
-                        Toast.makeText(profile.this, "Email invalide", Toast.LENGTH_LONG).show();
-                        email.setFocusable(true);
-                    }
-                    else {
-                        update.put("email", email.getText().toString().trim());
-                        btneditprofile.setText("Edit Profile");
-                        firstname.setEnabled(false);
-                        lastname.setEnabled(false);
-                        country.setEnabled(false);
-                        city.setEnabled(false);
-                      //  state.setEnabled(false);
-                        email.setEnabled(false);
-                    }
-                    Map<String, Object> addresss = new HashMap<>();
-                    addresss.put("country", country.getText().toString().trim());
-                    addresss.put("city", city.getText().toString().trim());
-                 //   addresss.put("state", state.getText().toString().trim());
-                    update.put("address", addresss);
-
-
-                    db.collection("client").document(userid).update(update);
-                }
+                Intent activityChangeIntent = new Intent(profile.this, list_requests.class);
+                profile.this.startActivity(activityChangeIntent);
             }
         });
-       btnlistrequests.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               Intent activityChangeIntent = new Intent(profile.this, list_requests.class);
-               profile.this.startActivity(activityChangeIntent);
-           }
-       });
         btngoback.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 finish();
             }
         });
+        btneditprofile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent activityChangeIntent = new Intent(profile.this, edit_profile.class);
+                profile.this.startActivity(activityChangeIntent);
+            }
+        });
+        btnseevehicles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent activityChangeIntent = new Intent(profile.this, client_vehicles.class);
+                profile.this.startActivity(activityChangeIntent);
+            }
+        });
+        btnlanguage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                changeLanguage();
+            }
+        });
+        btnlogout.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                auth.signOut();
+                Intent intent = new Intent(getApplicationContext(), launch_screen.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                startActivity(intent);
+            }
+        });
+        btndelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(profile.this);
+                builder.setMessage("Are You Sure You Want To Delete Your Account? All Your Information Will Be Deleted!")
+                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                db.collection("client").document(userid).delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        Toast.makeText(profile.this, "Your Account Has Been Deleted", Toast.LENGTH_SHORT).show();
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        Toast.makeText(profile.this, "An Error Occurred While Deleting Your Account", Toast.LENGTH_SHORT).show();
+
+                                    }
+                                });
+                            }
+                        })
+                        .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                // User clicked Cancel button, dismiss dialog
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
+            }
+        });
+        pfp.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(profile.this, "Click On Edit Profile", Toast.LENGTH_SHORT).show();
+            }
+            });
+    }
+
+    private void changeLanguage() {
+            Locale currentLocale = getResources().getConfiguration().locale;
+
+            Locale newLocale = currentLocale.equals(Locale.ENGLISH) ? new Locale("ar") : Locale.ENGLISH;
+
+            Configuration configuration = new Configuration();
+            configuration.setLocale(newLocale);
+
+            getResources().updateConfiguration(configuration, getResources().getDisplayMetrics());
+
+            recreate();
     }
 }

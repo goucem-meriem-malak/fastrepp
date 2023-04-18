@@ -2,7 +2,6 @@ package com.example.app4.data;
 
 import com.google.firebase.firestore.GeoPoint;
 
-import java.util.ArrayList;
 import java.util.Map;
 
 public class taxi {
@@ -10,12 +9,12 @@ public class taxi {
     private Map<String, Object> address;
     private GeoPoint location;
     private float distance;
-    private veh vehicle;
+    private com.example.app4.data.vehicle vehicle;
 
     public taxi() {
     }
 
-    public taxi(String id, String firstname, String lastname, String phone, String dunit, Map<String, Object> address, GeoPoint location, float distance, veh vehicle) {
+    public taxi(String id, String firstname, String lastname, String phone, String dunit, Map<String, Object> address, GeoPoint location, float distance, com.example.app4.data.vehicle vehicle) {
         this.id = id;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -91,11 +90,11 @@ public class taxi {
         this.distance = distance;
     }
 
-    public veh getVehicle() {
+    public com.example.app4.data.vehicle getVehicle() {
         return vehicle;
     }
 
-    public void setVehicle(veh vehicle) {
+    public void setVehicle(com.example.app4.data.vehicle vehicle) {
         this.vehicle = vehicle;
     }
 }

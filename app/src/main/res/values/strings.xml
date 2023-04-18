@@ -93,4 +93,8 @@
     <string name="stations">Stations</string>
     <string name="station">Station</string>
     <string name="your_vehicle">Your Vehicle</string>
+    <string name="see_your_vehicles">See Your Vehicles</string>
+    <string name="languages">Languages</string>
+    <string name="log_out">Log Out</string>
+    <string name="delete_account">Delete Account</string>
 </resources>

@@ -175,9 +175,9 @@ public class list_tows extends AppCompatActivity implements listener_tow {
                                         DocumentReference ref = db.collection("request").document(requestid);
                                         m.put("id", requestid);
                                         m.put("client_id", clientid);
-                                        m.put("taxi_id", tow.getId());
+                                        m.put("worker_id", tow.getId());
                                         m.put("client_location", client.getLocation());
-                                        m.put("taxi_location", tow.getLocation());
+                                        m.put("worker_location", tow.getLocation());
                                         m.put("address",client.getLocationaddress());
                                         m.put("distance", get_distance(client.getLocation(), tow.getLocation()));
                                         m.put("price", tow.getDistance() * 200);

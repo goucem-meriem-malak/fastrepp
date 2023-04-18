@@ -2,17 +2,18 @@ package com.example.app4.data;
 
 import com.google.firebase.firestore.GeoPoint;
 
+import java.util.List;
 import java.util.Map;
 
 public class client {
     private String id, phone, firstname, lastname, email;
     private GeoPoint location;
     private Map<String, Object> address, locationaddress;
-    private veh veh;
+    private List<vehicle> vehicle;
     public client() {
     }
 
-    public client(String id, String phone, String firstname, String lastname, String email, GeoPoint location, Map<String, Object> address, Map<String, Object> locationaddress, com.example.app4.data.veh veh) {
+    public client(String id, String phone, String firstname, String lastname, String email, GeoPoint location, Map<String, Object> address, Map<String, Object> locationaddress, List<vehicle> vehicle) {
         this.id = id;
         this.phone = phone;
         this.firstname = firstname;
@@ -21,7 +22,7 @@ public class client {
         this.location = location;
         this.address = address;
         this.locationaddress = locationaddress;
-        this.veh = veh;
+        this.vehicle = vehicle;
     }
 
     public String getId() {
@@ -88,11 +89,11 @@ public class client {
         this.locationaddress = locationaddress;
     }
 
-    public com.example.app4.data.veh getVeh() {
-        return veh;
+    public List<vehicle> getVeh() {
+        return vehicle;
     }
 
-    public void setVeh(com.example.app4.data.veh veh) {
-        this.veh = veh;
+    public void setVeh(List<vehicle> vehicle) {
+        this.vehicle = vehicle;
     }
 }

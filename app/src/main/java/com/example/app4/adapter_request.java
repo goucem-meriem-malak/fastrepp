@@ -10,7 +10,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.app4.data.get_requests;
 import com.example.app4.data.request;
 
 import java.time.format.DateTimeFormatter;
@@ -95,14 +94,16 @@ public class adapter_request extends RecyclerView.Adapter<adapter_request.myview
     }
 
     public static class myviewholder extends RecyclerView.ViewHolder{
-        TextView id, veh_mark, veh_type, veh_model, address, mechanic_location, date, type, state, price, p, distance;
+        TextView address, date, type, veh_mark, veh_type, veh_model, state, price, p, distance;
         LinearLayout v;
         public myviewholder(@NonNull View itemView) {
             super(itemView);
             address = itemView.findViewById(R.id.address);
             date = itemView.findViewById(R.id.date);
-            state = itemView.findViewById(R.id.state);
             type = itemView.findViewById(R.id.type);
+
+            distance = itemView.findViewById(R.id.distance);
+            state = itemView.findViewById(R.id.state);
             p = itemView.findViewById(R.id.p);
             price = itemView.findViewById(R.id.price);
             veh_type = itemView.findViewById(R.id.veh_type);

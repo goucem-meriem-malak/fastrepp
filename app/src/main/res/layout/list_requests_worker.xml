@@ -4,33 +4,39 @@
     android:layout_height="fill_parent"
     xmlns:tools="http://schemas.android.com/tools"
     android:gravity="center_horizontal"
-    android:background="@color/grayish"
+    android:background="@color/biegish"
     android:orientation="vertical"
-    tools:context=".list_requests_worker">
+    tools:context=".list_requests">
 
     <LinearLayout
         android:id="@+id/header"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:background="@drawable/header"
-        android:orientation="horizontal"
         android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="horizontal"
         android:padding="8dp">
+
+
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:gravity="center"
-            android:text="@string/list_requests"
-            android:textColor="@color/white"
+            android:text="@string/requests"
             android:layout_marginHorizontal="70dp"
-            android:textSize="25dp"/>
-
+            android:textSize="35sp"
+            android:layout_weight="10"
+            android:shadowColor="#000000"
+            android:shadowDx="2"
+            android:shadowDy="2"
+            android:shadowRadius="4"
+            android:fontFamily="sans-serif-condensed-light"/>
     </LinearLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerr"
+        android:id="@+id/recycler_request_worker"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginHorizontal="22dp"
@@ -39,28 +45,31 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="8dp"
-        android:background="@drawable/footer"
-        android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
+        android:padding="10dp"
+        android:orientation="horizontal"
+        android:background="@color/blueish"
+        android:elevation="4dp"
+        android:translationZ="2dp"
+        android:layout_gravity="center"
+        android:gravity="center">
+
+
         <Button
-            android:id="@+id/list"
+            android:id="@+id/list_requests"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/menu"
-            android:layout_gravity="center"
+            android:gravity="left"
             android:layout_marginLeft="60dp"
             android:layout_marginRight="60dp"
-            android:layout_weight="1"/>
+            android:background="@drawable/history"/>
         <Button
             android:id="@+id/profile"
             android:layout_width="50dp"
             android:layout_height="50dp"
-            android:background="@drawable/profile"
-            android:layout_gravity="center"
-            android:layout_marginRight="60dp"
+            android:layout_gravity="right"
+            android:layout_marginEnd="60dp"
             android:clickable="false"
-            android:layout_weight="1"/>
+            android:background="@drawable/profile"/>
 
     </LinearLayout>
 

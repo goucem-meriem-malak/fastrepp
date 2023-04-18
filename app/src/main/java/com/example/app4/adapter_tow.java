@@ -18,7 +18,7 @@ public class adapter_tow extends RecyclerView.Adapter<adapter_tow.myviewholder> 
 
     Context context;
     ArrayList<tow> tows;
-    list_tows ocl;
+    listener_tow ocl;
 
     public adapter_tow(Context context, ArrayList<tow> tows, list_tows ocl) {
         this.context = context;

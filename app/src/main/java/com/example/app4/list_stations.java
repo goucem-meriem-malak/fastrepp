@@ -163,10 +163,10 @@ public class list_stations extends AppCompatActivity implements listener_station
                                         HashMap<String, Object> m = new HashMap<String, Object>();
 
                                         DocumentReference ref = db.collection("request").document(requestid);
-                                        m.put("station_id", stat.getId());
+                                        m.put("worker_id", stat.getId());
                                         m.put("client_location", client.getLocation());
                                         m.put("address", client.getLocationaddress());
-                                        m.put("station_location", stat.getLocation());
+                                        m.put("worker_location", stat.getLocation());
                                         m.put("distance", stat.getDistance());
                                         m.put("price", stat.getDistance());
                                         m.put("state", "waiting");

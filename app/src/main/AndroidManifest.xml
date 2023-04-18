@@ -7,10 +7,14 @@
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="com.google.android.providers.gsf.permission.READ_GSERVICES" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS"
         tools:ignore="ProtectedPermissions" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
+    <uses-permission android:name="android.permission.RECEIVE" />
+
 
 
 
@@ -38,11 +42,16 @@
         <meta-data
             android:name="com.google.android.geo.API_KEY"
             android:value="AIzaSyAdj5-qiFyxzg19l13JzDN-oSNFxVNDpvw" />
-
+        <meta-data
+            android:name="firebase_messaging_auto_init_enabled"
+            android:value="false" />
+        <meta-data
+            android:name="firebase_analytics_collection_enabled"
+            android:value="false" />
         <activity
             android:name=".launch_screen"
             android:exported="true"
-            android:label="@string/fastrep">
+            android:label="@string/Fixper">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -54,7 +63,25 @@
             android:label="@string/sign_up">
         </activity>
         <activity
+            android:name=".MainActivity"
+            android:exported="true"
+            android:label="@string/sign_up">
+        </activity>
+        <service
+            android:name=".MyFirebaseMessagingService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
+            </intent-filter>
+        </service>
+        <activity
             android:name=".list_mechanics"
+            android:exported="true"
+            android:label="@string/sign_up">
+        </activity>
+        <activity
+            android:name=".edit_profile"
+            android:windowSoftInputMode="adjustResize"
             android:exported="true"
             android:label="@string/sign_up">
         </activity>
@@ -64,7 +91,27 @@
             android:label="@string/sign_in">
         </activity>
         <activity
+            android:name=".profile_worker"
+            android:exported="true"
+            android:label="@string/sign_in">
+        </activity>
+        <activity
             android:name=".garage_services"
+            android:exported="true"
+            android:label="@string/garage_services">
+        </activity>
+        <activity
+            android:name=".request_worker"
+            android:exported="true"
+            android:label="@string/garage_services">
+        </activity>
+        <activity
+            android:name=".todelete1"
+            android:exported="true"
+            android:label="@string/sign_in">
+        </activity>
+        <activity
+            android:name=".td"
             android:exported="true"
             android:label="@string/garage_services">
         </activity>
@@ -84,12 +131,12 @@
             android:label="@string/profile">
         </activity>
         <activity
-            android:name=".form_oil_fuel"
+            android:name=".help_center"
             android:exported="true"
-            android:label="@string/profile">
+            android:label="@string/Help_center">
         </activity>
         <activity
-            android:name=".help_center"
+            android:name=".tryy"
             android:exported="true"
             android:label="@string/Help_center">
         </activity>
@@ -104,12 +151,12 @@
             android:label="@string/garage_services">
         </activity>
         <activity
-            android:name=".form_vehicule"
+            android:name=".list_tows"
             android:exported="true"
             android:label="@string/home">
         </activity>
         <activity
-            android:name=".list_tows"
+            android:name=".client_vehicles"
             android:exported="true"
             android:label="@string/home">
         </activity>

@@ -173,9 +173,9 @@ public class list_taxis extends AppCompatActivity implements listener_taxi {
                                         DocumentReference ref = db.collection("request").document(requestid);
                                         m.put("id", requestid);
                                         m.put("client_id", clientid);
-                                        m.put("taxi_id", taxi.getId());
+                                        m.put("worker_id", taxi.getId());
                                         m.put("client_location", client.getLocation());
-                                        m.put("taxi_location", taxi.getLocation());
+                                        m.put("worker_location", taxi.getLocation());
                                         m.put("address",client.getAddress());
                                         m.put("distance", taxi.getDistance());
                                         m.put("price", taxi.getDistance() * 200);

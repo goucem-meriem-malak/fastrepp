@@ -8,6 +8,11 @@
     android:clickable="true"
     android:layout_margin="8dp"
     android:id="@+id/request_worker">
+    <TextView
+        android:id="@+id/id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -56,24 +61,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:textColor="@color/yellowish"/>
-            </LinearLayout>
-            <LinearLayout
-                android:id="@+id/buttons"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:gravity="center"
-                android:visibility="gone">
-                <Button
-                    android:id="@+id/reject"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="reject"/>
-                <Button
-                    android:id="@+id/accept"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="accept"/>
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>

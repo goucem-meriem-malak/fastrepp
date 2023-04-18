@@ -18,7 +18,7 @@ import androidx.core.app.NotificationManagerCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.example.app4.data.get_requests;
+import com.example.app4.data.request;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentChange;
@@ -38,7 +38,7 @@ public class list_requests_worker extends AppCompatActivity{
     private String clientid;
     private Button btnhome, btngoback, btnhelpcenter, btnlist, btnprofile;
     private RecyclerView recyclerView;
-    private ArrayList<com.example.app4.data.get_requests> get_requests;
+    private ArrayList<request> get_requests;
     private com.example.app4.adapter_requests_worker adapter_requests_worker;
     private ProgressDialog pd;
 
@@ -52,9 +52,9 @@ public class list_requests_worker extends AppCompatActivity{
         // pd.setMessage("Fetchingdata");
         //  pd.show();
 
-        btnlist = findViewById(R.id.list);
+        btnlist = findViewById(R.id.list_requests);
         btnprofile = findViewById(R.id.profile);
-        recyclerView = findViewById(R.id.recyclerr);
+        recyclerView = findViewById(R.id.recycler_request_worker);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
@@ -63,15 +63,21 @@ public class list_requests_worker extends AppCompatActivity{
         user = auth.getCurrentUser();
         clientid = user.getUid();
 
-        get_requests = new ArrayList<get_requests>();
-        adapter_requests_worker = new adapter_requests_worker(this, get_requests);
+        get_requests = new ArrayList<request>();
+        adapter_requests_worker = new adapter_requests_worker(this, get_requests, new listener_request_worker() {
+            @Override
+            public void onItemClicked(String document_id, request request, int position) {
+                Intent intent = new Intent(list_requests_worker.this, request_worker.class);
+                list_requests_worker.this.startActivity(intent);
+            }
+        });
         recyclerView.setAdapter(adapter_requests_worker);
 
         get_list_requests();
         btnprofile.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
               //  FirebaseAuth.getInstance().signOut();
-                Intent activityChangeIntent = new Intent(list_requests_worker.this, profile.class);
+                Intent activityChangeIntent = new Intent(list_requests_worker.this, profile_worker.class);
                 list_requests_worker.this.startActivity(activityChangeIntent);
                 finish();
             }
@@ -127,7 +133,7 @@ public class list_requests_worker extends AppCompatActivity{
                         }
                         for (DocumentChange dc : value.getDocumentChanges()) {
                             if (dc.getType() == DocumentChange.Type.ADDED) {
-                                get_requests request = dc.getDocument().toObject(get_requests.class);
+                                request request = dc.getDocument().toObject(request.class);
                                 get_requests.add(request);
                             }
                             adapter_requests_worker.notifyDataSetChanged();

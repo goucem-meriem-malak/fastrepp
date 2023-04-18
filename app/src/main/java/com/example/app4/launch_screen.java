@@ -3,8 +3,12 @@ package com.example.app4;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.transition.Fade;
+import android.transition.Transition;
+import android.transition.TransitionManager;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -30,7 +34,6 @@ import java.util.HashMap;
 public class launch_screen extends AppCompatActivity {
     private FirebaseFirestore db;
     private FirebaseAuth auth;
-    private FirebaseUser user;
     private String userid;
 
     @Override
@@ -40,8 +43,38 @@ public class launch_screen extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         auth = FirebaseAuth.getInstance();
-        userid = auth.getCurrentUser().getUid();
+        if (auth.getCurrentUser()!=null){
+        userid = auth.getCurrentUser().getUid();}
 
+        if (userid != null) {
+                    db.collection("worker").document(userid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                            if (task.isSuccessful()) {
+                                DocumentSnapshot document = task.getResult();
+                                if (document.exists()) {
+                                    workers();
+                                } else {
+                                    db.collection("client").document(userid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                                        @Override
+                                        public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                                            if (task.isSuccessful()) {
+                                                DocumentSnapshot document = task.getResult();
+                                                if (document.exists()) {
+                                                    clients();
+                                                } else {
+                                                    news();
+                                                }
+                                            }
+                                        }
+                                    });
+                                }
+                            }
+                        }
+                    });
+        } else {
+            news();
+        }
         new Handler().postDelayed(new Runnable() {
             @Override
             public void run() {
@@ -50,72 +83,43 @@ public class launch_screen extends AppCompatActivity {
                         R.anim.slide_up);
                 myImageView.startAnimation(slideUpAnimation);
                 TextView name = findViewById(R.id.app_name);
-                Animation slideUpAnimationn = AnimationUtils.loadAnimation(getApplicationContext(),
+                name.setVisibility(View.INVISIBLE);
+                Animation fadeinAnimation = AnimationUtils.loadAnimation(getApplicationContext(),
                         R.anim.fade_in);
-                name.startAnimation(slideUpAnimationn);
-                slideUpAnimationn.reset();
-                name.clearAnimation();
-                name.startAnimation(slideUpAnimation);
-                if (userid != null) {
-                    new Handler().postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            db.collection("worker").document(userid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if (task.isSuccessful()) {
-                                        DocumentSnapshot document = task.getResult();
-                                        if (document.exists()) {
-                                            db.collection(document.get("type").toString()).document(userid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                    if (task.isSuccessful()) {
-                                                        DocumentSnapshot documentt = task.getResult();
-                                                        if (documentt.exists()) {
-                                                            Toast.makeText(launch_screen.this, "Welcome" + documentt.get("name").toString(), Toast.LENGTH_SHORT).show();
-                                                            Intent in = new Intent(launch_screen.this, list_requests_worker.class);
-                                                            launch_screen.this.startActivity(in);
-                                                            finish();
-                                                        } else {
-                                                            Intent intent = new Intent(launch_screen.this, first_screen.class);
-                                                            startActivity(intent);
-                                                            finish();
-                                                        }
-                                                    }
-                                                }
-                                            });
-                                        } else {
-                                            db.collection("client").document(userid).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                                @Override
-                                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                                    if (task.isSuccessful()) {
-                                                        DocumentSnapshot document = task.getResult();
-                                                        if (document.exists()) {
-                                                            Intent intent = new Intent(launch_screen.this, home.class);
-                                                            startActivity(intent);
-                                                            finish();
-                                                        } else {
-                                                            Intent intent = new Intent(launch_screen.this, first_screen.class);
-                                                            startActivity(intent);
-                                                            finish();
-
-                                                        }
-                                                    }
-                                                }
-                                            });
-                                        }
-                                    }
-                                }
-                            });
-                        }
-                    }, 2500);
-                } else {
-                    Intent intent = new Intent(launch_screen.this, first_screen.class);
-                    startActivity(intent);
-                    finish();
-                }
-
+                name.startAnimation(fadeinAnimation);
+                name.setVisibility(View.VISIBLE);
             }
         }, 2000);
+    }
+
+    private void workers() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(launch_screen.this, list_requests_worker.class);
+                launch_screen.this.startActivity(intent);
+                finish();
+            }
+        }, 3000);
+    }
+    private void clients() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(launch_screen.this, home.class);
+                launch_screen.this.startActivity(intent);
+                finish();
+            }
+        }, 3000);
+    }
+    private void news() {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(launch_screen.this, first_screen.class);
+                launch_screen.this.startActivity(intent);
+                finish();
+            }
+        }, 3000);
     }
 }

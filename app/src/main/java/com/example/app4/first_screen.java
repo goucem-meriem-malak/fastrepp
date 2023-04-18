@@ -59,7 +59,6 @@ public class first_screen extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.first_screen);
 
-        all = findViewById(R.id.all);
         fphone = findViewById(R.id.fphone);
         phone = findViewById(R.id.phone);
         code = findViewById(R.id.code);

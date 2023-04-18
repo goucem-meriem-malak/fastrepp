@@ -15,7 +15,6 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.app4.data.client;
-import com.example.app4.data.get_mechanics;
 import com.example.app4.data.mechanic;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
@@ -177,9 +176,9 @@ public class list_mechanics extends AppCompatActivity implements listener_mechan
 
                                             DocumentReference ref = db.collection("request").document(requestid);
                                             m.put("client_id", clientid);
-                                            m.put("mechanic_id", mech.getId());
+                                            m.put("worker_id", mech.getId());
                                             m.put("client_location", client.getLocation());
-                                            m.put("mechanic_location", mech.getLocation());
+                                            m.put("worker_location", mech.getLocation());
                                             m.put("address",client.getAddress());
                                             m.put("date", Calendar.getInstance().getTime());
                                             m.put("distance", get_distance(client.getLocation(), mech.getLocation()));
